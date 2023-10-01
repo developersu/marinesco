@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Marinesco - registration form</title>
+</head>
+
+<body>
+    <h1>Register</h1>
+    <form method="POST" th:action="@{/register}" id="registerForm">
+        <label for="username">Username: </label>
+        <input type="text" name="username" /><br />
+        <label for="password">Password: </label>
+        <input type="password" name="password" /><br />
+        <label for="confirm">Confirm password: </label>
+        <input type="password" name="confirm" /><br />
+        <label for="displayname">Displayed name: </label>
+        <input type="text" name="fullname" /><br />
+</form>
+</body>
+
+</html>

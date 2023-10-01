@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MarinescoApplication<marinesco>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ru.redrise.marinesco.MarinescoApplication",
+            "projectName": "marinesco",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
