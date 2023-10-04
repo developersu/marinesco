@@ -3,19 +3,23 @@
 
 <head>
     <title>Marinesco - registration form</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
 </head>
 
 <body>
     <h1>Register</h1>
+    <img th:src="@{/images/logo.svg}" />
     <form method="POST" th:action="@{/register}" id="registerForm">
         <label for="username">Username: </label>
-        <input type="text" name="username" /><br />
+        <input type="text" name="login" /><br />
         <label for="password">Password: </label>
-        <input type="password" name="password" /><br />
+        <input type="password" name="pwd" /><br />
         <label for="confirm">Confirm password: </label>
         <input type="password" name="confirm" /><br />
         <label for="displayname">Displayed name: </label>
         <input type="text" name="fullname" /><br />
+        <input type="submit" value="Register" />
 </form>
 </body>
 

@@ -7,5 +7,5 @@ import ru.redrise.marinesco.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long>{
-    User findByUsername(String username);
+    public User findByUsername(String username);
 }

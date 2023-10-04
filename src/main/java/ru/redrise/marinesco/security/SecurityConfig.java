@@ -1,11 +1,11 @@
 package ru.redrise.marinesco.security;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
-
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +18,8 @@ import ru.redrise.marinesco.User;
 import ru.redrise.marinesco.data.UserRepository;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(UserRepository repository) {
@@ -44,10 +45,30 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         return http
                 .authorizeHttpRequests(autorize -> autorize
-                        .requestMatchers(mvc.pattern("/register/**")).hasRole("USER")
-                        //.requestMatchers(antMatcher("/register/**")).hasRole("USER")
-                        .anyRequest().permitAll())
-                .formLogin(formLoginConfigurer -> formLoginConfigurer.loginPage("/login"))
+                        .requestMatchers(mvc.pattern("/styles/**")).permitAll()
+                        .requestMatchers(mvc.pattern("/images/*")).permitAll()
+                        .requestMatchers(mvc.pattern("/register")).permitAll()
+                        .requestMatchers(mvc.pattern("/login")).permitAll()
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        //.requestMatchers(mvc.pattern("/design/**")).hasRole("USER")
+                        .anyRequest().denyAll())
+                .formLogin(formLoginConfigurer -> formLoginConfigurer
+                        .loginPage("/login")
+                        .loginProcessingUrl("/auth")
+                        .usernameParameter("login")
+                        .passwordParameter("pwd")
+                        //.defaultSuccessUrl("/", true)
+                        )
+//                    .formLogin(Customizer.withDefaults())
+//.oauth2Login(c -> c.loginPage("/login"))
+                .logout(Customizer.withDefaults())
+                /* Make temporary access to H2 infrastructure START*/
+                .csrf(csrf -> csrf
+                    .ignoringRequestMatchers(PathRequest.toH2Console())
+                        .disable()
+                )
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+                /* Make temporary access to H2 infrastructure END*/
                 .build();
     }
 }
