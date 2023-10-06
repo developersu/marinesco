@@ -45,19 +45,25 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         return http
                 .authorizeHttpRequests(autorize -> autorize
+                        .requestMatchers(mvc.pattern("/favicon.ico")).permitAll()
+                        .requestMatchers(mvc.pattern("/jquery.js")).permitAll()
                         .requestMatchers(mvc.pattern("/styles/**")).permitAll()
                         .requestMatchers(mvc.pattern("/images/*")).permitAll()
                         .requestMatchers(mvc.pattern("/register")).permitAll()
                         .requestMatchers(mvc.pattern("/login")).permitAll()
+                        .requestMatchers(mvc.pattern("/error")).permitAll()
+                        .requestMatchers(mvc.pattern("/")).hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(mvc.pattern("/profile/**")).hasAnyRole("ADMIN", "USER")
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         //.requestMatchers(mvc.pattern("/design/**")).hasRole("USER")
                         .anyRequest().denyAll())
+                        //.anyRequest().permitAll())
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
                         .loginPage("/login")
-                        .loginProcessingUrl("/auth")
+                        //.loginProcessingUrl("/auth")
                         .usernameParameter("login")
                         .passwordParameter("pwd")
-                        //.defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/")
                         )
 //                    .formLogin(Customizer.withDefaults())
 //.oauth2Login(c -> c.loginPage("/login"))

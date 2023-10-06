@@ -5,20 +5,34 @@
     <title>Marinesco - registration form</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+    <script src="@{/jquery.js}"></script>
 </head>
 
 <body>
     <h1>Register</h1>
     <img th:src="@{/images/logo.svg}" />
-    <form method="POST" th:action="@{/register}" id="registerForm">
+    <form class="regForm" method="POST" th:action="@{/register}" th:object="${registrationForm}">
+        
+        <span class="validationError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</span>
+        <br />
         <label for="username">Username: </label>
-        <input type="text" name="login" /><br />
+        <input type="text" name="username" id="username"/><br />
+
+        <span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
+        <br />
         <label for="password">Password: </label>
-        <input type="password" name="pwd" /><br />
+        <input type="password" name="password" id="password"/><br />
+
+        <span class="validationError" th:if="${passwordsMismatch} != null" th:text="${passwordsMismatch}">false</span> 
+        <br />
         <label for="confirm">Confirm password: </label>
-        <input type="password" name="confirm" /><br />
+        <input type="password" name="passwordConfirm" id="passwordConfirm" /><br />
+
+        <span class="validationError" th:if="${#fields.hasErrors('displayname')}" th:errors="*{displayname}">Error</span> 
+        <br />
         <label for="displayname">Displayed name: </label>
-        <input type="text" name="fullname" /><br />
+        <input type="text" name="displayname" id="displayname"/><br />
+        
         <input type="submit" value="Register" />
 </form>
 </body>

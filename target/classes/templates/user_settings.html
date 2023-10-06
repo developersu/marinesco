@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Marinesco - Profile settings</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+</head>
+
+<body>
+    <h1 th:text="${header_text}">welcome</h1>
+    <form method="POST" th:action="@{/profile/settings}" th:object="${userSettingsForm}"> <!--   -->
+        <span class="validationError" th:if="${#fields.hasErrors('displayname')}" th:errors="*{displayname}">Error</span>
+        <br />
+        <label for="displayname">Displayed name: </label>
+        <input type="text" name="displayname" id="displayname" th:value="${userSettingsForm.displayname}" /><br />
+
+        <span class="validationError" th:if="${password_incorrect} != null" th:text="${password_incorrect}">false</span> 
+        <br />
+        <label for="password">New password: </label>
+        <input type="password" name="newPassword" id="newPassword" /><br />
+
+        <input type="submit" value="Save Changes" />
+    </form>
+</body>
+</html>

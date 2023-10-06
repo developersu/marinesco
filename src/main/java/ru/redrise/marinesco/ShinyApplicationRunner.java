@@ -7,6 +7,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.data.RolesRepository;
@@ -25,13 +26,14 @@ public class ShinyApplicationRunner {
     }
 
     @Bean
-    public ApplicationRunner appRunner() {
+    public ApplicationRunner appRunner(PasswordEncoder encoder) {
         return args -> {
             if (isFirstRun()) {
+                log.info("Application first run");
                 setRoles();
-                setAdmin(args);
+                setAdmin(args, encoder);
             } else
-                log.info("NOT FIRST APPLICATION RUN; DB Already set up");
+                log.info("Regular run");
         };
     }
 
@@ -45,7 +47,7 @@ public class ShinyApplicationRunner {
                 new UserRole(null, "User", UserRole.Type.USER)));
     }
 
-    private void setAdmin(ApplicationArguments args) {
+    private void setAdmin(ApplicationArguments args, PasswordEncoder encoder) {
         List<String> login = args.getOptionValues("admin_login");
         List<String> password = args.getOptionValues("admin_password");
 
@@ -53,10 +55,11 @@ public class ShinyApplicationRunner {
 
         if (login == null || login.size() == 0 || password == null || password.size() == 0) {
             log.warn("No administrator credentials provided, using defaults:\n * Login: root\n * Password: root\n Expected: --admin_login LOGIN --admin_password PASSWORD "); // TODO: Move into properties i18n
-            var adminUser = new User("root", "root", "SuperAdmin", adminRoleOnlyAthority);
+            var adminUser = new User("root", encoder.encode("root"), "SuperAdmin", adminRoleOnlyAthority);
             users.save(adminUser);
             return;
         }
-        users.save(new User(login.get(0), password.get(0), "SuperAdmin", adminRoleOnlyAthority));
+        log.info("SuperAdmin role created\n * Login: {}", login.get(0));
+        users.save(new User(login.get(0), encoder.encode(password.get(0)), "SuperAdmin", adminRoleOnlyAthority));
     }
 }
