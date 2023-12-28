@@ -48,18 +48,16 @@ public class UserSettingsController {
         return "redirect:/profile/settings";
     }
 
-
     @GetMapping("/settings")
     public String getSettingsFirstPage(){
         return "user_settings";
     }
 
-
     @PostMapping("/settings")
     public String getSettingsPage(@Valid UserSettingsForm userSettingsForm, 
-        Errors errors, 
-        @AuthenticationPrincipal User user,
-        Model model){
+            Errors errors, 
+            @AuthenticationPrincipal User user,
+            Model model){
         if (errors.hasErrors())     
             return "user_settings";
         if (! user.getDisplayname().equals(userSettingsForm.getDisplayname()))

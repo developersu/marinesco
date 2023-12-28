@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.data.RolesRepository;
 import ru.redrise.marinesco.data.UserRepository;
+import ru.redrise.marinesco.User;
 
+@Slf4j
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
@@ -46,7 +49,8 @@ public class RegistrationController {
             return "registration";
         }
 
-        userRepo.save(registerForm.toUser(passwordEncoder, rolesRepo));
+        User user = userRepo.save(registerForm.toUser(passwordEncoder, rolesRepo));
+        log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname());
         return "redirect:/login";
     }
 }

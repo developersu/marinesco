@@ -11,7 +11,7 @@ import ru.redrise.marinesco.data.RolesRepository;
 
 @Data
 public class RegistrationForm {
-    
+
     @NotNull
     @Size(min=3, max=32, message="Username must be at least 3 characters long. Should not exceed 32 characters.")
     private String username;

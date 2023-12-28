@@ -52,11 +52,11 @@ public class SecurityConfig {
                         .requestMatchers(mvc.pattern("/register")).permitAll()
                         .requestMatchers(mvc.pattern("/login")).permitAll()
                         .requestMatchers(mvc.pattern("/error")).permitAll()
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers(mvc.pattern("/")).hasAnyRole("ADMIN", "USER")
                         .requestMatchers(mvc.pattern("/profile/**")).hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
                         //.requestMatchers(mvc.pattern("/design/**")).hasRole("USER")
-                        .anyRequest().denyAll())
+                        .anyRequest().authenticated())
                         //.anyRequest().permitAll())
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
                         .loginPage("/login")
