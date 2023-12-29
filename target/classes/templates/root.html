@@ -9,10 +9,13 @@
 
 <body>
     <div th:replace="~{fragments/header :: 'header'}"></div>
-    <img th:src="@{/images/logo.svg}" />
-    <br /><a href="/login">Login</a>
-    <br /><a href="/profile">/profile</a>
-    <br /><a href="/manage_users">/manage_users</a>
+    <div class="container base">
+        <img th:src="@{/images/logo.svg}" />
+        <br /><a href="/login">Login</a>
+        <br /><a href="/profile">/profile</a>
+        <br /><a href="/manage_users">/manage_users</a>
+        <br /><a href="/h2">H2</a>
+    </div>
 </body>
 
 </html>

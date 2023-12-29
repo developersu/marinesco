@@ -9,19 +9,25 @@
 
 <body>
     <div th:replace="~{fragments/header :: 'header'}"></div>
+    <div class="container base">
     <h1 th:text="${header_text}">welcome</h1>
     <form method="POST" th:action="@{/profile/settings}" th:object="${userSettingsForm}"> <!--   -->
-        <span class="validationError" th:if="${#fields.hasErrors('displayname')}" th:errors="*{displayname}">Error</span>
+        <span class="validationError" th:if="${#fields.hasErrors('displayname')}"
+            th:errors="*{displayname}">Error</span>
         <br />
         <label for="displayname">Displayed name: </label>
-        <input type="text" name="displayname" id="displayname" th:value="${userSettingsForm.displayname}" /><br />
+        <br />
+        <input type="text" name="displayname" id="displayname" th:value="${userSettingsForm.displayname}"  size="50%" /><br />
 
-        <span class="validationError" th:if="${password_incorrect} != null" th:text="${password_incorrect}">false</span> 
+        <span class="validationError" th:if="${password_incorrect} != null" th:text="${password_incorrect}">false</span>
         <br />
         <label for="password">New password: </label>
-        <input type="password" name="newPassword" id="newPassword" /><br />
+        <br />
+        <input type="password" name="newPassword" id="newPassword" size="50%" /><br />
 
-        <input type="submit" value="Save Changes" />
+        <button class="sign" type="submit">Save Changes</button>
     </form>
+    </div>
 </body>
+
 </html>

@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <div th:replace="~{fragments/header :: 'header'}"></div>
     <h1>Register</h1>
     <img th:src="@{/images/logo.svg}" />
     <form class="regForm" method="POST" th:action="@{/register}" th:object="${registrationForm}">
