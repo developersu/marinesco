@@ -2,30 +2,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Marinesco</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+  <title>Marinesco</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="stylesheet" th:href="@{/styles/styles.css}" />
 </head>
 
 <body>
   <div th:replace="~{fragments/header :: 'header'}"></div>
-    <img th:src="@{/images/logo.svg}" />
+  <div class="center">
+    <div class="container base">
+      <h1>Log in</h1>
+      <a href="/register">Register</a>
+      <form class="form-signin" method="post" action="/login">
+        <br /><span class="validationError" th:if="${param.error}">Unable to login. Check your username and
+          password.</span>
+        <p>
+          <label for="username" class="sr-only">Username</label>
+          <input type="text" id="username" name="login" class="form-control" placeholder="Username" required autofocus>
+        </p>
+        <p>
+          <label for="password" class="sr-only">Password</label>
+          <input type="password" id="password" name="pwd" class="form-control" placeholder="Password" required>
+        </p>
+        <button class="sign" type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
 </body>
-<div class="container">
-    <br /> New here? <a href="/register">REGISTER NOW!</a>
-    <br /><a href="/h2">H2</a>
-    <form class="form-signin" method="post" action="/login">
-      <h2 class="form-signin-heading">Please sign in</h2>
-    <br /><span class="validationError"  th:if="${param.error}">Unable to login. Check your username and password.</span>
-      <p>
-        <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" name="login" class="form-control" placeholder="Username" required autofocus>
-      </p>
-      <p>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="pwd" class="form-control" placeholder="Password" required>
-      </p>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-</div>
+
 </html>
