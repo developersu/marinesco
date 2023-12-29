@@ -9,41 +9,46 @@
 </head>
 
 <body>
-    <div th:replace="~{fragments/header :: 'header'}"></div>
-    <div class="container base">
-        <h1>Register</h1>
-        <form class="regForm" method="POST" th:action="@{/register}" th:object="${registrationForm}">
+    <div class="page">
+        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div class="container base">
+            <h1>Register</h1>
+            <form class="regForm" method="POST" th:action="@{/register}" th:object="${registrationForm}">
 
-            <span class="validationError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</span>
-            <br />
-            <label for="username">Username: </label>
-            <br />
-            <input type="text" name="username" id="username" size="50%" /><br />
+                <span class="validationError" th:if="${#fields.hasErrors('username')}"
+                    th:errors="*{username}">Error</span>
+                <br />
+                <label for="username">Username: </label>
+                <br />
+                <input type="text" name="username" id="username" size="50%" /><br />
 
-            <span class="validationError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
-            <br />
-            <label for="password">Password: </label>
-            <br />
-            <input type="password" name="password" id="password" size="50%" /><br />
+                <span class="validationError" th:if="${#fields.hasErrors('password')}"
+                    th:errors="*{password}">Error</span>
+                <br />
+                <label for="password">Password: </label>
+                <br />
+                <input type="password" name="password" id="password" size="50%" /><br />
 
-            <span class="validationError" th:if="${passwordsMismatch} != null"
-                th:text="${passwordsMismatch}">false</span>
-            <br />
-            <label for="confirm">Confirm password: </label>
-            <br />
-            <input type="password" name="passwordConfirm" id="passwordConfirm" size="50%" /><br />
+                <span class="validationError" th:if="${passwordsMismatch} != null"
+                    th:text="${passwordsMismatch}">false</span>
+                <br />
+                <label for="confirm">Confirm password: </label>
+                <br />
+                <input type="password" name="passwordConfirm" id="passwordConfirm" size="50%" /><br />
 
-            <span class="validationError" th:if="${#fields.hasErrors('displayname')}"
-                th:errors="*{displayname}">Error</span>
-            <br />
-            <label for="displayname">Displayed name: </label>
-            <br />
-            <input type="text" name="displayname" id="displayname" size="50%" /><br />
-            <p>
-                <button class="sign" type="submit">Register</button>
-            </p>
-        </form>
+                <span class="validationError" th:if="${#fields.hasErrors('displayname')}"
+                    th:errors="*{displayname}">Error</span>
+                <br />
+                <label for="displayname">Displayed name: </label>
+                <br />
+                <input type="text" name="displayname" id="displayname" size="50%" /><br />
+                <p>
+                    <button class="sign" type="submit">Register</button>
+                </p>
+            </form>
+        </div>
     </div>
+    <div th:replace="~{fragments/footer :: 'footer'}"></div>
 </body>
 
 </html>

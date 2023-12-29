@@ -8,28 +8,31 @@
 </head>
 
 <body>
-    <div th:replace="~{fragments/header :: 'header'}"></div>
-    <div class="container base">
-        <h1 th:text="${header_text}">welcome</h1>
-        <form method="POST" th:action="@{/profile/settings}" th:object="${userSettingsForm}"> <!--   -->
-            <span class="validationError" th:if="${#fields.hasErrors('displayname')}"
-                th:errors="*{displayname}">Error</span>
-            <br />
-            <label for="displayname">Displayed name: </label>
-            <br />
-            <input type="text" name="displayname" id="displayname" th:value="${userSettingsForm.displayname}"
-                size="50%" /><br />
+    <div class="page">
+        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div class="container base">
+            <h1 th:text="${header_text}">welcome</h1>
+            <form method="POST" th:action="@{/profile/settings}" th:object="${userSettingsForm}"> <!--   -->
+                <span class="validationError" th:if="${#fields.hasErrors('displayname')}"
+                    th:errors="*{displayname}">Error</span>
+                <br />
+                <label for="displayname">Displayed name: </label>
+                <br />
+                <input type="text" name="displayname" id="displayname" th:value="${userSettingsForm.displayname}"
+                    size="50%" /><br />
 
-            <span class="validationError" th:if="${password_incorrect} != null"
-                th:text="${password_incorrect}">false</span>
-            <br />
-            <label for="password">New password: </label>
-            <br />
-            <input type="password" name="newPassword" id="newPassword" size="50%" /><br />
+                <span class="validationError" th:if="${password_incorrect} != null"
+                    th:text="${password_incorrect}">false</span>
+                <br />
+                <label for="password">New password: </label>
+                <br />
+                <input type="password" name="newPassword" id="newPassword" size="50%" /><br />
 
-            <button class="sign" type="submit">Save Changes</button>
-        </form>
+                <button class="sign" type="submit">Save Changes</button>
+            </form>
+        </div>
     </div>
+    <div th:replace="~{fragments/footer :: 'footer'}"></div>
 </body>
 
 </html>

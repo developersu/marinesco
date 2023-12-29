@@ -9,25 +9,29 @@
 
 <body>
   <div th:replace="~{fragments/header :: 'header'}"></div>
-  <div class="center">
-    <div class="container base">
-      <h1>Log in</h1>
-      <a href="/register">Register</a>
-      <form class="form-signin" method="post" action="/login">
-        <br /><span class="validationError" th:if="${param.error}">Unable to login. Check your username and
-          password.</span>
-        <p>
-          <label for="username" class="sr-only">Username</label>
-          <input type="text" id="username" name="login" class="form-control" placeholder="Username" required autofocus>
-        </p>
-        <p>
-          <label for="password" class="sr-only">Password</label>
-          <input type="password" id="password" name="pwd" class="form-control" placeholder="Password" required>
-        </p>
-        <button class="sign" type="submit">Sign in</button>
-      </form>
+  <div class="page">
+    <div class="center">
+      <div class="container base">
+        <h1>Log in</h1>
+        <a href="/register">Register</a>
+        <form class="form-signin" method="post" action="/login">
+          <br /><span class="validationError" th:if="${param.error}">Unable to login. Check your username and
+            password.</span>
+          <p>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" id="username" name="login" class="form-control" placeholder="Username" required
+              autofocus>
+          </p>
+          <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="pwd" class="form-control" placeholder="Password" required>
+          </p>
+          <button class="sign" type="submit">Sign in</button>
+        </form>
+      </div>
     </div>
   </div>
+  <div th:replace="~{fragments/footer :: 'footer'}"></div>
 </body>
 
 </html>
