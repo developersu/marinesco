@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .requestMatchers(mvc.pattern("/styles/**")).permitAll()
                         .requestMatchers(mvc.pattern("/images/*")).permitAll()
                         .requestMatchers(mvc.pattern("/register")).permitAll()
-                        .requestMatchers(mvc.pattern("/login")).permitAll()
+                        .requestMatchers(mvc.pattern("/login")).anonymous()
                         .requestMatchers(mvc.pattern("/error")).permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers(mvc.pattern("/")).hasAnyRole("ADMIN", "USER")

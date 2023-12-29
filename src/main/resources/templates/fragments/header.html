@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div th:fragment="header" class="header_wrapper" >
+      <div class="container" >
+        <header>
+          <div class="header_branding block_inner">
+            <a href="/">
+              <img height="65px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
+            </a>
+          </div>
+          <nav id="header_right_block" class="block">
+            <div class="block_inner">
+              <ul class="ul_right_block">
+                <li class="li_right_block" th:if="${#authorization.expression('!isAuthenticated()')}">
+                  <a class="entry" href="/login" th:href="@{/login}">
+                    <span class="header_entry header_entry_link">Sign in</span>
+                  </a>
+                </li>
+                <li class="li_right_block" th:if="${#authorization.expression('isAuthenticated()')}">
+                  <a class="entry" href="/logout">
+                    <span class="header_entry header_entry_link">Logout</span>
+                  </a>
+                  <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+          <div class="header_entry header_title">
+            Marinesco
+          </div>
+
+        <!--
+          <div th:replace="~{fragments/header :: ${#authentication.principal.isAdmin()} ? 'header-admin' : 'header'}"></div>
+        -->
+
+        </header>
+      </div>
+    </div>
+  </body>
+</html>

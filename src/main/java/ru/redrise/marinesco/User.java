@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.val;
 import ru.redrise.marinesco.security.UserRole;
 
 @Data
@@ -68,5 +69,9 @@ public class User implements UserDetails{
 
     public void setRole(UserRole role){ // TODO
         this.authorities.add(role);
+    }
+
+    public boolean isAdmin(){
+        return authorities.get(0).getAuthority().equals("ROLE_ADMIN");
     }
 }

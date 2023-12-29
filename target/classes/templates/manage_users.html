@@ -8,8 +8,8 @@
 </head>
 
 <body>
-    <h1 th:text="${header_text}">Manage users</h1>
-    <br /><a href="/">go back</a>
+    <div th:replace="~{fragments/header :: 'header'}"></div>
+    <h1 th:text="${header_text}"></h1>
     <p>
     <div th:each="user : ${USR}">
         <span th:text="${user.id+' '+user.name+' '+user.displayName}+' ROLES: '">user</span>
@@ -28,20 +28,5 @@
         </form>
         <br />
     </div>
-    <!--
-    <form method="POST" th:action="@{/profile/settings}" th:object="${userSettingsForm}">
-        <span class="validationError" th:if="${#fields.hasErrors('displayname')}" th:errors="*{displayname}">Error</span>
-        <br />
-        <label for="displayname">Displayed name: </label>
-        <input type="text" name="displayname" id="displayname" th:value="${userSettingsForm.displayname}" /><br />
-
-        <span class="validationError" th:if="${password_incorrect} != null" th:text="${password_incorrect}">false</span> 
-        <br />
-        <label for="password">New password: </label>
-        <input type="password" name="newPassword" id="newPassword" /><br />
-
-        <input type="submit" value="Save Changes" />
-    </form>
-    -->
 </body>
 </html>

@@ -36,6 +36,11 @@ public class ManageUsersController {
     }
 
     @ModelAttribute
+    public void addTitle(Model model){
+        model.addAttribute("header_text", "Manage users");
+    }
+
+    @ModelAttribute
     public void addUsers(Model model){
         Iterable<User> users = userRepository.findAll();
         List<UserGenerified> usersGen = new ArrayList<>();
