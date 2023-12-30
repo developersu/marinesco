@@ -1,10 +1,15 @@
 @font-face {
-	font-family: "Terminus";
-	src: url('/styles/TerminusBold.ttf');
+	font-family: "Spectral";
+	src: url('/styles/SpectralSC-Medium.ttf');
+}
+
+@font-face {
+	font-family: "Arimo";
+	src: url('/styles/Arimo-VariableFont_wght.ttf');
 }
 
 body {
-	font-family: Terminus;
+	font-family: Arimo;
 	background-color: #212121;
 	color: #cfcfcf;
 	margin: 0;
@@ -67,6 +72,7 @@ header {
 }
 
 .header_wrapper {
+	font-family: Spectral;
 	background: #323833;
 	color: #a7a691;
 	vertical-align: top;
@@ -89,13 +95,11 @@ header {
 #header_right_block {
 	list-style-type: none;
 	list-style-image: none;
-	font-family: sans-serif;
 	height: 100%;
 	margin-right: 0;
 	right: 0;
 	float: right;
 	padding: 0%;
-	font-size: 0.9em;
 }
 
 .ul_right_block {
@@ -200,7 +204,7 @@ button:hover {
 	float: right;
 }
 .copy_link{
-	font-family: sans-serif;
+	font-family: Spectral;
 	text-shadow: -1px -1px 0 #1e1e1e, 1px -1px 0 #1e1e1e, -1px 1px 0 #1e1e1e, 1px 1px 0 #1e1e1e;
 	color: #74bfbd;
 }
@@ -221,11 +225,4 @@ button:hover {
 .bli {
 	padding: 3px;
 	background-color: #D00000;
-	animation: blinker 2.5s ease infinite;
-}
-
-@keyframes blinker {
-	50% {
-		opacity: 0.0;
-	}
 }
