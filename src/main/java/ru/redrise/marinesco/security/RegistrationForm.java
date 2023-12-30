@@ -2,6 +2,8 @@ package ru.redrise.marinesco.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,5 +37,15 @@ public class RegistrationForm {
     }
     public boolean isPasswordsNotEqual(){
         return ! password.equals(passwordConfirm);
+    }
+
+    public boolean auth(HttpServletRequest request) {
+        try{
+            request.login(username, password);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 }
