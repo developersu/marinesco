@@ -46,19 +46,23 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String postMethodName(@Valid RegistrationForm registerForm, Errors errors, Model model) {
-        if (registerForm.isPasswordsNotEqual()) {
+    public String postMethodName(@Valid RegistrationForm form, Errors errors, Model model) {
+        if (form.isPasswordsNotEqual()) {
             model.addAttribute("passwordsMismatch", "Passwords must be the same.");
+            return "registration";
+        }
+        if (userRepo.findByUsername(form.getUsername()) != null){
+            model.addAttribute("loginOccupied", "Login already in use. Please choose another one");
             return "registration";
         }
         if (errors.hasErrors()) {
             return "registration";
         }
 
-        User user = userRepo.save(registerForm.toUser(passwordEncoder, rolesRepo));
+        User user = userRepo.save(form.toUser(passwordEncoder, rolesRepo));
         log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname());
 
-        if (registerForm.auth(request))
+        if (form.auth(request))
             return "redirect:/";
         return "redirect:/login";
     }

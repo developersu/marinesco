@@ -26,10 +26,37 @@
                         <input type="hidden" th:value="${role.id}" th:attr="name='role'" />
                     </span>
 
-                    <button>DELETE</button>
+                    <button>Delete</button>
                 </form>
                 <br />
             </div>
+            <hr>
+            <b>Add user</b>
+            <form method="POST" th:action="@{/manage_users}" th:object="${administatorAddUserForm}">
+                <span class="validationError" th:if="${loginOccupied} != null" th:text="${loginOccupied}">pew</span>
+                <span class="validationError" th:if="${#fields.hasErrors('username')}"
+                    th:errors="*{username}">Error</span>
+                <br />
+                <label for="username">Username: </label>
+                <input type="text" name="username" id="username" size="50%" /><br />
+
+                <span class="validationError" th:if="${#fields.hasErrors('password')}"
+                    th:errors="*{password}">Error</span>
+                <br />
+                <label for="password">Password: </label>
+                <input type="password" name="password" id="password" size="50%" /><br />
+                <span class="validationError" th:if="${#fields.hasErrors('displayname')}"
+                    th:errors="*{displayname}">Error</span>
+                <br />
+                <label for="displayname">Displayed name: </label>
+                <input type="text" name="displayname" id="displayname" size="50%" /><br />
+
+                <p>
+                    <button class="sign" type="submit">Add user</button>
+                </p>
+
+            </form>
+
         </div>
     </div>
     <div th:replace="~{fragments/footer :: 'footer'}"></div>

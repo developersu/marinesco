@@ -2,21 +2,19 @@ package ru.redrise.marinesco;
 
 import java.util.List;
 
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.val;
 import ru.redrise.marinesco.security.UserRole;
 
 @Data
@@ -37,7 +35,7 @@ public class User implements UserDetails{
     private String password;
     private String displayname;
 
-    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @ManyToAny(fetch = FetchType.EAGER)
     private final List<UserRole> authorities;
 
     public User(String username, String password, String displayname, List<UserRole> authorities){
