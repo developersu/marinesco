@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -35,7 +36,7 @@ public class User implements UserDetails{
     private String password;
     private String displayname;
 
-    @ManyToAny(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private final List<UserRole> authorities;
 
     public User(String username, String password, String displayname, List<UserRole> authorities){

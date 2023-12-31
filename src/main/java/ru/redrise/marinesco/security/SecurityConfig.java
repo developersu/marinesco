@@ -45,7 +45,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         return http
                 .authorizeHttpRequests(autorize -> autorize
-                        .requestMatchers(mvc.pattern("/favicon.ico")).permitAll()
+                        .requestMatchers(mvc.pattern("/favicon.svg")).permitAll()
+                        .requestMatchers(mvc.pattern("/favicon.png")).permitAll()
                         .requestMatchers(mvc.pattern("/jquery.js")).permitAll()
                         .requestMatchers(mvc.pattern("/styles/**")).permitAll()
                         .requestMatchers(mvc.pattern("/images/*")).permitAll()

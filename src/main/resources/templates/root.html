@@ -3,7 +3,8 @@
 
 <head>
     <title>Marinesco</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="alternate icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
 </head>
 
@@ -11,7 +12,6 @@
     <div class="page">
         <div th:replace="~{fragments/header :: 'header'}"></div>
         <div class="container base">
-            <img th:src="@{/images/logo.svg}" />
             <br /><a href="/login">Login</a>
             <br /><a href="/profile">/profile</a>
             <br /><a href="/manage_users">/manage_users</a>
