@@ -60,6 +60,11 @@ public class ManageUsersController {
         }
         model.addAttribute("USR", usersGen);
     }
+    @ModelAttribute
+    public void addRoles(Model model) {
+        Iterable<UserRole> roles = rolesRepository.findAll();
+        model.addAttribute("roles", roles);
+    }
 
     @GetMapping
     public String getPage() {
@@ -86,8 +91,8 @@ public class ManageUsersController {
             return "manage_users";
         }
 
-        User user = userRepository.save(form.toUser(passwordEncoder, rolesRepository));
-        log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname());
+        User user = userRepository.save(form.toUser(passwordEncoder));
+        log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname(), user.getAuthorities().get(0));
         // Reloads page therefore new records appears
         return "redirect:/manage_users";
     }

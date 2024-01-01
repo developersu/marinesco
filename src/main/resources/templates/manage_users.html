@@ -52,6 +52,12 @@
                 <label for="displayname">Displayed name: </label>
                 <input type="text" name="displayname" id="displayname" size="50%" /><br />
 
+                <br />
+                <label for="role">Role: </label>
+                <select name="role">
+                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}" ></option>
+                </select>
+
                 <p>
                     <button class="sign" type="submit">Add user</button>
                 </p>

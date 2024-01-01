@@ -1,5 +1,7 @@
 package ru.redrise.marinesco;
 
+import java.util.Collections;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -25,11 +27,13 @@ public class AdministatorAddUserForm {
     @NotEmpty(message = "Display name could not be blank")
     private String displayname;
 
-    public User toUser(PasswordEncoder passwordEncoder, RolesRepository rolesRepo){
+    private UserRole role;
+
+    public User toUser(PasswordEncoder passwordEncoder){
         return new User(
             username, 
             passwordEncoder.encode(password), 
             displayname,
-            rolesRepo.findByType(UserRole.Type.USER));
+            Collections.singletonList(role));
     }
 }
