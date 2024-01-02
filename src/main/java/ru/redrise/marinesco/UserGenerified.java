@@ -1,6 +1,7 @@
 package ru.redrise.marinesco;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +17,16 @@ public class UserGenerified {
 
     private String name;
     private String displayName;
-    private List<UserRole> role;
+    private List<UserRole> athorities;
+    private List<UserRole> athoritiesLost;
 
-    public UserGenerified(User user){
+    public UserGenerified(User user, List<UserRole> allRolesList){
         this.id = user.getId();
         this.name = user.getUsername();
         this.displayName = user.getDisplayname();
-        this.role = user.getAuthorities();
+        this.athorities = user.getAuthorities();
+        athoritiesLost = allRolesList.stream()
+                    .filter(element -> !athorities.contains(element))
+                    .collect(Collectors.toList());
     }
 }

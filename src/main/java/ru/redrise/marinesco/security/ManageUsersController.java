@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,7 +22,6 @@ import ru.redrise.marinesco.UserGenerified;
 import ru.redrise.marinesco.data.RolesRepository;
 import ru.redrise.marinesco.data.UserRepository;
 
-//TODO
 @Slf4j
 @Controller
 @RequestMapping("/manage_users")
@@ -55,15 +55,19 @@ public class ManageUsersController {
     public void addUsers(Model model) {
         Iterable<User> users = userRepository.findAll();
         List<UserGenerified> usersGen = new ArrayList<>();
+        List<UserRole> allRolesList = new ArrayList<>();
+        rolesRepository.findAll().forEach(allRolesList::add);
+
         for (User user : users) {
-            usersGen.add(new UserGenerified(user));
+            usersGen.add(new UserGenerified(user, allRolesList));
         }
-        model.addAttribute("USR", usersGen);
+        model.addAttribute("users", usersGen);
     }
+
     @ModelAttribute
     public void addRoles(Model model) {
         Iterable<UserRole> roles = rolesRepository.findAll();
-        model.addAttribute("roles", roles);
+        model.addAttribute("rolesSet", roles);
     }
 
     @GetMapping
@@ -71,12 +75,28 @@ public class ManageUsersController {
         return "manage_users";
     }
 
-    @PostMapping("/delete")
-    public String processDelete(UserGenerified userGenerified) {
-        log.info(userGenerified.toString());
-        
-        userRepository.deleteById(userGenerified.getId());
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") String id) {
+        try {
+            long userId = Long.parseLong(id);
+            userRepository.deleteById(userId);
+        } catch (Exception e) {
+            log.error(id, e);
+        }
 
+        return "redirect:/manage_users";
+    }
+
+    @PostMapping("/update")
+    public String updateRoles(UserGenerified userGenerified) {
+        User user = userRepository.findById(userGenerified.getId()).get();
+        if (user == null)
+            return "redirect:/manage_users";
+
+        user.setAuthorities(userGenerified.getAthorities());
+        user.setDisplayname(userGenerified.getDisplayName());
+        userRepository.save(user);
+        
         return "redirect:/manage_users";
     }
 
@@ -92,7 +112,8 @@ public class ManageUsersController {
         }
 
         User user = userRepository.save(form.toUser(passwordEncoder));
-        log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname(), user.getAuthorities().get(0));
+        log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname(),
+                user.getAuthorities().get(0));
         // Reloads page therefore new records appears
         return "redirect:/manage_users";
     }

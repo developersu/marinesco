@@ -1,6 +1,6 @@
 package ru.redrise.marinesco;
 
-import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import ru.redrise.marinesco.data.RolesRepository;
 import ru.redrise.marinesco.security.UserRole;
 
 //TODO: refactor along with RegistrationForm.java
@@ -27,13 +26,15 @@ public class AdministatorAddUserForm {
     @NotEmpty(message = "Display name could not be blank")
     private String displayname;
 
-    private UserRole role;
+    @NotNull
+    @Size(min=1, message="You must choose at least 1 role")
+    private List<UserRole> athorities;
 
     public User toUser(PasswordEncoder passwordEncoder){
         return new User(
             username, 
             passwordEncoder.encode(password), 
             displayname,
-            Collections.singletonList(role));
+            athorities);
     }
 }

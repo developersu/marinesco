@@ -14,22 +14,29 @@
         <div class="container base">
             <h1 th:text="${header_text}"></h1>
             <p>
-            <div th:each="user : ${USR}">
-                <span th:text="${user.id+' '+user.name+' '+user.displayName}+' ROLES: '">user</span>
-                <span th:each="role : ${user.role}">
-                    <span th:text="'[ '+${role.id+' '+role.name+' '+role.type}+' ]'">user</span>
-                </span>
-                <form method="POST" th:action="@{/manage_users/delete}" th:object="${userGenerified}">
+            <div th:each="user : ${users}">
+                <form method="POST" th:action="@{/manage_users/update}" th:object="${userGenerified}">
+                    <span th:text="${user.id + '. '}"></span>
+                    <span th:text="${user.name}"></span>
                     <input type="hidden" th:value="${user.id}" name="id" />
                     <input type="hidden" th:value="${user.name}" name="name" />
-                    <input type="hidden" th:value="${user.displayName}" name="displayName" />
-                    <span th:each="role : ${user.role}">
-                        <input type="hidden" th:value="${role.id}" th:attr="name='role'" />
-                    </span>
+                    <br />
+                    Display name: 
+                    <input type="text" th:value="${user.displayName}" name="displayName" />
+                    <br /><br /><b>Roles:</b>
+                    <div th:each="athorities : ${user.athorities}">
+                        <input name="athorities" type="checkbox" th:value="${athorities.id}" th:checked="true" />
+                        <span th:text="${athorities.name}"></span><br />
+                    </div>
+                    <div th:each="athorities : ${user.athoritiesLost}">
+                        <input name="athorities" type="checkbox" th:value="${athorities.id}" />
+                        <span th:text="${athorities.name}"></span><br />
+                    </div>
 
-                    <button>Delete</button>
+                    <button>Update</button><a th:href="'/manage_users/delete/' + ${user.id}">Delete</a>
                 </form>
                 <br />
+                <hr>
             </div>
             <hr>
             <b>Add user</b>
@@ -53,10 +60,13 @@
                 <input type="text" name="displayname" id="displayname" size="50%" /><br />
 
                 <br />
-                <label for="role">Role: </label>
-                <select name="role">
-                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}" ></option>
-                </select>
+                <b>Roles:</b>
+                <br />
+                <span class="validationError" th:if="${#fields.hasErrors('athorities')}" th:errors="*{athorities}"></span>
+                <div th:each="athorities : ${rolesSet}">
+                    <input th:field="*{athorities}" type="checkbox" th:value="${athorities.id}" />
+                    <span th:text="${athorities.name}"></span><br />
+                </div>
 
                 <p>
                     <button class="sign" type="submit">Add user</button>

@@ -2,7 +2,6 @@ package ru.redrise.marinesco;
 
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
@@ -37,7 +36,7 @@ public class User implements UserDetails{
     private String displayname;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private final List<UserRole> authorities;
+    private List<UserRole> authorities;
 
     public User(String username, String password, String displayname, List<UserRole> authorities){
         this.username = username;
@@ -66,11 +65,19 @@ public class User implements UserDetails{
         return true;
     }
 
-    public void setRole(UserRole role){ // TODO
+    public void addRole(UserRole role){
         this.authorities.add(role);
     }
 
+    public void removeRole(UserRole role){
+        this.authorities.remove(role);
+    }
+
     public boolean isAdmin(){
-        return authorities.get(0).getAuthority().equals("ROLE_ADMIN");
+        for (UserRole athority : authorities){
+            if (athority.getAuthority().equals("ROLE_ADMIN"))
+                return true;
+        }
+        return false;
     }
 }
