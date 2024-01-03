@@ -1,4 +1,4 @@
-package ru.redrise.marinesco;
+package ru.redrise.marinesco.security;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import ru.redrise.marinesco.security.UserRole;
+import ru.redrise.marinesco.User;
 
 //TODO: refactor along with RegistrationForm.java
 @Data

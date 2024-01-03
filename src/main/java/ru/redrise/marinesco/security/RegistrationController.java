@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.User;
 import ru.redrise.marinesco.data.RolesRepository;
 import ru.redrise.marinesco.data.UserRepository;
+import ru.redrise.marinesco.settings.ApplicationSettings;
+import ru.redrise.marinesco.settings.KeyValueRepository;
 
 @Slf4j
 @Controller
@@ -25,14 +27,18 @@ public class RegistrationController {
     private PasswordEncoder passwordEncoder;
     private HttpServletRequest request;
 
+    private ApplicationSettings applicationSettings;
+
     public RegistrationController(UserRepository userRepo,
             RolesRepository rolesRepo,
             PasswordEncoder passwordEncoder,
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            ApplicationSettings applicationSettings) {
         this.userRepo = userRepo;
         this.rolesRepo = rolesRepo;
         this.passwordEncoder = passwordEncoder;
         this.request = request;
+        this.applicationSettings = applicationSettings;
     }
 
     @ModelAttribute(name = "registrationForm")
@@ -42,11 +48,15 @@ public class RegistrationController {
 
     @GetMapping
     public String registerForm() {
-        return "registration";
+        if (applicationSettings.isRegistrationAllowed())
+            return "registration";
+        return "registration_forbidden";
     }
 
     @PostMapping
     public String postMethodName(@Valid RegistrationForm form, Errors errors, Model model) {
+        if (!applicationSettings.isRegistrationAllowed())
+            return "redirect:/";
         if (form.isPasswordsNotEqual()) {
             model.addAttribute("passwordsMismatch", "Passwords must be the same.");
             return "registration";

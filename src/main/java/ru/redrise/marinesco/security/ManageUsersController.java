@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import ru.redrise.marinesco.AdministatorAddUserForm;
 import ru.redrise.marinesco.User;
 import ru.redrise.marinesco.UserGenerified;
 import ru.redrise.marinesco.data.RolesRepository;

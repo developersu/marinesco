@@ -13,16 +13,19 @@ import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.data.RolesRepository;
 import ru.redrise.marinesco.data.UserRepository;
 import ru.redrise.marinesco.security.UserRole;
+import ru.redrise.marinesco.settings.ApplicationSettings;
 
 @Slf4j
 @Configuration
 public class ShinyApplicationRunner {
     private UserRepository users;
     private RolesRepository roles;
-
-    public ShinyApplicationRunner(UserRepository users, RolesRepository roles) {
+    private ApplicationSettings settings;
+    
+    public ShinyApplicationRunner(UserRepository users, RolesRepository roles, ApplicationSettings settings) {
         this.users = users;
         this.roles = roles;
+        this.settings = settings;
     }
 
     @Bean
@@ -32,6 +35,7 @@ public class ShinyApplicationRunner {
                 log.info("Application first run");
                 setRoles();
                 setAdmin(args, encoder);
+                settings.setAllowRegistraion(true);
             } else
                 log.info("Regular run");
         };

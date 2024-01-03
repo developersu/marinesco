@@ -2,21 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Marinesco</title>
+    <title>Marinesco - registration form</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 	<link rel="alternate icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+    <script src="/jquery.js"></script>
 </head>
 
 <body>
     <div class="page">
         <div th:replace="~{fragments/header :: 'header'}"></div>
         <div class="container base">
-            <br /><a href="/login">Login</a>
-            <br /><a href="/profile">/profile</a>
-            <br /><a href="/manage_users">/manage_users</a>
-            <br /><a href="/settings">/settings</a>
-            <br /><a href="/h2">H2</a>
+            <h1>Currently we're close to new registrations</h1>
         </div>
     </div>
     <div th:replace="~{fragments/footer :: 'footer'}"></div>
