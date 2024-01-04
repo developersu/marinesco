@@ -27,7 +27,7 @@
                         Password:
                         <input type="password" name="password" />
                     </p>
-                    <br /><br /><b>Roles:</b>
+                    <b>Roles:</b>
                     <div th:each="athorities : ${user.athorities}">
                         <input name="athorities" type="checkbox" th:value="${athorities.id}" th:checked="true" />
                         <span th:text="${athorities.name}"></span><br />

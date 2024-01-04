@@ -26,7 +26,7 @@ public class UserGenerified {
         this.name = user.getUsername();
         this.displayName = user.getDisplayname();
         this.athorities = user.getAuthorities();
-        athoritiesLost = allRolesList.stream()
+        this.athoritiesLost = allRolesList.stream()
                     .filter(element -> !athorities.contains(element))
                     .collect(Collectors.toList());
     }
