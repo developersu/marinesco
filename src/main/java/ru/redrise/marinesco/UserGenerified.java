@@ -19,6 +19,7 @@ public class UserGenerified {
     private String displayName;
     private List<UserRole> athorities;
     private List<UserRole> athoritiesLost;
+    private String password;
 
     public UserGenerified(User user, List<UserRole> allRolesList){
         this.id = user.getId();

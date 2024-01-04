@@ -16,7 +16,6 @@ import ru.redrise.marinesco.User;
 import ru.redrise.marinesco.data.RolesRepository;
 import ru.redrise.marinesco.data.UserRepository;
 import ru.redrise.marinesco.settings.ApplicationSettings;
-import ru.redrise.marinesco.settings.KeyValueRepository;
 
 @Slf4j
 @Controller

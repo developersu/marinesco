@@ -87,13 +87,16 @@ public class ManageUsersController {
     }
 
     @PostMapping("/update")
-    public String updateRoles(UserGenerified userGenerified) {
+    public String update(UserGenerified userGenerified) {
         User user = userRepository.findById(userGenerified.getId()).get();
         if (user == null)
             return "redirect:/manage_users";
 
         user.setAuthorities(userGenerified.getAthorities());
         user.setDisplayname(userGenerified.getDisplayName());
+        String password = userGenerified.getPassword().trim();
+        if (! password.trim().isEmpty())
+            user.setPassword(passwordEncoder.encode(userGenerified.getPassword()));
         userRepository.save(user);
         
         return "redirect:/manage_users";
