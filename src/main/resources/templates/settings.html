@@ -4,7 +4,7 @@
 <head>
     <title>Marinesco - Application settings</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-	<link rel="alternate icon" href="/favicon.png" type="image/png">
+    <link rel="alternate icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
 </head>
 
@@ -12,8 +12,13 @@
     <div class="page">
         <div th:replace="~{fragments/header :: 'header'}"></div>
         <div class="container base">
-            <span  th:text="${'New users registration is now ' + (allowRegistration ? 'enabled. ' : 'disabled. ' )}"></span>
-            <a th:href="${'/settings/allow_registration/' + !allowRegistration }" th:text="${'Click here to ' + (allowRegistration ? 'disable' : 'enable' )}"></a>
+            <span
+                th:text="${'New users registration is now ' + (allowRegistration ? 'enabled. ' : 'disabled. ' )}"></span>
+            <a th:href="${'/settings/allow_registration/' + !allowRegistration }"
+                th:text="${'Click here to ' + (allowRegistration ? 'disable' : 'enable' )}"></a>
+            <p>
+                <a href="/settings/rescan" th:text="Click to rescan library"></a>
+            </p>
         </div>
     </div>
     <div th:replace="~{fragments/footer :: 'footer'}"></div>

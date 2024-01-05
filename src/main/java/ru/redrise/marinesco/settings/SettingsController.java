@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ru.redrise.marinesco.library.InpxScanner;
+
 //@Slf4j
 @Controller
 @RequestMapping("/settings")
@@ -15,9 +17,12 @@ public class SettingsController {
     private KeyValueRepository keyValueRepository;
     private ApplicationSettings applicationSettings;
 
-    public SettingsController(KeyValueRepository keyValueRepository, ApplicationSettings applicationSettings){
+    private InpxScanner inpxScanner;
+
+    public SettingsController(KeyValueRepository keyValueRepository, ApplicationSettings applicationSettings, InpxScanner inpxScanner){
         this.keyValueRepository = keyValueRepository;
         this.applicationSettings = applicationSettings;
+        this.inpxScanner = inpxScanner;
     }
 
     @GetMapping
@@ -36,6 +41,13 @@ public class SettingsController {
         //log.info("{}", sw);
         //keyValueRepository.save(new KeyValue(ApplicationSettings.ALLOW_REGISTRATION, sw));
         applicationSettings.setAllowRegistraion(sw);
+        
+        return "redirect:/settings";
+    }
+
+    @GetMapping("/rescan")
+    public String rescan(){
+        inpxScanner.reScan();
         
         return "redirect:/settings";
     }

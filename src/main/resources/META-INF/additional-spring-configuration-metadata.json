@@ -1,0 +1,9 @@
+{
+    "properties": [
+        {
+            "name": "marinesco.library.filesLocation",
+            "type": "java.lang.String",
+            "description": "All library files location"
+        }
+    ]
+}

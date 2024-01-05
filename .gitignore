@@ -1,2 +1,3 @@
 postgres/docker-compose.yml
 target/
+lib/
