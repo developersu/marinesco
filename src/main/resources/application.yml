@@ -21,6 +21,10 @@ spring:
             settings:
                 web-allow-others: true
                 trace: false
+logging:
+    level:
+        org:
+            springframework: INFO
 marinesco:
     library:
         filesLocation: "./lib"

@@ -17,7 +17,10 @@
             <a th:href="${'/settings/allow_registration/' + !allowRegistration }"
                 th:text="${'Click here to ' + (allowRegistration ? 'disable' : 'enable' )}"></a>
             <p>
-                <a href="/settings/rescan" th:text="Click to rescan library"></a>
+                <span class="validationError" th:if="${rescanError} != null"
+                    th:text="${rescanError}"></span>
+                    <br />
+                <a href="/settings/rescan" >Click to rescan library</a>
             </p>
         </div>
     </div>
