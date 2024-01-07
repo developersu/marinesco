@@ -1,22 +1,13 @@
 package ru.redrise.marinesco.library;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@Entity
-@Data
-public class InpFile {
+public class InpFileScanner {
+    private String name;
 
-    private final String name;
-    private final List<InpEntry> inpEntries;
-
-    public InpFile(byte[] content, String name) throws Exception{
+    public InpFileScanner(byte[] content, String name) throws Exception{
         this.name = name.substring(0, name.lastIndexOf('.'));
-        this.inpEntries = new ArrayList<>();
         log.info("FILE RELATED "+this.name);
         parseContent(content);
     }
@@ -27,7 +18,7 @@ public class InpFile {
             if (content[i] == '\n'){
                 byte[] line = new byte[i-lastIndex];
                 System.arraycopy(content, lastIndex, line, 0, i-lastIndex-1);
-                inpEntries.add(new InpEntry(line));
+                new InpEntry(line, name);
                 //RainbowDump.hexDumpUTF8(line);
                 
                 if (isNextCarriageReturn(i, content)){

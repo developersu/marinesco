@@ -13,6 +13,10 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.redrise.marinesco.data.AuthorRepository;
+import ru.redrise.marinesco.data.GenreRepository;
+import ru.redrise.marinesco.data.InpEntryRepository;
+import ru.redrise.marinesco.data.LibraryMetadataRepository;
 
 @Slf4j
 @Component
@@ -21,13 +25,23 @@ public class InpxScanner {
 
     private String filesLocation = "";
 
-    private FileSystemResource libraryLocation;
+    private LibraryMetadataRepository libraryMetadataRepository;
+    private AuthorRepository authorRepository;
+    private GenreRepository genreRepository;
+    private InpEntryRepository inpEntryRepository;
 
-    private LibraryMetadata collectionFileMeta;
-    private LibraryMetadata versionFileMeta;
+    public InpxScanner(AuthorRepository authorRepository,
+            GenreRepository genreRepository,
+            InpEntryRepository inpEntryRepository,
+            LibraryMetadataRepository libraryMetadataRepository) {
+        this.authorRepository = authorRepository;
+        this.genreRepository = genreRepository;
+        this.libraryMetadataRepository = libraryMetadataRepository;
+    }
 
     public void reScan() throws Exception {
-        libraryLocation = new FileSystemResource(filesLocation);
+        LibraryMetadata libraryMetadata = new LibraryMetadata();
+        final FileSystemResource libraryLocation = new FileSystemResource(filesLocation);
 
         File inpxFile = Stream.of(libraryLocation.getFile().listFiles())
                 .filter(file -> file.getName().endsWith(".inpx"))
@@ -35,44 +49,38 @@ public class InpxScanner {
                 .get();
 
         log.info("INPX file found as " + inpxFile.getName());
-        
+
         boolean breaker = false;
 
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
             ZipEntry zipEntry = zipInputStream.getNextEntry();
             while (zipEntry != null) {
-                //log.info("Now parsing: " + zipEntry.getName());
                 if (zipEntry.isDirectory()) {
                     zipEntry = zipInputStream.getNextEntry();
                     continue;
                 }
-                /* Lines:
-                 * 1 - Collection Display Name
-                 * 2 - Collection file name
-                 * 3 - num: 0 - fb2, 1 - non-FB2
-                 * 4 - description
-                 */
-                if (zipEntry.getName().toLowerCase().equals("collection.info"))
-                    setMetadata("collection.info", zipInputStream);
 
-                // version.info contains only 1 string
-                if (zipEntry.getName().toLowerCase().equals("version.info"))
-                    setMetadata("version.info", zipInputStream);
+                if (zipEntry.getName().toLowerCase().contains("collection.info"))
+                    libraryMetadata.setCollectionInfo(readPlainText(zipInputStream));
 
-                if (zipEntry.getName().toLowerCase().endsWith(".inp")){
-                    if (breaker)
-                        break;
-                    breaker = true;
+                if (zipEntry.getName().toLowerCase().contains("version.info"))
+                    libraryMetadata.setVersionInfo(readPlainText(zipInputStream));
+
+                if (zipEntry.getName().toLowerCase().endsWith(".inp")) {
+                    /*
+                    if (breaker) {
+                        zipEntry = zipInputStream.getNextEntry();
+                        continue;
+                    }
+                    breaker = true;// */
                     parseInp(zipInputStream, zipEntry.getSize(), zipEntry.getName());
                 }
 
                 zipEntry = zipInputStream.getNextEntry();
             }
         }
-    }
 
-    private void setMetadata(String filename, ZipInputStream zipInputStream) throws Exception {
-        collectionFileMeta = new LibraryMetadata(filename, readPlainText(zipInputStream));
+        libraryMetadataRepository.save(libraryMetadata);
     }
 
     private String readPlainText(ZipInputStream zipInputStream) throws Exception {
@@ -105,7 +113,9 @@ public class InpxScanner {
                 block = new byte[blockSize];
             }
         }
-        new InpFile(inpByteBuffer.array(), fileName);
+        // TODO : FIX!
+        //inpFileRepository.save(new InpFile(inpByteBuffer.array(), fileName));
+        new InpFileScanner(inpByteBuffer.array(), fileName);
     }
 
     public String getFilesLocation() {

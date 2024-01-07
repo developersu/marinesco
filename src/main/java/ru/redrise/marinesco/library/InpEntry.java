@@ -3,31 +3,49 @@ package ru.redrise.marinesco.library;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import ru.redrise.marinesco.RainbowDump;
 
 @Slf4j
+@Entity
 @Data
 public class InpEntry {
-    private List<String> authors = new ArrayList<>();  // Surname,name,by-father
-    private List<String> generes = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @ManyToMany
+    private List<Author> authors;  // Surname,name,by-father
+    @ManyToMany
+    private List<Genre> genres;
     private String title;
     private String series;
     private String serNo;
-    private String fsFileName;
-    private String fileSize; // extracted
+    private String fsFileName; // inside zip
+    private String fileSize; // extracted, in bytes
     private String libId; // same to filename
     private String deleted; // is deleted flag
     private String fileExtension; // - concatenate to fsFileName
     private LocalDate addedDate;
-
+    private String container;
+    
+    @Transient
     private int position;
 
-    public InpEntry(byte[] line) throws Exception{
+    public InpEntry(byte[] line, String container) throws Exception{
         // AUTHOR;GENRE;TITLE;SERIES;SERNO;FILE;SIZE;LIBID;DEL;EXT;DATE;
+        this.container = container;
+        this.authors = new ArrayList<>();
+        this.genres = new ArrayList<>();
         parseAuthors(line);
         parseGenere(line);
         this.title = parseNextString(line);
@@ -40,10 +58,11 @@ public class InpEntry {
         this.fileExtension = parseNextString(line); 
         this.addedDate = LocalDate.parse(parseNextString(line)); 
 
-        for (String author : authors)
-            log.info(author);
-        for (String gen : generes)
-            log.info(gen);
+        /* 
+        for (Author author : authors)
+            log.info(author.getAuthorName());
+        for (Genre gen : genres)
+            log.info(gen.getGenreId());
         
         log.info(title);
         log.info(series);
@@ -56,10 +75,11 @@ public class InpEntry {
         log.info(addedDate.toString());
 
         log.info("-----------------");
+        //*/
     }
      private void parseAuthors(byte[] line) throws Exception{
         for (int i = 0; i < line.length; i++){
-            if (line[i] == ':' && i+1 < line.length && line[i+1] == 0x04){
+            if (line[i] == 0x04){
                 splitAuthors(new String(line, 0, i, StandardCharsets.UTF_8));
                 position = i+1;
                 return;
@@ -69,22 +89,26 @@ public class InpEntry {
         throw new Exception("Invalid 'inp' file format (parse Authors)");
     }
     private void splitAuthors(String allAuthors){
-        authors = Arrays.asList(allAuthors.split(":"));
+        for (String author : allAuthors.split(":")){
+            authors.add(new Author(author));
+        }
     }
 
     private void parseGenere(byte[] line) throws Exception{
         for (int i = position; i < line.length; i++){
-            if (line[i] == ':'){
-                if (line[i] == ':' && i+1 < line.length && line[i+1] == 0x04){
-                    generes.add(new String(line, position, i-position, StandardCharsets.UTF_8));
-                    position = i+2;
-                    return;
-                }
-                generes.add(new String(line, position, i-position, StandardCharsets.UTF_8));
+            if (line[i] == 0x04){
+                splitGenres(new String(line, 0, i, StandardCharsets.UTF_8));
                 position = i+1;
+                return;
             }
         }
+        RainbowDump.hexDumpUTF8(line);
         throw new Exception("Invalid 'inp' file format (parse Genere)");
+    }
+    private void splitGenres(String allGenres){
+        for (String genre : allGenres.split(":")){
+            genres.add(new Genre(genre));
+        }
     }
 
     private String parseNextString(byte[] line) throws Exception{
@@ -95,7 +119,7 @@ public class InpEntry {
                 return resultingString;
             }
         }
-
+        RainbowDump.hexDumpUTF8(line);
         throw new Exception("Invalid 'inp' file format (parse Title)");
     }
 }
