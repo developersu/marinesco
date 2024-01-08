@@ -54,6 +54,7 @@ public class InpxScanner {
 
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
             ZipEntry zipEntry = zipInputStream.getNextEntry();
+
             while (zipEntry != null) {
                 if (zipEntry.isDirectory()) {
                     zipEntry = zipInputStream.getNextEntry();
@@ -63,17 +64,19 @@ public class InpxScanner {
                 if (zipEntry.getName().toLowerCase().contains("collection.info"))
                     libraryMetadata.setCollectionInfo(readPlainText(zipInputStream));
 
-                if (zipEntry.getName().toLowerCase().contains("version.info"))
+                else if (zipEntry.getName().toLowerCase().contains("version.info"))
                     libraryMetadata.setVersionInfo(readPlainText(zipInputStream));
 
-                if (zipEntry.getName().toLowerCase().endsWith(".inp")) {
-                    /*
-                    if (breaker) {
-                        zipEntry = zipInputStream.getNextEntry();
-                        continue;
-                    }
-                    breaker = true;// */
-                    parseInp(zipInputStream, zipEntry.getSize(), zipEntry.getName());
+                else if (zipEntry.getName().toLowerCase().endsWith(".inp")) {
+                    //*
+                      if (breaker) {
+                      zipEntry = zipInputStream.getNextEntry();
+                      continue;
+                      }
+                      breaker = true;//
+                     //*/
+                    byte[] content = inpToByteArray(zipInputStream, zipEntry.getSize());
+                    parseInpContent(content, zipEntry.getName());
                 }
 
                 zipEntry = zipInputStream.getNextEntry();
@@ -92,7 +95,7 @@ public class InpxScanner {
         return stringBuilder.toString();
     }
 
-    private void parseInp(ZipInputStream stream, long fileSize, String fileName) throws Exception {
+    private byte[] inpToByteArray(ZipInputStream stream, long fileSize) throws Exception {
         ByteBuffer inpByteBuffer = ByteBuffer.allocate((int) fileSize);
         int blockSize = 0x200;
         if (fileSize < 0x200)
@@ -113,9 +116,35 @@ public class InpxScanner {
                 block = new byte[blockSize];
             }
         }
-        // TODO : FIX!
-        //inpFileRepository.save(new InpFile(inpByteBuffer.array(), fileName));
-        new InpFileScanner(inpByteBuffer.array(), fileName);
+        return inpByteBuffer.array();
+    }
+
+    private void parseInpContent(byte[] content, String name) throws Exception {
+        name = name.substring(0, name.lastIndexOf('.'));
+
+        log.info("FILE RELATED " + name);
+        int lastIndex = 0;
+        for (int i = 0; i < content.length; i++) {
+            if (content[i] == '\n') {
+                byte[] line = new byte[i - lastIndex];
+                System.arraycopy(content, lastIndex, line, 0, i - lastIndex - 1);
+
+                InpEntry book = new InpEntry(line, name, authorRepository, genreRepository);
+                //inpEntryRepository.save(book);
+
+                // RainbowDump.hexDumpUTF8(line);
+
+                if (isNextCarriageReturn(i, content)) {
+                    i += 2;
+                    lastIndex = i;
+                } else
+                    lastIndex = ++i;
+            }
+        }
+    }
+
+    private boolean isNextCarriageReturn(int i, byte[] content) {
+        return i + 1 < content.length && (content[i + 1] == '\r');
     }
 
     public String getFilesLocation() {

@@ -14,6 +14,8 @@ import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.RainbowDump;
+import ru.redrise.marinesco.data.AuthorRepository;
+import ru.redrise.marinesco.data.GenreRepository;
 
 @Slf4j
 @Entity
@@ -22,9 +24,9 @@ public class InpEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @ManyToMany
-    private List<Author> authors;  // Surname,name,by-father
+    private List<Author> authors; // Surname,name,by-father
     @ManyToMany
     private List<Genre> genres;
     private String title;
@@ -37,85 +39,96 @@ public class InpEntry {
     private String fileExtension; // - concatenate to fsFileName
     private LocalDate addedDate;
     private String container;
-    
-    @Transient
-    private int position;
 
-    public InpEntry(byte[] line, String container) throws Exception{
+    @Transient
+    private int position = 0;
+    @Transient
+    private byte[] line;
+
+    public InpEntry(byte[] line,
+            String container,
+            AuthorRepository authorRepository,
+            GenreRepository genreRepository) throws Exception {
         // AUTHOR;GENRE;TITLE;SERIES;SERNO;FILE;SIZE;LIBID;DEL;EXT;DATE;
-        this.container = container;
+        this.line = line;
+        this.container = container + ".zip";
         this.authors = new ArrayList<>();
         this.genres = new ArrayList<>();
-        parseAuthors(line);
-        parseGenere(line);
-        this.title = parseNextString(line);
-        this.series = parseNextString(line);
-        this.serNo = parseNextString(line); 
-        this.fsFileName = parseNextString(line); 
-        this.fileSize = parseNextString(line); 
-        this.libId = parseNextString(line); 
-        this.deleted = parseNextString(line); 
-        this.fileExtension = parseNextString(line); 
-        this.addedDate = LocalDate.parse(parseNextString(line)); 
+        parseAuthors(authorRepository);
+        parseGenere(genreRepository);
+        this.title = parseNextString();
+        this.series = parseNextString();
+        this.serNo = parseNextString();
+        this.fsFileName = parseNextString();
+        this.fileSize = parseNextString();
+        this.libId = parseNextString();
+        this.deleted = parseNextString();
+        this.fileExtension = parseNextString();
+        this.addedDate = LocalDate.parse(parseNextString());
 
-        /* 
-        for (Author author : authors)
-            log.info(author.getAuthorName());
-        for (Genre gen : genres)
-            log.info(gen.getGenreId());
-        
-        log.info(title);
-        log.info(series);
-        log.info(serNo);
-        log.info(fsFileName);
-        log.info(fileSize);
-        log.info(libId);
-        log.info(deleted);
-        log.info(fileExtension);
-        log.info(addedDate.toString());
-
-        log.info("-----------------");
-        //*/
+        /*
+         * for (Author author : authors)
+         * log.info(author.getAuthorName());
+         * for (Genre gen : genres)
+         * log.info(gen.getGenreId());
+         * 
+         * log.info(title);
+         * log.info(series);
+         * log.info(serNo);
+         * log.info(fsFileName);
+         * log.info(fileSize);
+         * log.info(libId);
+         * log.info(deleted);
+         * log.info(fileExtension);
+         * log.info(addedDate.toString());
+         * 
+         * log.info("-----------------");
+         * //
+         */
     }
-     private void parseAuthors(byte[] line) throws Exception{
-        for (int i = 0; i < line.length; i++){
-            if (line[i] == 0x04){
-                splitAuthors(new String(line, 0, i, StandardCharsets.UTF_8));
-                position = i+1;
+
+    private void parseAuthors(AuthorRepository authorRepository) throws Exception {
+        for (; position < line.length; position++) {
+            if (line[position] == 0x04) {
+                String allAuthors = new String(line, 0, position, StandardCharsets.UTF_8);
+
+                for (String authorName : allAuthors.split(":")) {
+                    Author author = authorRepository.findByAuthorName(authorName).orElse(new Author(authorName));
+
+                    authors.add(authorRepository.save(author));
+                }
+
+                ++position;
                 return;
             }
         }
-
+        RainbowDump.hexDumpUTF8(line);
         throw new Exception("Invalid 'inp' file format (parse Authors)");
     }
-    private void splitAuthors(String allAuthors){
-        for (String author : allAuthors.split(":")){
-            authors.add(new Author(author));
-        }
-    }
 
-    private void parseGenere(byte[] line) throws Exception{
-        for (int i = position; i < line.length; i++){
-            if (line[i] == 0x04){
-                splitGenres(new String(line, 0, i, StandardCharsets.UTF_8));
-                position = i+1;
+    private void parseGenere(GenreRepository genreRepository) throws Exception {
+        for (int i = position; i < line.length; i++) {
+            if (line[i] == 0x04) {
+                String allGenres = new String(line, position, i - position, StandardCharsets.UTF_8);
+
+                for (String genreName : allGenres.split(":")) {
+                    Genre genre = new Genre(genreName);
+                    genres.add(genreRepository.save(genre));
+                }
+
+                position = i + 1;
                 return;
             }
         }
         RainbowDump.hexDumpUTF8(line);
         throw new Exception("Invalid 'inp' file format (parse Genere)");
     }
-    private void splitGenres(String allGenres){
-        for (String genre : allGenres.split(":")){
-            genres.add(new Genre(genre));
-        }
-    }
 
-    private String parseNextString(byte[] line) throws Exception{
-        for (int i = position; i < line.length; i++){
-            if (line[i] == 0x04){
-                String resultingString = new String(line, position, i-position, StandardCharsets.UTF_8);
-                position = i+1;
+    private String parseNextString() throws Exception {
+        for (int i = position; i < line.length; i++) {
+            if (line[i] == 0x04) {
+                String resultingString = new String(line, position, i - position, StandardCharsets.UTF_8);
+                position = i + 1;
                 return resultingString;
             }
         }
