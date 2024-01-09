@@ -29,6 +29,10 @@ body {
 	color: red;
 }
 
+.validationPass {
+	color: #00b185;
+}
+
 .header-container {
 	text-align: left;
 	position: relative;

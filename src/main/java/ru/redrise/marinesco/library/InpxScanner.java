@@ -21,10 +21,14 @@ import ru.redrise.marinesco.data.LibraryMetadataRepository;
 @Slf4j
 @Component
 @ConfigurationProperties(prefix = "marinesco.library")
-public class InpxScanner {
+public class InpxScanner implements Runnable {
+
+    private static volatile Thread parser;
+    private static volatile String lastRunErrors;
 
     private String filesLocation = "";
 
+    private LibraryMetadata libraryMetadata;
     private LibraryMetadataRepository libraryMetadataRepository;
     private AuthorRepository authorRepository;
     private GenreRepository genreRepository;
@@ -36,54 +40,63 @@ public class InpxScanner {
             LibraryMetadataRepository libraryMetadataRepository) {
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
+        this.inpEntryRepository = inpEntryRepository;
         this.libraryMetadataRepository = libraryMetadataRepository;
     }
 
-    public void reScan() throws Exception {
-        LibraryMetadata libraryMetadata = new LibraryMetadata();
-        final FileSystemResource libraryLocation = new FileSystemResource(filesLocation);
+    /*
+     * @return true if executed, false if already running
+     */
+    public boolean reScan(){
+        if (parser == null || !parser.isAlive()) {
+            parser = new Thread(this);
+            parser.start();
+            return true;
+        }
+        return false;
+    }
 
-        File inpxFile = Stream.of(libraryLocation.getFile().listFiles())
-                .filter(file -> file.getName().endsWith(".inpx"))
-                .findFirst()
-                .get();
+    @Override
+    public void run() {
+        try {
+            final FileSystemResource libraryLocation = new FileSystemResource(filesLocation);
 
-        log.info("INPX file found as " + inpxFile.getName());
+            final File inpxFile = Stream.of(libraryLocation.getFile().listFiles())
+                    .filter(file -> file.getName().endsWith(".inpx"))
+                    .findFirst()
+                    .get();
 
-        boolean breaker = false;
+            log.debug("INPX file found as " + inpxFile.getName());
+
+            getLibraryMetadata(inpxFile);
+            parseInp(inpxFile);
+            // Once multiple libraries imlemented, add here 'delete recrodds with old
+            // version of the library'
+            // TODO: fix lirary ID changes on every update: add selector on the front
+        } catch (Exception e) {
+            log.error("{}", e);
+            InpxScanner.lastRunErrors = e.getMessage();
+        }
+    }
+
+    private void getLibraryMetadata(File inpxFile) throws Exception {
+        libraryMetadata = new LibraryMetadata();
 
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
             ZipEntry zipEntry = zipInputStream.getNextEntry();
 
             while (zipEntry != null) {
-                if (zipEntry.isDirectory()) {
-                    zipEntry = zipInputStream.getNextEntry();
-                    continue;
-                }
-
                 if (zipEntry.getName().toLowerCase().contains("collection.info"))
                     libraryMetadata.setCollectionInfo(readPlainText(zipInputStream));
 
                 else if (zipEntry.getName().toLowerCase().contains("version.info"))
                     libraryMetadata.setVersionInfo(readPlainText(zipInputStream));
 
-                else if (zipEntry.getName().toLowerCase().endsWith(".inp")) {
-                    //*
-                      if (breaker) {
-                      zipEntry = zipInputStream.getNextEntry();
-                      continue;
-                      }
-                      breaker = true;//
-                     //*/
-                    byte[] content = inpToByteArray(zipInputStream, zipEntry.getSize());
-                    parseInpContent(content, zipEntry.getName());
-                }
-
                 zipEntry = zipInputStream.getNextEntry();
             }
         }
 
-        libraryMetadataRepository.save(libraryMetadata);
+        libraryMetadata = libraryMetadataRepository.save(libraryMetadata);
     }
 
     private String readPlainText(ZipInputStream zipInputStream) throws Exception {
@@ -119,6 +132,29 @@ public class InpxScanner {
         return inpByteBuffer.array();
     }
 
+    private void parseInp(File inpxFile) throws Exception {
+        boolean breaker = false;
+
+        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
+            ZipEntry zipEntry = zipInputStream.getNextEntry();
+
+            while (zipEntry != null) {
+                if (zipEntry.getName().toLowerCase().endsWith(".inp")) {
+                    // *
+                    if (breaker) {
+                        zipEntry = zipInputStream.getNextEntry();
+                        continue;
+                    }
+                    breaker = true;//
+                    // */
+                    byte[] content = inpToByteArray(zipInputStream, zipEntry.getSize());
+                    parseInpContent(content, zipEntry.getName());
+                }
+                zipEntry = zipInputStream.getNextEntry();
+            }
+        }
+    }
+
     private void parseInpContent(byte[] content, String name) throws Exception {
         name = name.substring(0, name.lastIndexOf('.'));
 
@@ -129,10 +165,14 @@ public class InpxScanner {
                 byte[] line = new byte[i - lastIndex];
                 System.arraycopy(content, lastIndex, line, 0, i - lastIndex - 1);
 
-                InpEntry book = new InpEntry(line, name, authorRepository, genreRepository);
-                //inpEntryRepository.save(book);
+                InpEntry book = new InpEntry(line,
+                        name,
+                        authorRepository,
+                        genreRepository,
+                        libraryMetadata.getId(),
+                        libraryMetadata.getVersion());
 
-                // RainbowDump.hexDumpUTF8(line);
+                inpEntryRepository.save(book);
 
                 if (isNextCarriageReturn(i, content)) {
                     i += 2;
@@ -153,5 +193,9 @@ public class InpxScanner {
 
     public void setFilesLocation(String location) {
         filesLocation = location;
+    }
+
+    public static String getLastRunErrors() {
+        return lastRunErrors;
     }
 }

@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.library.InpxScanner;
 
-@Slf4j
 @Controller
 @RequestMapping("/settings")
 @PreAuthorize("hasRole('ADMIN')")
@@ -28,13 +26,20 @@ public class SettingsController {
     }
 
     @GetMapping
-    public String getPage(@ModelAttribute("rescanError") String error) {
+    public String getPage(@ModelAttribute("rescanError") String err, @ModelAttribute("rescanOk") String passStatus) {
         return "settings";
     }
 
     @ModelAttribute(name = "allowRegistration")
     public Boolean setRegistrationSetting() {
         return applicationSettings.isRegistrationAllowed();
+    }
+    
+    @ModelAttribute(name = "lastScanErrors")
+    public String setLastRunErrors(){
+        if (InpxScanner.getLastRunErrors() != null)
+            return "Last run attempt failed: "+InpxScanner.getLastRunErrors();
+        return null;
     }
 
     @GetMapping("/allow_registration/{sw}")
@@ -47,13 +52,11 @@ public class SettingsController {
     @GetMapping("/rescan")
     public RedirectView rescan(RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/settings", true);
-        try {
-            inpxScanner.reScan();
-        } catch (Exception e) {
-            e.printStackTrace();
-            redirectAttributes.addAttribute("rescanError", 
-            "Rescan failed. No '.inpx' file at '"+inpxScanner.getFilesLocation()+"'?");
-        }
+
+        if (inpxScanner.reScan())
+            redirectAttributes.addAttribute("rescanOk", "Rescan started");
+        else
+            redirectAttributes.addAttribute("rescanError", "Rescan is currently in progress");
 
         return redirectView;
     }

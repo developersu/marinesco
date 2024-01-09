@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Transient;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.RainbowDump;
 import ru.redrise.marinesco.data.AuthorRepository;
@@ -20,11 +20,13 @@ import ru.redrise.marinesco.data.GenreRepository;
 @Slf4j
 @Entity
 @Data
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public class InpEntry {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    private Integer id;
+    private Long libraryId;
+    private String libraryVersion;
+    
     @ManyToMany
     private List<Author> authors; // Surname,name,by-father
     @ManyToMany
@@ -33,12 +35,13 @@ public class InpEntry {
     private String series;
     private String serNo;
     private String fsFileName; // inside zip
-    private String fileSize; // extracted, in bytes
+    private Long fileSize; // extracted, in bytes
     private String libId; // same to filename
     private String deleted; // is deleted flag
     private String fileExtension; // - concatenate to fsFileName
     private LocalDate addedDate;
     private String container;
+    
 
     @Transient
     private int position = 0;
@@ -48,9 +51,14 @@ public class InpEntry {
     public InpEntry(byte[] line,
             String container,
             AuthorRepository authorRepository,
-            GenreRepository genreRepository) throws Exception {
+            GenreRepository genreRepository, 
+            Long libraryId,
+            String libraryVersion) throws Exception {
         // AUTHOR;GENRE;TITLE;SERIES;SERNO;FILE;SIZE;LIBID;DEL;EXT;DATE;
         this.line = line;
+        this.libraryId = libraryId;
+        this.libraryVersion = libraryVersion;
+        this.id = new String(line).hashCode();
         this.container = container + ".zip";
         this.authors = new ArrayList<>();
         this.genres = new ArrayList<>();
@@ -60,7 +68,7 @@ public class InpEntry {
         this.series = parseNextString();
         this.serNo = parseNextString();
         this.fsFileName = parseNextString();
-        this.fileSize = parseNextString();
+        this.fileSize = Long.valueOf(parseNextString());
         this.libId = parseNextString();
         this.deleted = parseNextString();
         this.fileExtension = parseNextString();
