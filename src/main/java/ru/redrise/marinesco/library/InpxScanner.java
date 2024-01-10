@@ -17,16 +17,14 @@ import ru.redrise.marinesco.data.AuthorRepository;
 import ru.redrise.marinesco.data.GenreRepository;
 import ru.redrise.marinesco.data.InpEntryRepository;
 import ru.redrise.marinesco.data.LibraryMetadataRepository;
+import ru.redrise.marinesco.settings.ApplicationSettings;
 
 @Slf4j
 @Component
-@ConfigurationProperties(prefix = "marinesco.library")
 public class InpxScanner implements Runnable {
 
     private static volatile Thread parser;
     private static volatile String lastRunErrors;
-
-    private String filesLocation = "";
 
     private LibraryMetadata libraryMetadata;
     private LibraryMetadataRepository libraryMetadataRepository;
@@ -34,10 +32,14 @@ public class InpxScanner implements Runnable {
     private GenreRepository genreRepository;
     private InpEntryRepository inpEntryRepository;
 
-    public InpxScanner(AuthorRepository authorRepository,
+    private String filesLocation;
+
+    public InpxScanner(ApplicationSettings applicationSettings,
+            AuthorRepository authorRepository,
             GenreRepository genreRepository,
             InpEntryRepository inpEntryRepository,
             LibraryMetadataRepository libraryMetadataRepository) {
+        this.filesLocation = applicationSettings.getFilesLocation();
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
         this.inpEntryRepository = inpEntryRepository;
@@ -47,7 +49,7 @@ public class InpxScanner implements Runnable {
     /*
      * @return true if executed, false if already running
      */
-    public boolean reScan(){
+    public boolean reScan() {
         if (parser == null || !parser.isAlive()) {
             parser = new Thread(this);
             parser.start();
@@ -188,14 +190,6 @@ public class InpxScanner implements Runnable {
 
     private boolean isNextCarriageReturn(int i, byte[] content) {
         return i + 1 < content.length && (content[i + 1] == '\r');
-    }
-
-    public String getFilesLocation() {
-        return filesLocation;
-    }
-
-    public void setFilesLocation(String location) {
-        filesLocation = location;
     }
 
     public static String getLastRunErrors() {

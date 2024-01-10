@@ -29,7 +29,7 @@
                 <br /><span th:if="${book.addedDate} != null" th:text="${'Added : ' + book.addedDate}"></span>
                 <br /><span th:text="${'Size: ' + book.fileSize + ' bytes'}"></span>
                 <p>
-                    <a th:href="'/'" th:text="Download"></a>
+                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}" th:text="Download"></a>
                 </p>
             </div>
         </div>

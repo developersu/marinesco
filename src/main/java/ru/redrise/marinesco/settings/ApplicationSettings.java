@@ -1,10 +1,14 @@
 package ru.redrise.marinesco.settings;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConfigurationProperties(prefix = "marinesco.library")
 public class ApplicationSettings {
     private static final String ALLOW_REGISTRATION = "allow_registration";
+    
+    private String filesLocation = "";
 
     private KeyValueRepository keyValueRepository;
 
@@ -34,4 +38,13 @@ public class ApplicationSettings {
     public synchronized boolean isRegistrationAllowed() {
         return registrationAllowed;
     }
+
+    public String getFilesLocation() {
+        return filesLocation;
+    }
+
+    public void setFilesLocation(String location) {
+        filesLocation = location;
+    }
+
 }
