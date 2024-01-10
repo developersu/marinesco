@@ -4,7 +4,7 @@
 <head>
     <title>Marinesco</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-	<link rel="alternate icon" href="/favicon.png" type="image/png">
+    <link rel="alternate icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
 </head>
 
@@ -16,7 +16,14 @@
             <br /><a href="/profile">/profile</a>
             <br /><a href="/manage_users">/manage_users</a>
             <br /><a href="/settings">/settings</a>
+            <br /><a href="/book/59992766">/book/59992766</a>
             <br /><a href="/h2">H2</a>
+            <br />
+            <br />
+            <form action='' method='get'>
+                <input type='text' name='search'>
+                <button class="sign" type='submit'>Search</button>
+            </form>
         </div>
     </div>
     <div th:replace="~{fragments/footer :: 'footer'}"></div>

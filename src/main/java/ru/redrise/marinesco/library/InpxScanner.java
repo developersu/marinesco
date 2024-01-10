@@ -133,6 +133,9 @@ public class InpxScanner implements Runnable {
     }
 
     private void parseInp(File inpxFile) throws Exception {
+        log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
+        log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
+        log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
         boolean breaker = false;
 
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {

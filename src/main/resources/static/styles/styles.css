@@ -8,6 +8,10 @@
 	src: url('/styles/Arimo-VariableFont_wght.ttf');
 }
 
+html{
+	line-height: 1.5;
+}
+
 body {
 	font-family: Arimo;
 	background-color: #212121;
