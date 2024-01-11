@@ -12,7 +12,7 @@ import ru.redrise.marinesco.library.Book;
 @Controller
 @RequestMapping("/book")
 public class BookController {
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     public BookController(BookRepository bookRepository){
         this.bookRepository = bookRepository;
