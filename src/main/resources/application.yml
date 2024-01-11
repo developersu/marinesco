@@ -5,7 +5,8 @@ spring:
         driver-class-name: org.h2.Driver  
         generate-unique-name: false
         name: marinesco
-        url: jdbc:h2:mem:marinesco
+#        url: jdbc:h2:mem:marinesco
+        url: jdbc:h2:file:/tmp/h2
         username: sa
         password:
     jpa:

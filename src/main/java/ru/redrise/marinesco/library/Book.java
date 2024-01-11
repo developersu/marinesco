@@ -21,12 +21,12 @@ import ru.redrise.marinesco.data.GenreRepository;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public class InpEntry {
+public class Book {
     @Id
     private Integer id;
     private Long libraryId;
     private String libraryVersion;
-    
+
     @ManyToMany
     private List<Author> authors; // Surname,name,by-father
     @ManyToMany
@@ -36,22 +36,22 @@ public class InpEntry {
     private String serNo;
     private String fsFileName; // inside zip
     private Long fileSize; // extracted, in bytes
+    private String fileSizeForHumans;
     private String libId; // same to filename
     private String deleted; // is deleted flag
     private String fileExtension; // - concatenate to fsFileName
     private LocalDate addedDate;
     private String container;
-    
 
     @Transient
     private int position = 0;
     @Transient
     private byte[] line;
 
-    public InpEntry(byte[] line,
+    public Book(byte[] line,
             String container,
             AuthorRepository authorRepository,
-            GenreRepository genreRepository, 
+            GenreRepository genreRepository,
             Long libraryId,
             String libraryVersion) throws Exception {
         // AUTHOR;GENRE;TITLE;SERIES;SERNO;FILE;SIZE;LIBID;DEL;EXT;DATE;
@@ -69,6 +69,7 @@ public class InpEntry {
         this.serNo = parseNextString();
         this.fsFileName = parseNextString();
         this.fileSize = Long.valueOf(parseNextString());
+        this.fileSizeForHumans = formatByteSize(fileSize);
         this.libId = parseNextString();
         this.deleted = parseNextString();
         this.fileExtension = parseNextString();
@@ -101,9 +102,11 @@ public class InpEntry {
                 String allAuthors = new String(line, 0, position, StandardCharsets.UTF_8);
 
                 for (String authorName : allAuthors.split(":")) {
-                    Author author = authorRepository.findByAuthorName(authorName).orElse(new Author(authorName));
-
-                    authors.add(authorRepository.save(author));
+                    authorName = authorName.replaceAll(",", " ").trim();
+                    if (!authorName.equals("")) {
+                        Author author = authorRepository.findByAuthorName(authorName).orElse(new Author(authorName));
+                        authors.add(authorRepository.save(author));
+                    }
                 }
 
                 ++position;
@@ -142,5 +145,13 @@ public class InpEntry {
         }
         RainbowDump.hexDumpUTF8(line);
         throw new Exception("Invalid 'inp' file format (parse Title)");
+    }
+
+    private String formatByteSize(double length) {
+        final String[] measureName = { "bytes", "KB", "MB", "GB", "TB" };
+        int i;
+        for (i = 0; length > 1024 && i < measureName.length - 1; i++)
+            length = length / 1024;
+        return String.format("%,.2f %s", length, measureName[i]);
     }
 }

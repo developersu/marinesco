@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Marinesco</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+</head>
+
+<body>
+    <div class="page">
+        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div class="container base">
+            <form action='' method='get'>
+                <input type='text' name='search'>
+                <button class="sign" type='submit'>Search</button>
+            </form>
+            <div th:if="${books} != null">
+                <hr>
+                <h3>Titles</h3>
+                <div th:each="book : ${books}">
+                    <a th:href="${'/book/' + book.id}">
+                        <span th:text="${book.title}"></span>
+                    </a>
+                    <br />
+                    <div th:if="${book.series} != ''" th:text="${'Series: ' + book.series}">
+                        <br />
+                    </div>
+                    <span th:if="${#lists.size(book.authors)} == 1" th:text="${book.authors[0].authorName}"></span>
+                    <span th:if="${#lists.size(book.authors)} > 1" th:each="author : ${book.authors}" >
+                        <span th:text="${author.authorName} + ', '"></span>
+                    </span>
+                    <br />
+                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}"
+                        th:text="Download">
+                    </a>
+                    <span th:text="${' (' + book.fileExtension + ' ' + book.fileSizeForHumans + ')'}"></span>
+                    <p></p>
+                </div>
+            </div>
+
+            <div th:if="${series} != null">
+                <hr>
+                <h3>Series</h3>
+                <div th:each="book : ${series}">
+                    <a th:href="${'/book/' + book.id}">
+                        <span th:text="${book.title}"></span>
+                    </a>
+                    <br />
+                    <div th:if="${book.series} != ''" th:text="${'Series: ' + book.series}">
+                        <br />
+                    </div>
+                    <span th:if="${#lists.size(book.authors)} == 1" th:text="${book.authors[0].authorName}"></span>
+                    <span th:if="${#lists.size(book.authors)} > 1" th:each="author : ${book.authors}" >
+                        <span th:text="${author.authorName} + ', '"></span>
+                    </span>
+                    <br />
+                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}"
+                        th:text="Download">
+                    </a>
+                    <span th:text="${' (' + book.fileExtension + ' ' + book.fileSizeForHumans + ')'}"></span>
+                    <p></p>
+                </div>
+            </div>
+
+            <div th:if="${authors} != null">
+                <hr>
+                <h3>Authors</h3>
+                <div th:each="author : ${authors}">
+                    <a th:href="${'/author/' + author.id}">
+                        <span th:text="${author.authorName}"></span>
+                    </a>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div th:replace="~{fragments/footer :: 'footer'}"></div>
+</body>
+
+</html>

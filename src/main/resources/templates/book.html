@@ -27,7 +27,7 @@
                 <br /><span th:if="${book.serNo} != null" th:text="${'Series # : ' + book.serNo}"></span>
                 <br /><span th:text="${'Format: ' + book.fileExtension}"></span>
                 <br /><span th:if="${book.addedDate} != null" th:text="${'Added : ' + book.addedDate}"></span>
-                <br /><span th:text="${'Size: ' + book.fileSize + ' bytes'}"></span>
+                <br /><span th:text="${'Size: ' + book.fileSizeForHumans}"></span>
                 <p>
                     <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}" th:text="Download"></a>
                 </p>

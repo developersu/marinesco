@@ -31,13 +31,15 @@
           <div class="header_entry header_title">
             Marinesco
           </div>
-
-        <!--
-          <div th:replace="~{fragments/header :: ${#authentication.principal.isAdmin()} ? 'header-admin' : 'header'}"></div>
-        -->
-
         </header>
       </div>
     </div>
+    <!--
+      <div th:replace="~{fragments/header :: ${#authentication.principal.isAdmin()} ? 'header-admin' : 'header'}"></div>
+    -->
+    <div th:fragment="header-content-admin" >
+      
+    </div>
+
   </body>
 </html>

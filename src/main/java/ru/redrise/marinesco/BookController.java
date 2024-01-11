@@ -6,21 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ru.redrise.marinesco.data.InpEntryRepository;
-import ru.redrise.marinesco.library.InpEntry;
+import ru.redrise.marinesco.data.BookRepository;
+import ru.redrise.marinesco.library.Book;
 
 @Controller
 @RequestMapping("/book")
 public class BookController {
-    InpEntryRepository inpEntryRepository;
+    BookRepository bookRepository;
 
-    public BookController(InpEntryRepository inpEntryRepository){
-        this.inpEntryRepository = inpEntryRepository;
+    public BookController(BookRepository bookRepository){
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/{bookId}")
-    public String getPage(@PathVariable("bookId") Long bookId, Model model) {
-        InpEntry book = inpEntryRepository.findById(bookId).orElse(null);
+    public String getPage(@PathVariable("bookId") Integer bookId, Model model) {
+        Book book = bookRepository.findById(bookId).orElse(null);
         if (book == null){
             model.addAttribute("Error", "Not found");
             return "book";

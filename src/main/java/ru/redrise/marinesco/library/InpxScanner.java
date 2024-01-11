@@ -8,14 +8,13 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.data.AuthorRepository;
+import ru.redrise.marinesco.data.BookRepository;
 import ru.redrise.marinesco.data.GenreRepository;
-import ru.redrise.marinesco.data.InpEntryRepository;
 import ru.redrise.marinesco.data.LibraryMetadataRepository;
 import ru.redrise.marinesco.settings.ApplicationSettings;
 
@@ -30,19 +29,19 @@ public class InpxScanner implements Runnable {
     private LibraryMetadataRepository libraryMetadataRepository;
     private AuthorRepository authorRepository;
     private GenreRepository genreRepository;
-    private InpEntryRepository inpEntryRepository;
+    private BookRepository bookRepository;
 
     private String filesLocation;
 
     public InpxScanner(ApplicationSettings applicationSettings,
             AuthorRepository authorRepository,
             GenreRepository genreRepository,
-            InpEntryRepository inpEntryRepository,
+            BookRepository bookRepository,
             LibraryMetadataRepository libraryMetadataRepository) {
         this.filesLocation = applicationSettings.getFilesLocation();
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
-        this.inpEntryRepository = inpEntryRepository;
+        this.bookRepository = bookRepository;
         this.libraryMetadataRepository = libraryMetadataRepository;
     }
 
@@ -170,14 +169,14 @@ public class InpxScanner implements Runnable {
                 byte[] line = new byte[i - lastIndex];
                 System.arraycopy(content, lastIndex, line, 0, i - lastIndex - 1);
 
-                InpEntry book = new InpEntry(line,
+                Book book = new Book(line,
                         name,
                         authorRepository,
                         genreRepository,
                         libraryMetadata.getId(),
                         libraryMetadata.getVersion());
 
-                inpEntryRepository.save(book);
+                bookRepository.save(book);
 
                 if (isNextCarriageReturn(i, content)) {
                     i += 2;
