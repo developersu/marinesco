@@ -21,15 +21,15 @@
                 <h3>Titles</h3>
                 <div th:each="book : ${books}">
                     <a th:href="${'/book/' + book.id}">
-                        <span th:text="${book.title}"></span>
+                        <span class="book_title" th:text="${book.title}"></span>
                     </a>
                     <br />
                     <div th:if="${book.series} != ''" th:text="${'Series: ' + book.series}">
                         <br />
                     </div>
-                    <span th:if="${#lists.size(book.authors)} == 1" th:text="${book.authors[0].authorName}"></span>
+                    <a th:if="${#lists.size(book.authors)} == 1"  th:href="${'/author/' + book.authors[0].id}" th:text="${book.authors[0].authorName}"></a>
                     <span th:if="${#lists.size(book.authors)} > 1" th:each="author : ${book.authors}" >
-                        <span th:text="${author.authorName} + ', '"></span>
+                        <a th:href="${'/author/' + author.id}" th:text="${author.authorName}"></a>,
                     </span>
                     <br />
                     <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}"
@@ -43,17 +43,17 @@
             <div th:if="${series} != null">
                 <hr>
                 <h3>Series</h3>
-                <div th:each="book : ${series}">
+                <div th:each="book : ${books}">
                     <a th:href="${'/book/' + book.id}">
-                        <span th:text="${book.title}"></span>
+                        <span class="book_title" th:text="${book.title}"></span>
                     </a>
                     <br />
                     <div th:if="${book.series} != ''" th:text="${'Series: ' + book.series}">
                         <br />
                     </div>
-                    <span th:if="${#lists.size(book.authors)} == 1" th:text="${book.authors[0].authorName}"></span>
+                    <a th:if="${#lists.size(book.authors)} == 1"  th:href="${'/author/' + book.authors[0].id}" th:text="${book.authors[0].authorName}"></a>
                     <span th:if="${#lists.size(book.authors)} > 1" th:each="author : ${book.authors}" >
-                        <span th:text="${author.authorName} + ', '"></span>
+                        <a th:href="${'/author/' + author.id}" th:text="${author.authorName}"></a>,
                     </span>
                     <br />
                     <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}"
