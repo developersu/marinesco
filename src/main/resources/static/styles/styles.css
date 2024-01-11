@@ -234,3 +234,7 @@ button:hover {
 	padding: 3px;
 	background-color: #D00000;
 }
+
+.book_title{
+	font-weight: bold;
+}
