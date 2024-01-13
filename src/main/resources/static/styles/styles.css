@@ -238,3 +238,21 @@ button:hover {
 .book_title{
 	font-weight: bold;
 }
+
+.wrapper_centred{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center; 
+}
+.item0{
+	padding-right: 5px;
+	padding-left: 5px;
+	flex-grow: 0;
+	flex-basis: 15%;
+}
+.item1{
+	flex-grow: 0;
+	padding-right: 5px;
+	padding-left: 5px;
+	flex-basis: 350px;
+}

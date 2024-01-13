@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Marinesco - Genre settings</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+</head>
+
+<body>
+    <div class="page">
+        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div class="container base">
+            <form method="POST" th:action="@{/settings/genres}" th:object="${genresHolder}">
+                <div class="wrapper_centred" th:each="genre, itemStat : ${genresHolder.genres}">
+                    <label for="displayname" th:text="${genre.genreId}" class="item0"></label>
+                    <input type="hidden" th:value="${genre.genreId}" th:field="*{genres[__${itemStat.index}__].genreId}" />
+                    <input class="item1" type="text" th:field="*{genres[__${itemStat.index}__].humanReadableDescription}"
+                        th:value="${genre.humanReadableDescription}" size="25%" />
+                </div>
+                <div class="wrapper_centred"><button class="sign" type="submit">Save Changes</button></div>
+            </form>
+        </div>
+    </div>
+    <div th:replace="~{fragments/footer :: 'footer'}"></div>
+</body>
+
+</html>
