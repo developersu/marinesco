@@ -10,7 +10,7 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div th:replace="~{fragments/header :: 'header-auth'}"></div>
         <div class="container base">
             <h1 th:text="${header_text}">welcome</h1>
             <form method="POST" th:action="@{/profile/settings}" th:object="${userSettingsForm}"> <!--   -->

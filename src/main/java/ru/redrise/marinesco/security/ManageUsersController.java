@@ -23,7 +23,7 @@ import ru.redrise.marinesco.data.UserRepository;
 
 @Slf4j
 @Controller
-@RequestMapping("/manage_users")
+@RequestMapping("/settings/manage_users")
 @PreAuthorize("hasRole('ADMIN')")
 public class ManageUsersController {
 
@@ -83,14 +83,14 @@ public class ManageUsersController {
             log.error(id, e);
         }
 
-        return "redirect:/manage_users";
+        return "redirect:/settings/manage_users";
     }
 
     @PostMapping("/update")
     public String update(UserGenerified userGenerified) {
         User user = userRepository.findById(userGenerified.getId()).get();
         if (user == null)
-            return "redirect:/manage_users";
+            return "redirect:/settings/manage_users";
 
         user.setAuthorities(userGenerified.getAthorities());
         user.setDisplayname(userGenerified.getDisplayName());
@@ -99,7 +99,7 @@ public class ManageUsersController {
             user.setPassword(passwordEncoder.encode(userGenerified.getPassword()));
         userRepository.save(user);
         
-        return "redirect:/manage_users";
+        return "redirect:/settings/manage_users";
     }
 
     @PostMapping
@@ -117,6 +117,6 @@ public class ManageUsersController {
         log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname(),
                 user.getAuthorities().get(0));
         // Reloads page therefore new records appears
-        return "redirect:/manage_users";
+        return "redirect:/settings/manage_users";
     }
 }

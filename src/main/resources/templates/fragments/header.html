@@ -1,45 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head></head>
-  <body>
-    <div th:fragment="header" class="header_wrapper" >
-      <div class="container" >
-        <header>
-          <div class="header_branding block_inner">
-            <a href="/">
-              <img height="65px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
-            </a>
-          </div>
-          <nav id="header_right_block" class="block">
-            <div class="block_inner">
-              <ul class="ul_right_block">
-                <li class="li_right_block" th:if="${#authorization.expression('!isAuthenticated()')}">
-                  <a class="entry" href="/login" th:href="@{/login}">
-                    <span class="header_entry header_entry_link">Sign in</span>
-                  </a>
-                </li>
-                <li class="li_right_block" th:if="${#authorization.expression('isAuthenticated()')}">
-                  <a class="entry" href="/logout">
-                    <span class="header_entry header_entry_link">Logout</span>
-                  </a>
-                  <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
-                </li>
-              </ul>
-            </div>
-          </nav>
 
-          <div class="header_entry header_title">
-            Marinesco
+<head></head>
+
+<body>
+  <div th:fragment="header-anon" class="header_wrapper">
+    <div class="container">
+      <header>
+        <div class="header_branding block_inner">
+            <img height="65px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
+        </div>
+        <nav id="header_right_block" class="block">
+          <div class="block_inner">
+            <ul class="ul_right_block">
+              <li class="li_header_block">
+                <a class="entry" href="/login" th:href="@{/login}">
+                  <span class="header_entry header_entry_link">Sign in</span>
+                </a>
+              </li>
+            </ul>
           </div>
-        </header>
-      </div>
+        </nav>
+        <nav id="header_menu_block" class="header_entry">
+          <ul class="ul_right_block">
+            <li class="li_header_block header_title">
+              Marinesco
+            </li>
+          </ul>
+        </nav>
+      </header>
     </div>
-    <!--
+  </div>
+
+  <div th:fragment="header-auth" class="header_wrapper">
+    <div class="container">
+      <header>
+        <div class="header_branding block_inner">
+          <a href="/">
+            <img height="65px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
+          </a>
+        </div>
+        <nav id="header_right_block" class="block">
+          <div class="block_inner">
+            <ul class="ul_right_block">
+              <li class="li_header_block" th:if="${#authentication.principal.isAdmin()}">
+                <a class="header_entry header_entry_link" href="/settings">Settings</a>
+              </li>
+              <li class="li_header_block">
+                <a class="header_entry header_entry_link" href="/profile">Profile</a>
+              </li>
+              <li class="li_header_block">
+                <span class="header_entry">|</span>
+              </li>
+              <li class="li_header_block">
+                <a class="entry" href="/logout">
+                  <span class="header_entry header_entry_link">Logout</span>
+                </a>
+                <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <nav id="header_menu_block" class="header_entry">
+          <ul class="ul_right_block">
+            <li class="li_header_block">
+              <form action="/search" method="get">
+                <input type="text" name="search">
+                <button class="button-header" type="submit">Search</button>
+              </form>
+            </li>
+            
+          </ul>
+        </nav>
+
+      </header>
+    </div>
+  </div>
+  <!--
       <div th:replace="~{fragments/header :: ${#authentication.principal.isAdmin()} ? 'header-admin' : 'header'}"></div>
+      <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header'}"></div>
     -->
-    <div th:fragment="header-content-admin" >
-      
-    </div>
+  <div th:fragment="header-content-admin">
 
-  </body>
+  </div>
+
+</body>
+
 </html>

@@ -10,14 +10,16 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
         <div class="container base">
             <span
                 th:text="${'New users registration is now ' + (allowRegistration ? 'enabled. ' : 'disabled. ' )}"></span>
             <a th:href="${'/settings/allow_registration/' + !allowRegistration }"
                 th:text="${'Click here to ' + (allowRegistration ? 'disable' : 'enable' )}"></a>
-            <p> 
-                
+                <br />
+                <br />
+                <a href="/settings/manage_users">Manage users</a>
+                <br />
                 <span class="validationError" th:if="${rescanError} != null" th:text="${rescanError}"></span>
                 <span class="validationPass" th:if="${rescanOk} != null" th:text="${rescanOk}"></span>
                 <br />

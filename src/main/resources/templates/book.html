@@ -10,7 +10,7 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
         <div class="container base">
             <span class="validationError" th:if="${Error} != null" th:text="${Error}"></span>
             <div th:if="${book} != null">

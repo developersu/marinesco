@@ -75,6 +75,6 @@ public class UserSettingsController {
         log.info("{} {}", userSettingsForm.getDisplayname(), userSettingsForm.getNewPassword());
         userRepo.save(user);
         
-        return "user_settings";
+        return "redirect:/profile/settings";
     }
 }

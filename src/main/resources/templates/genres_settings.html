@@ -10,7 +10,7 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
         <div class="container base">
             <form method="POST" th:action="@{/settings/genres}" th:object="${genresHolder}">
                 <div class="wrapper_centred" th:each="genre, itemStat : ${genresHolder.genres}">

@@ -10,12 +10,8 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
         <div class="container base">
-            <form action='' method='get'>
-                <input type='text' name='search'>
-                <button class="sign" type='submit'>Search</button>
-            </form>
             <div th:if="${books} != null">
                 <hr>
                 <h3>Titles</h3>

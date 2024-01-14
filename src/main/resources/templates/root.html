@@ -10,21 +10,13 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
         <div class="container base">
-            <br /><a href="/login">Login</a>
-            <br /><a href="/profile">/profile</a>
-            <br /><a href="/manage_users">/manage_users</a>
-            <br /><a href="/settings">/settings</a>
             <br /><a href="/book/59992766">/book/59992766</a>
             <br /><a href="/author/1">/author/1</a>
             <br /><a href="/h2">H2</a>
             <br />
-            <br />
-            <form action='/search' method='get'>
-                <input type='text' name='search'>
-                <button class="sign" type='submit'>Search</button>
-            </form>
+            
         </div>
     </div>
     <div th:replace="~{fragments/footer :: 'footer'}"></div>

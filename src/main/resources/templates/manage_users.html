@@ -10,12 +10,12 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: 'header'}"></div>
+        <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header'}"></div>
         <div class="container base">
             <h1 th:text="${header_text}"></h1>
             <p>
             <div th:each="user : ${users}">
-                <form method="POST" th:action="@{/manage_users/update}" th:object="${userGenerified}">
+                <form method="POST" th:action="@{/settings/manage_users/update}" th:object="${userGenerified}">
                     <span th:text="${user.id + '. '}"></span>
                     <span th:text="${user.name}"></span>
                     <input type="hidden" th:value="${user.id}" name="id" />
@@ -37,14 +37,14 @@
                         <span th:text="${athorities.name}"></span><br />
                     </div>
 
-                    <button>Update</button><a th:href="'/manage_users/delete/' + ${user.id}">Delete</a>
+                    <button>Update</button><a th:href="'/settings/manage_users/delete/' + ${user.id}">Delete</a>
                 </form>
                 <br />
                 <hr>
             </div>
             <hr>
             <b>Add user</b>
-            <form method="POST" th:action="@{/manage_users}" th:object="${administatorAddUserForm}">
+            <form method="POST" th:action="@{/settings/manage_users}" th:object="${administatorAddUserForm}">
                 <span class="validationError" th:if="${loginOccupied} != null" th:text="${loginOccupied}">pew</span>
                 <span class="validationError" th:if="${#fields.hasErrors('username')}"
                     th:errors="*{username}">Error</span>
