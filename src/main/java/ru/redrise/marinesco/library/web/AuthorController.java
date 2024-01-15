@@ -1,4 +1,4 @@
-package ru.redrise.marinesco.library;
+package ru.redrise.marinesco.library.web;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.redrise.marinesco.data.AuthorRepository;
 import ru.redrise.marinesco.data.BookRepository;
+import ru.redrise.marinesco.library.Author;
+import ru.redrise.marinesco.library.Book;
 
 @Controller
 @RequestMapping("/author")

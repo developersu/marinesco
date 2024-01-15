@@ -1,4 +1,4 @@
-package ru.redrise.marinesco;
+package ru.redrise.marinesco.library.web;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class SearchController {
         List<Book> books = inpEntryRepository.findByTitleContainingIgnoreCase(search);
         model.addAttribute("books", books);
 
-        List<Book> bookSeries = inpEntryRepository.findByTitleContainingIgnoreCase(search);
+        List<Book> bookSeries = inpEntryRepository.findBySeriesContainingIgnoreCase(search);
         model.addAttribute("series", bookSeries);
         
         List<Author> authors = authorRepository.findByAuthorNameContainingIgnoreCase(search);
