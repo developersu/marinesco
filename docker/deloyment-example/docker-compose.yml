@@ -18,7 +18,7 @@ services:
     postgres:
         image: postgres
         volumes:
-            - ./files/postgresql:/var/lib/postgresql
+            - ./files/postgresql/data:/var/lib/postgresql/data
         environment:
             - POSTGRES_USER=mari
             - POSTGRES_PASSWORD=example
