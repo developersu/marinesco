@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Marinesco</title>
+    <title th:text="${book != null ? book.title : 'Marinesco'}"></title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
@@ -14,23 +14,20 @@
         <div class="container base">
             <span class="validationError" th:if="${Error} != null" th:text="${Error}"></span>
             <div th:if="${book} != null">
-                <br /><span th:text="${'Title: ' + book.title}"></span>
-                <br /><span>Authors: </span>
+                <div class="title" th:text="${book.title}"></div>
+                <div class="series" th:if="${book.series} != ''" th:text="${book.series}"></div>
+                    <br />
                 <div th:each="author : ${book.authors}">
-                    <span th:text="${'  * ' + author.authorName}"></span>
+                    <a th:href="${'/author/' + author.id}" th:text="${author.authorName}"></a>
                 </div>
-                <br /><span>Genres: </span>
-                <div th:each="genre : ${book.genres}">
-                    <span th:text="${'  * ' + genre.genreId + ' — ' + genre.humanReadableDescription}"></span>
-                </div>
-                <br /><span th:if="${book.series} != null" th:text="${'Series: ' + book.series}"></span>
-                <br /><span th:if="${book.serNo} != null" th:text="${'Series # : ' + book.serNo}"></span>
-                <br /><span th:text="${'Format: ' + book.fileExtension}"></span>
-                <br /><span th:if="${book.addedDate} != null" th:text="${'Added : ' + book.addedDate}"></span>
-                <br /><span th:text="${'Size: ' + book.fileSizeForHumans}"></span>
+                <br />
+                <span th:each="genre : ${book.genres}" th:text="${(genre.humanReadableDescription == '' ? genre.genreId : genre.humanReadableDescription) + '&nbsp;&nbsp;'}"></span>
                 <p>
-                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}" th:text="Download"></a>
+                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}" 
+                        th:text="${'Download ' + book.fileExtension + ' (' + book.fileSizeForHumans + ')'}"></a>
                 </p>
+                <div class="not_important" th:if="${book.serNo} != ''" th:text="${'Series # : ' + book.serNo}"></div>
+                <div class="not_important" th:if="${book.addedDate} != null" th:text="${'Added : ' + book.addedDate}"></div>
             </div>
         </div>
     </div>
