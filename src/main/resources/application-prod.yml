@@ -1,0 +1,21 @@
+spring:
+    thymeleaf:
+        cache: true
+    datasource:
+        driver-class-name: org.postgresql.Driver  
+        url: jdbc:postgresql://postgres:5432/marinesco
+        username: mari
+        password: example
+    jpa:
+        properties:
+            hibernate:
+                database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+        hibernate: 
+            ddl-auto: update
+logging:
+    level:
+        org:
+            springframework: INFO
+marinesco:
+    library:
+        filesLocation: "/library"

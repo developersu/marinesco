@@ -2,12 +2,22 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-MarinescoApplication<marinesco>",
+            "name": "Marinesco DEV",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "ru.redrise.marinesco.MarinescoApplication",
             "projectName": "marinesco",
             "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Marinesco PROD",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ru.redrise.marinesco.MarinescoApplication",
+            "projectName": "marinesco",
+            "args": "--spring.profiles.active=prod",
             "envFile": "${workspaceFolder}/.env"
         }
     ]

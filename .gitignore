@@ -1,3 +1,5 @@
-postgres/docker-compose.yml
+docker/deloyment-example/files/library/*
+docker/deloyment-example/files/postgresql/*
+docker/deloyment-example/files/root/*
 target/
 lib/
