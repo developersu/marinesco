@@ -12,11 +12,7 @@
     <div class="page">
         <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
         <div class="container base">
-            <br /><a href="/book/59992766">/book/59992766</a>
-            <br /><a href="/author/1">/author/1</a>
-            <br /><a href="/h2">H2</a>
-            <br />
-            
+            Welcome
         </div>
     </div>
     <div th:replace="~{fragments/footer :: 'footer'}"></div>

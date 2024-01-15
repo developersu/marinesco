@@ -14,9 +14,7 @@
           <div class="block_inner">
             <ul class="ul_right_block">
               <li class="li_header_block">
-                <a class="entry" href="/login" th:href="@{/login}">
-                  <span class="header_entry header_entry_link">Sign in</span>
-                </a>
+                <a class="header_entry header_entry_link" href="/login" th:href="@{/login}">Sign in</a>
               </li>
             </ul>
           </div>
@@ -53,9 +51,7 @@
                 <span class="header_entry">|</span>
               </li>
               <li class="li_header_block">
-                <a class="entry" href="/logout">
-                  <span class="header_entry header_entry_link">Logout</span>
-                </a>
+                <a class="header_entry header_entry_link" href="/logout">Logout</a>
                 <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
               </li>
             </ul>

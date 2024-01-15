@@ -134,22 +134,23 @@ public class InpxScanner implements Runnable {
     }
 
     private void parseInp(File inpxFile) throws Exception {
+        /*
         log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
         log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
         log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
         boolean breaker = false;
-
+        */
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
             ZipEntry zipEntry = zipInputStream.getNextEntry();
 
             while (zipEntry != null) {
                 if (zipEntry.getName().toLowerCase().endsWith(".inp")) {
-                    // *
+                    /*
                     if (breaker) {
                         zipEntry = zipInputStream.getNextEntry();
                         continue;
                     }
-                    breaker = true;//
+                    breaker = true;
                     // */
                     byte[] content = inpToByteArray(zipInputStream, zipEntry.getSize());
                     parseInpContent(content, zipEntry.getName());

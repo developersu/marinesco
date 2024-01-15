@@ -1,4 +1,4 @@
-package ru.redrise.marinesco;
+package ru.redrise.marinesco.library;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.redrise.marinesco.data.BookRepository;
-import ru.redrise.marinesco.library.Book;
 
 @Controller
 @RequestMapping("/book")

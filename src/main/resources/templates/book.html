@@ -21,7 +21,7 @@
                     <a th:href="${'/author/' + author.id}" th:text="${author.authorName}"></a>
                 </div>
                 <br />
-                <span th:each="genre : ${book.genres}" th:text="${(genre.humanReadableDescription == '' ? genre.genreId : genre.humanReadableDescription) + '&nbsp;&nbsp;'}"></span>
+                <span th:each="genre : ${book.genres}" th:text="${((genre.humanReadableDescription == null || genre.humanReadableDescription == '') ? genre.genreId : genre.humanReadableDescription) + '&nbsp;&nbsp;'}"></span>
                 <p>
                     <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}" 
                         th:text="${'Download ' + book.fileExtension + ' (' + book.fileSizeForHumans + ')'}"></a>

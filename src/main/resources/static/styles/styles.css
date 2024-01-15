@@ -156,12 +156,11 @@ header {
 	color: #74bfbd;
 }
 
-.header_entry_link:link {
-	color: #74bfbd;
-}
+.header_entry_link:link,
 .header_entry_link:visited {
 	color: #74bfbd;
 }
+
 .header_entry_link:hover {
 	color: #b6a795;
 }
@@ -173,10 +172,6 @@ header {
 .block_inner {
 	margin-left: 10px;
 	margin-right: 10px;
-}
-
-a.entry {
-	text-decoration: none;
 }
 
 .header_title {
@@ -261,9 +256,6 @@ button:hover {
 	font-family: Spectral;
 	text-shadow: -1px -1px 0 #1e1e1e, 1px -1px 0 #1e1e1e, -1px 1px 0 #1e1e1e, 1px 1px 0 #1e1e1e;
 	color: #74bfbd;
-}
-.copy_link:hover {
-	color: #b6a795;
 }
 
 /* error */
