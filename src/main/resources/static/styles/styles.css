@@ -277,6 +277,19 @@ button:hover {
 	font-weight: bold;
 }
 
+.wrapper{
+	display: flex;
+	flex-wrap: wrap;
+}
+.horizontal_el_left{
+	flex:1; 
+	padding-right: 2px;
+}
+.horizontal_el_right{
+	flex:1; 
+	padding-left: 2px;
+}
+
 .wrapper_centred{
 	display: flex;
 	flex-wrap: wrap;
