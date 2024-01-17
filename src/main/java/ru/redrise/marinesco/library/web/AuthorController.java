@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.redrise.marinesco.data.AuthorRepository;
-import ru.redrise.marinesco.data.BookRepository;
 import ru.redrise.marinesco.library.Author;
 import ru.redrise.marinesco.library.Book;
 
@@ -17,11 +16,9 @@ import ru.redrise.marinesco.library.Book;
 @RequestMapping("/author")
 public class AuthorController {
     private AuthorRepository authorRepository;
-    private BookRepository bookRepository;
 
-    public AuthorController(AuthorRepository authorRepository, BookRepository bookRepository){
+    public AuthorController(AuthorRepository authorRepository){
         this.authorRepository = authorRepository;
-        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/{authorId}")
@@ -33,7 +30,7 @@ public class AuthorController {
             return "author";
         }
 
-        List<Book> books = bookRepository.findAllByAuthorsContains(author);
+        List<Book> books = author.getBooks();
 
         model.addAttribute("author", author);
         model.addAttribute("books", books);
