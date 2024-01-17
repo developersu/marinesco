@@ -3,12 +3,21 @@ package ru.redrise.marinesco.library;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +29,11 @@ import ru.redrise.marinesco.settings.ApplicationSettings;
 
 @Slf4j
 @Component
-public class InpxScanner implements Runnable {
+public class InpxScanner {
+    private static volatile String lastRunErrors = "";
+    private static LocalDateTime lastRunTime = LocalDateTime.of(1970, 01, 01, 0, 0, 0);
 
-    private static volatile Thread parser;
-    private static volatile String lastRunErrors;
-
-    private LibraryMetadata libraryMetadata;
+    private TaskExecutor executor;
     private LibraryMetadataRepository libraryMetadataRepository;
     private AuthorRepository authorRepository;
     private GenreRepository genreRepository;
@@ -33,11 +41,13 @@ public class InpxScanner implements Runnable {
 
     private String filesLocation;
 
-    public InpxScanner(ApplicationSettings applicationSettings,
+    public InpxScanner(TaskExecutor executor,
+            ApplicationSettings applicationSettings,
             AuthorRepository authorRepository,
             GenreRepository genreRepository,
             BookRepository bookRepository,
             LibraryMetadataRepository libraryMetadataRepository) {
+        this.executor = executor;
         this.filesLocation = applicationSettings.getFilesLocation();
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
@@ -46,67 +56,70 @@ public class InpxScanner implements Runnable {
     }
 
     /*
-     * @return true if executed, false if already running
+     * @return true if executed, false otherwise
      */
     public boolean reScan() {
-        if (parser == null || !parser.isAlive()) {
-            parser = new Thread(this);
-            parser.start();
-            return true;
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (ChronoUnit.MINUTES.between(lastRunTime, currentDateTime) < 5) {
+            lastRunErrors = "Too frequent requests. Please whait 5 min. Last attmpt: "
+                    + lastRunTime.format(DateTimeFormatter.ofPattern("DD.MM.YYYY HH:mm:ss"));
+            return false;
         }
-        return false;
+        lastRunTime = currentDateTime;
+        lastRunErrors = "";
+
+        Thread scanThread = new Thread(() -> {
+            try {
+                File inpxFile = getInpxFile();
+                log.debug("INPX file found: " + inpxFile.getName());
+
+                LibraryMetadata libMetadata = InpxLibraryMetadataScanner.saveFromFile(inpxFile,
+                        libraryMetadataRepository);
+
+                Long libId = libMetadata.getId();
+                String libVersion = libMetadata.getVersion();
+                HashMap<String, byte[]> inpEntries = collectInp(inpxFile);
+
+                for (Map.Entry<String, byte[]> entry : inpEntries.entrySet())
+                    executor.execute(new InpxWorker(entry, libId, libVersion));
+            } catch (Exception e) {
+                log.error("{}", e);
+                lastRunErrors = lastRunErrors + " " + e.getMessage();
+            }
+        });
+
+        scanThread.start();
+
+        return true;
     }
 
-    @Override
-    public void run() {
-        try {
-            final FileSystemResource libraryLocation = new FileSystemResource(filesLocation);
-
-            final File inpxFile = Stream.of(libraryLocation.getFile().listFiles())
-                    .filter(file -> file.getName().endsWith(".inpx"))
-                    .findFirst()
-                    .get();
-
-            log.debug("INPX file found as " + inpxFile.getName());
-
-            getLibraryMetadata(inpxFile);
-            parseInp(inpxFile);
-            // Once multiple libraries imlemented, add here 'delete recrodds with old
-            // version of the library'
-            // TODO: fix lirary ID changes on every update: add selector on the front
-        } catch (Exception e) {
-            log.error("{}", e);
-            InpxScanner.lastRunErrors = e.getMessage();
-        }
+    private File getInpxFile() throws Exception {
+        final FileSystemResource libraryLocation = new FileSystemResource(filesLocation);
+        return Stream.of(libraryLocation.getFile().listFiles())
+                .filter(file -> file.getName().endsWith(".inpx"))
+                .findFirst()
+                .get();
     }
 
-    private void getLibraryMetadata(File inpxFile) throws Exception {
-        libraryMetadata = new LibraryMetadata();
-
+    private HashMap<String, byte[]> collectInp(File inpxFile) throws Exception {
+        final HashMap<String, byte[]> inpEntries = new HashMap<>();
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
-            ZipEntry zipEntry = zipInputStream.getNextEntry();
-
-            while (zipEntry != null) {
-                if (zipEntry.getName().toLowerCase().contains("collection.info"))
-                    libraryMetadata.setCollectionInfo(readPlainText(zipInputStream));
-
-                else if (zipEntry.getName().toLowerCase().contains("version.info"))
-                    libraryMetadata.setVersionInfo(readPlainText(zipInputStream));
-
-                zipEntry = zipInputStream.getNextEntry();
+            ZipEntry zipEntry;
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                if (isInp(zipEntry)) {
+                    String zipEntryName = zipEntry.getName();
+                    zipEntryName = zipEntryName.substring(0, zipEntryName.lastIndexOf('.'));
+                    inpEntries.put(zipEntryName, inpToByteArray(zipInputStream, zipEntry.getSize()));
+                }
             }
         }
-
-        libraryMetadata = libraryMetadataRepository.save(libraryMetadata);
+        return inpEntries;
     }
 
-    private String readPlainText(ZipInputStream zipInputStream) throws Exception {
-        byte[] content = new byte[1024];
-        StringBuilder stringBuilder = new StringBuilder();
-        while (zipInputStream.read(content) > 0)
-            stringBuilder.append(new String(content, StandardCharsets.UTF_8));
-
-        return stringBuilder.toString();
+    private boolean isInp(ZipEntry zipEntry) {
+        return zipEntry.getName().toLowerCase().endsWith(".inp");
     }
 
     private byte[] inpToByteArray(ZipInputStream stream, long fileSize) throws Exception {
@@ -133,66 +146,70 @@ public class InpxScanner implements Runnable {
         return inpByteBuffer.array();
     }
 
-    private void parseInp(File inpxFile) throws Exception {
-        /*
-        log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
-        log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
-        log.warn("REMOVE TEMPORARY SOLUTION - BREAKER");
-        boolean breaker = false;
-        */
-        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
-            ZipEntry zipEntry = zipInputStream.getNextEntry();
-
-            while (zipEntry != null) {
-                if (zipEntry.getName().toLowerCase().endsWith(".inp")) {
-                    /*
-                    if (breaker) {
-                        zipEntry = zipInputStream.getNextEntry();
-                        continue;
-                    }
-                    breaker = true;
-                    // */
-                    byte[] content = inpToByteArray(zipInputStream, zipEntry.getSize());
-                    parseInpContent(content, zipEntry.getName());
-                }
-                zipEntry = zipInputStream.getNextEntry();
-            }
-        }
-    }
-
-    private void parseInpContent(byte[] content, String name) throws Exception {
-        name = name.substring(0, name.lastIndexOf('.'));
-
-        log.info("FILE RELATED " + name);
-        int lastIndex = 0;
-        for (int i = 0; i < content.length; i++) {
-            if (content[i] == '\n') {
-                byte[] line = new byte[i - lastIndex];
-                System.arraycopy(content, lastIndex, line, 0, i - lastIndex - 1);
-
-                Book book = new Book(line,
-                        name,
-                        authorRepository,
-                        genreRepository,
-                        libraryMetadata.getId(),
-                        libraryMetadata.getVersion());
-
-                bookRepository.save(book);
-
-                if (isNextCarriageReturn(i, content)) {
-                    i += 2;
-                    lastIndex = i;
-                } else
-                    lastIndex = ++i;
-            }
-        }
-    }
-
     private boolean isNextCarriageReturn(int i, byte[] content) {
         return i + 1 < content.length && (content[i + 1] == '\r');
     }
 
     public static String getLastRunErrors() {
         return lastRunErrors;
+    }
+
+    private class InpxWorker implements Runnable {
+
+        private Long libraryId;
+        private String libraryVersion;
+        private String name;
+        private byte[] content;
+
+        private InpxWorker(Map.Entry<String, byte[]> entry,
+                Long libraryId,
+                String libraryVersion) {
+            this.libraryId = libraryId;
+            this.libraryVersion = libraryVersion;
+            this.name = entry.getKey();
+            this.content = entry.getValue();
+        }
+
+        @Override
+        public void run() {
+            final List<Book> books = new ArrayList<>();
+            final Set<Author> authors = new HashSet<>();
+            final Set<Genre> genres = new HashSet<>();
+            try {
+                log.info("FILE RELATED " + name);
+
+                int lastIndex = 0;
+                for (int i = 0; i < content.length; i++) {
+                    if (content[i] == '\n') {
+                        byte[] line = new byte[i - lastIndex];
+                        System.arraycopy(content, lastIndex, line, 0, i - lastIndex - 1);
+
+                        books.add(new Book(line,
+                                name,
+                                authors,
+                                genres,
+                                libraryId,
+                                libraryVersion));
+
+                        if (isNextCarriageReturn(i, content)) {
+                            i += 2;
+                            lastIndex = i;
+                        } else
+                            lastIndex = ++i;
+                    }
+                }
+                saveAll(books, authors, genres);
+            } catch (Exception e) {
+                log.error("{}", e);
+                lastRunErrors = lastRunErrors + " " + e.getMessage();
+            }
+        }
+    }
+
+    /* REMINDER: DO NOT PUT THIS SHIT INTO THREAD */
+    private synchronized void saveAll(List<Book> books, Set<Author> authors, Set<Genre> genres) {
+        authorRepository.saveAll(authors);
+        genreRepository.saveAll(genres);
+        bookRepository.saveAll(books);
     }
 }

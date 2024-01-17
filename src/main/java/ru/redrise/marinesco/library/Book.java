@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,8 +15,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.RainbowDump;
-import ru.redrise.marinesco.data.AuthorRepository;
-import ru.redrise.marinesco.data.GenreRepository;
 
 @Slf4j
 @Entity
@@ -50,8 +49,8 @@ public class Book {
 
     public Book(byte[] line,
             String container,
-            AuthorRepository authorRepository,
-            GenreRepository genreRepository,
+            Set<Author> authorsCollection,
+            Set<Genre> genresCollection,
             Long libraryId,
             String libraryVersion) throws Exception {
         // AUTHOR;GENRE;TITLE;SERIES;SERNO;FILE;SIZE;LIBID;DEL;EXT;DATE;
@@ -62,8 +61,8 @@ public class Book {
         this.container = container + ".zip";
         this.authors = new ArrayList<>();
         this.genres = new ArrayList<>();
-        parseAuthors(authorRepository);
-        parseGenere(genreRepository);
+        parseAuthors(authorsCollection);
+        parseGenere(genresCollection);
         this.title = parseNextString();
         this.series = parseNextString();
         this.serNo = parseNextString();
@@ -96,7 +95,7 @@ public class Book {
          */
     }
 
-    private void parseAuthors(AuthorRepository authorRepository) throws Exception {
+    private void parseAuthors(Set<Author> authorsCollection) throws Exception {
         for (; position < line.length; position++) {
             if (line[position] == 0x04) {
                 String allAuthors = new String(line, 0, position, StandardCharsets.UTF_8);
@@ -104,8 +103,9 @@ public class Book {
                 for (String authorName : allAuthors.split(":")) {
                     authorName = authorName.replaceAll(",", " ").trim();
                     if (!authorName.equals("")) {
-                        Author author = authorRepository.findByAuthorName(authorName).orElse(new Author(authorName));
-                        authors.add(authorRepository.save(author));
+                        Author author = new Author(authorName);
+                        authorsCollection.add(author);
+                        authors.add(author);
                     }
                 }
 
@@ -117,14 +117,15 @@ public class Book {
         throw new Exception("Invalid 'inp' file format (parse Authors)");
     }
 
-    private void parseGenere(GenreRepository genreRepository) throws Exception {
+    private void parseGenere(Set<Genre> genresCollection) throws Exception {
         for (int i = position; i < line.length; i++) {
             if (line[i] == 0x04) {
                 String allGenres = new String(line, position, i - position, StandardCharsets.UTF_8);
 
                 for (String genreName : allGenres.split(":")) {
                     Genre genre = new Genre(genreName);
-                    genres.add(genreRepository.save(genre));
+                    genresCollection.add(genre);
+                    genres.add(genre);
                 }
 
                 position = i + 1;

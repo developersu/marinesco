@@ -37,7 +37,7 @@ public class SettingsController {
     
     @ModelAttribute(name = "lastScanErrors")
     public String setLastRunErrors(){
-        if (InpxScanner.getLastRunErrors() != null)
+        if (InpxScanner.getLastRunErrors() != "")
             return "Last run attempt failed: "+InpxScanner.getLastRunErrors();
         return null;
     }
@@ -56,7 +56,7 @@ public class SettingsController {
         if (inpxScanner.reScan())
             redirectAttributes.addAttribute("rescanOk", "Rescan started");
         else
-            redirectAttributes.addAttribute("rescanError", "Rescan is currently in progress");
+            redirectAttributes.addAttribute("rescanError", "Rescan could be currently in progress");
 
         return redirectView;
     }
