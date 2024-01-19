@@ -27,7 +27,7 @@
                         <a th:href="${'/author/' + author.id}" th:text="${author.authorName}"></a>,
                     </span>
                     <br />
-                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}"
+                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName + '.' + book.fileExtension + '.zip'}"
                         th:text="Download">
                     </a>
                     <span th:text="${' (' + book.fileExtension + ' ' + book.fileSizeForHumans + ')'}"></span>
@@ -51,7 +51,7 @@
                         <a th:href="${'/author/' + author.id}" th:text="${author.authorName}"></a>,
                     </span>
                     <br />
-                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}"
+                    <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName + '.' + book.fileExtension + '.zip'}"
                         th:text="Download">
                     </a>
                     <span th:text="${' (' + book.fileExtension + ' ' + book.fileSizeForHumans + ')'}"></span>

@@ -8,16 +8,13 @@ import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.RainbowDump;
 
-@Slf4j
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
@@ -42,7 +39,7 @@ public class Book {
     private String fileExtension; // - concatenate to fsFileName
     private LocalDate addedDate;
     private String container;
-
+    
     @Transient
     private int position = 0;
     @Transient
@@ -59,7 +56,7 @@ public class Book {
         this.libraryId = libraryId;
         this.libraryVersion = libraryVersion;
         this.id = new String(line).hashCode();
-        this.container = container + ".zip";
+        this.container = container;
         this.authors = new ArrayList<>();
         this.genres = new ArrayList<>();
         parseAuthors(authorsCollection);

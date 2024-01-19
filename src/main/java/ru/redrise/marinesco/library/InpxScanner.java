@@ -3,9 +3,6 @@ package ru.redrise.marinesco.library;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,7 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +28,8 @@ import ru.redrise.marinesco.settings.ApplicationSettings;
 @Component
 public class InpxScanner {
     private static volatile String lastRunErrors = "";
-    private static LocalDateTime lastRunTime = LocalDateTime.of(1970, 01, 01, 0, 0, 0);
 
-    private TaskExecutor executor;
+    private ThreadPoolTaskExecutor executor;
     private LibraryMetadataRepository libraryMetadataRepository;
     private AuthorRepository authorRepository;
     private GenreRepository genreRepository;
@@ -41,7 +37,7 @@ public class InpxScanner {
 
     private String filesLocation;
 
-    public InpxScanner(TaskExecutor executor,
+    public InpxScanner(ThreadPoolTaskExecutor executor,
             ApplicationSettings applicationSettings,
             AuthorRepository authorRepository,
             GenreRepository genreRepository,
@@ -59,15 +55,9 @@ public class InpxScanner {
      * @return true if executed, false otherwise
      */
     public boolean reScan() {
-
-        LocalDateTime currentDateTime = LocalDateTime.now();
-
-        if (ChronoUnit.MINUTES.between(lastRunTime, currentDateTime) < 5) {
-            lastRunErrors = "Too frequent requests. Please whait 5 min. Last attmpt: "
-                    + lastRunTime.format(DateTimeFormatter.ofPattern("DD.MM.YYYY HH:mm:ss"));
+        if (executor.getActiveCount() > 0)
             return false;
-        }
-        lastRunTime = currentDateTime;
+
         lastRunErrors = "";
 
         Thread scanThread = new Thread(() -> {

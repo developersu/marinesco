@@ -16,7 +16,8 @@
         <div class="container base">
             <span class="validationError" th:if="${Error} != null" th:text="${Error}"></span>
             <div th:if="${author} != null">
-                <div class="title" th:text="${author.authorName}"><br /></div>
+                <div class="title" th:text="${author.authorName}"></div>
+                <br />
                 <div th:each="book : ${books}">
                     <div class="wrapper">
                         <div class="horizontal_el_left">
@@ -28,7 +29,7 @@
                             </em>
                         </div>
                         <div class="horizontal_el_right">
-                            <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName}"
+                            <a th:href="${'/download/?container=' + book.container + '&file=' + book.fsFileName + '.' + book.fileExtension + '.zip'}"
                                 th:text="${'Download ' + book.fileExtension + ' (' + book.fileSizeForHumans + ')'}"></a>
                         </div>
                     </div>

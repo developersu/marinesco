@@ -8,7 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class ThreadPoolTaskExecutorSettings {
     @Bean
-    public TaskExecutor configTaskExecutor(){
+    public ThreadPoolTaskExecutor configTaskExecutor(){
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(8);
         executor.setMaxPoolSize(16);
