@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ru.redrise.marinesco.library.InpxScanner;
+import ru.redrise.marinesco.library.RepackZip;
 
 @Controller
 @RequestMapping("/settings")
@@ -18,15 +19,20 @@ public class SettingsController {
     private ApplicationSettings applicationSettings;
 
     private InpxScanner inpxScanner;
+    private RepackZip repackZip;
 
     public SettingsController(ApplicationSettings applicationSettings,
-            InpxScanner inpxScanner) {
+            InpxScanner inpxScanner,
+            RepackZip repackZip) {
         this.applicationSettings = applicationSettings;
         this.inpxScanner = inpxScanner;
+        this.repackZip = repackZip;
     }
 
     @GetMapping
-    public String getPage(@ModelAttribute("rescanError") String err, @ModelAttribute("rescanOk") String passStatus) {
+    public String getPage(@ModelAttribute("rescanError") String err,
+            @ModelAttribute("rescanOk") String passStatus,
+            @ModelAttribute("repack") String repackStatus) {
         return "settings";
     }
 
@@ -34,11 +40,11 @@ public class SettingsController {
     public Boolean setRegistrationSetting() {
         return applicationSettings.isRegistrationAllowed();
     }
-    
+
     @ModelAttribute(name = "lastScanErrors")
-    public String setLastRunErrors(){
+    public String setLastRunErrors() {
         if (InpxScanner.getLastRunErrors() != "")
-            return "Last run attempt failed: "+InpxScanner.getLastRunErrors();
+            return "Last run attempt failed: " + InpxScanner.getLastRunErrors();
         return null;
     }
 
@@ -59,5 +65,22 @@ public class SettingsController {
             redirectAttributes.addAttribute("rescanError", "Rescan could be currently in progress");
 
         return redirectView;
+    }
+
+    @GetMapping("/repack")
+    public RedirectView repack(RedirectAttributes redirectAttributes) {
+        if (repackZip.repack())
+            redirectAttributes.addAttribute("repack", "Repack process started.");
+        else
+            redirectAttributes.addAttribute("repack", "Repack process could be currently in progress");
+
+        return new RedirectView("/settings", true);
+    }
+
+    @ModelAttribute(name = "repack_lastrun")
+    public String setLastRunRepackErrors() {
+        if (repackZip.getLastExecTime() != "")
+            return "Last time executed: " + repackZip.getLastExecTime();
+        return null;
     }
 }

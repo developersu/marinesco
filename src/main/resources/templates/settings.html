@@ -20,10 +20,17 @@
                 <br />
                 <a href="/settings/manage_users">Manage users</a>
                 <br />
+                <br />
                 <span class="validationError" th:if="${rescanError} != null" th:text="${rescanError}"></span>
                 <span class="validationPass" th:if="${rescanOk} != null" th:text="${rescanOk}"></span>
                 <br />
                 <a href="/settings/rescan" >Click to rescan library</a>
+                <br />
+                <br />
+                <span class="validationPass" th:if="${repack} != null" th:text="${repack}"></span>
+                <span class="validationPass" th:if="${repack_lastrun} != null" th:text="${repack_lastrun}"></span>
+                <br />
+                <a href="/settings/repack" >Click to repack library zip archives</a>
                 <br />
                 <span class="validationError" th:if="${lastScanErrors} != ''" th:text="${lastScanErrors}"></span>
             </p>
@@ -34,3 +41,13 @@
 </body>
 
 </html>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Marinesco - Application settings</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" th:href="@{/styles/styles.css}" />
+</head>
