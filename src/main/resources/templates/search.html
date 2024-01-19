@@ -12,7 +12,8 @@
     <div class="page">
         <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
         <div class="container base">
-            <div th:if="${books} != null">
+            <div class="validationError" th:if="${error != null}" th:text="${error}"></div>
+            <div th:if="${books != null}">
                 <h3>Titles</h3>
                 <div th:each="book : ${books}">
                     <a th:href="${'/book/' + book.id}">
@@ -33,10 +34,9 @@
                     <span th:text="${' (' + book.fileExtension + ' ' + book.fileSizeForHumans + ')'}"></span>
                     <p></p>
                 </div>
-            </div>
-
-            <div th:if="${series} != null">
                 <hr>
+            </div>
+            <div th:if="${series != null}">
                 <h3>Series</h3>
                 <div th:each="book : ${books}">
                     <a th:href="${'/book/' + book.id}">
@@ -57,10 +57,9 @@
                     <span th:text="${' (' + book.fileExtension + ' ' + book.fileSizeForHumans + ')'}"></span>
                     <p></p>
                 </div>
-            </div>
-
-            <div th:if="${authors} != null">
                 <hr>
+            </div>
+            <div th:if="${authors != null}">
                 <h3>Authors</h3>
                 <div th:each="author : ${authors}">
                     <a th:href="${'/author/' + author.id}">

@@ -8,7 +8,7 @@
     <div class="container">
       <header>
         <div class="header_branding block_inner">
-            <img height="65px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
+          <img height="65px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
         </div>
         <nav id="header_right_block" class="block">
           <div class="block_inner">
@@ -58,20 +58,36 @@
           </div>
         </nav>
 
-        <nav id="header_menu_block" class="header_entry">
+        <nav id="header_menu_block" class="search_entry wrapper">
           <ul class="ul_right_block">
             <li class="li_header_block">
-              <form action="/search" method="get">
-                <input type="text" name="search">
-                <button class="button-header" type="submit">Search</button>
-              </form>
+                <form action="/search" method="get">
+                  <div class="wrapper">
+                    <input class="search_line" type="text" name="search">
+                  </div>
+                  <div class="wrapper" style="justify-content: space-evenly; align-items: baseline; ">
+                    <div class="search_checkbox">
+                      <input th:checked="${isTitle}" name="title" type="checkbox" />
+                      <label for="title">Title</label>
+                    </div>
+                    <div class="search_checkbox">
+                      <input th:checked="${isSeries}" name="series" type="checkbox" />
+                      <label for="series">Series</label>
+                    </div>
+                    <div class="search_checkbox">
+                      <input th:checked="${isAuthor}" name="author" type="checkbox" />
+                      <label for="author">Author</label>
+                    </div>
+                    <div class="" style="margin-right: auto;">
+                      <button class="button-header" type="submit">Search</button>
+                    </div>
+                  </div>
+                </form>
             </li>
-            
           </ul>
         </nav>
-
-      </header>
-    </div>
+    </header>
+  </div>
   </div>
   <!--
       <div th:replace="~{fragments/header :: ${#authentication.principal.isAdmin()} ? 'header-admin' : 'header'}"></div>

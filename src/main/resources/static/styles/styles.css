@@ -121,6 +121,15 @@ header {
 	padding: 0%;
 }
 
+.search_line{
+	margin-left: 2px; 
+	margin-right: 2px; 
+	margin-top: 7px;
+	margin-bottom: 7px;
+	flex-grow: 1;
+	justify-content: center;
+}
+
 .ul_right_block {
 	margin: 0 !important;
 	padding: 0 !important;
@@ -145,6 +154,20 @@ header {
 	text-shadow: -1px -1px 0 #1e1e1e, 1px -1px 0 #1e1e1e, -1px 1px 0 #1e1e1e, 1px 1px 0 #1e1e1e;
 	color: #74bfbd;
 }
+
+.search_entry{
+	text-decoration: none;
+	font-variant: small-caps;
+	font-size: 0.75em;
+	text-shadow: -1px -1px 0 #1e1e1e, 1px -1px 0 #1e1e1e, -1px 1px 0 #1e1e1e, 1px 1px 0 #1e1e1e;
+	color: #74bfbd;
+}
+
+.search_checkbox{
+	flex: auto;
+	flex-grow: 1;
+}
+
 
 .header_logo_link:link {
 	color: #74bfbd;
@@ -180,10 +203,10 @@ header {
 
 
 .button-header {
-	margin: 1em 0;
+	margin: 0 0.25em;
 	font-family: sans-serif;
 	font-style: normal;
-	font-weight: normal;
+	font-weight: bold;
 	text-align: center;
 	font-variant: small-caps !important;
 	background-color: #74bfbd !important;

@@ -28,20 +28,42 @@ public class SearchController {
     }
     
     @GetMapping
-    public String requestMethodName(@RequestParam String search, Model model) {
-        
+    public String requestMethodName(@RequestParam String search, 
+        @RequestParam(value = "title", required = false) Boolean title,
+        @RequestParam(value = "series", required = false) Boolean series,
+        @RequestParam(value = "author", required = false) Boolean author,
+        Model model) {
+
         if (search.trim().equals(""))
             return "search";
-
-        List<Book> books = inpEntryRepository.findByTitleContainingIgnoreCase(search);
-        model.addAttribute("books", books);
-
-        List<Book> bookSeries = inpEntryRepository.findBySeriesContainingIgnoreCase(search);
-        model.addAttribute("series", bookSeries);
         
-        List<Author> authors = authorRepository.findByAuthorNameContainingIgnoreCase(search);
-        model.addAttribute("authors", authors);
+        if (search.length() < 4){
+            model.addAttribute("error", "Should be at least 4 chars");
+            return "search";
+        }
+
+        if (title != null){
+            List<Book> books = inpEntryRepository.findByTitleContainingIgnoreCase(search);
+            if (books.size() != 0)
+                model.addAttribute("books", books);
+            model.addAttribute("isTitle", true);
+        }
+        
+        if (series != null){
+            List<Book> bookSeries = inpEntryRepository.findBySeriesContainingIgnoreCase(search);
+            if (bookSeries.size() != 0)
+                model.addAttribute("series", bookSeries);
+            model.addAttribute("isSeries", true);
+        }
+        
+        if (author != null){
+            List<Author> authors = authorRepository.findByAuthorNameContainingIgnoreCase(search);
+            if (authors.size() != 0)
+                model.addAttribute("authors", authors);
+            model.addAttribute("isAuthor", true);
+        }
 
         return "search";
     }
+    
 }
