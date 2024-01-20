@@ -88,11 +88,12 @@ public class RepackZip {
             } catch (Exception e) {
                 log.error("{}", e);
             }
+            log.info("Complete: {}", container.getName());
         }
 
         private void makeZip(ZipEntry entry, InputStream inputStream) throws Exception {
             final String newZipFileLocation = dirLocation + File.separator + entry.getName() + ".zip";
-            final File newZipFile = new File(dirLocation);
+            final File newZipFile = new File(newZipFileLocation);
 
             if (newZipFile.exists()) {
                 log.info("Skipping unpacked: {}", newZipFileLocation);
