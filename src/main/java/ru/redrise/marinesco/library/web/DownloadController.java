@@ -1,4 +1,4 @@
-package ru.redrise.marinesco.library;
+package ru.redrise.marinesco.library.web;
 
 import java.io.File;
 import java.io.FileInputStream;

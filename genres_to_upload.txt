@@ -1,0 +1,574 @@
+about_musicians:::О музыкантах и композиторах
+accounting:::Бухучет и аудит
+addition:::Дополнительные материалы к книге
+adv_all:::Приключения
+adv_animal:::Природа и животные
+adv_geo:::Путешествия и география
+adv_history:::Исторические приключения
+adv_indian:::Приключения про индейцев
+adv_maritime:::Морские приключения
+adv_military:::Военные приключения
+adv_modern:::Приключения в современном мире
+adv_rus:::Русская приключенческая литература
+adv_story:::Авантюрный роман
+adv_su:::Советская приключенческая литература
+adv_western:::Вестерн
+adventure:::Приключения
+adventure_fantasy:::Приключенческое фэнтези
+age_all:::Литература по возрасту
+age_elementary:::Для начальной школы 6+
+age_high:::Для старшего школьного возраста 16+
+ages_all:::Литература по эпохам
+ant_all:::Старинное
+antique:::Старинная литература
+antique_ant:::Античная литература
+antique_east:::Древневосточная литература
+antique_european:::Древнеевропейская литература
+antique_myths:::Мифы. Легенды. Эпос
+antique_russian:::Древнерусская литература
+aphorisms:::Афоризмы и цитаты
+architecture_book:::Архитектура и скульптура
+art_all:::Культура и искусство
+art_criticism:::Искусствоведение
+art_dance:::Танцы и хореография
+art_history:::История искусства
+art_world_culture:::Мировая художественная культура
+article:::Статья
+astrology:::Астрология
+atheism:::Атеизм
+audiobook:::Аудиокнига
+auto_business:::Автостроение, автодело, тракторная техника
+auto_regulations:::Авто-, мото- и велотранспорт, ПДД
+autor_collection:::Авторские сборники, собрания сочинений
+banking:::Банковское дело
+banking_all:::Деловая литература
+beginning_authors:::Начинающие авторы
+bestseller:::Бестселлеры
+biolog_all:::Науки о живой природе
+cats:::Кошки
+child_adv:::Детские приключения
+child_all:::Детская литература
+child_baby:::Для самых маленьких 0+
+child_classical:::Классическая детская литература
+child_det:::Детские остросюжетные
+child_education:::Детская образовательная литература
+child_fantasy:::Детское фэнтези
+child_folklore:::Детский фольклор
+child_horror:::Детские ужастики
+child_prose:::Детская проза
+child_rus:::Русская детская литература
+child_sf:::Детская фантастика
+child_su:::Советская детская литература
+child_tale:::Сказки для детей
+child_tale_rus:::Русские сказки для детей
+child_verse:::Детские стихи
+children:::Детская литература: прочее
+cine:::Кино
+collection:::Сборники, альманахи, антологии
+coloring:::Раскраски, прописи
+comedy:::Комедия
+comics:::Комикс, Манга
+comp_all:::Компьютеры и Интернет
+comp_cobol:::Cobol
+comp_db:::Базы данных
+comp_db_exp:::Базы знаний и экспертные системы
+comp_design:::Графика. Дизайн. Мультимедиа
+comp_dsp:::Цифровая обработка сигналов
+comp_dv_ai:::Искусственный интеллект
+comp_game:::Игровые приставки и автоматы
+comp_hacking:::Хакерство
+comp_hard:::Аппаратное обеспечение, компьютерное железо
+comp_history:::История информатики и вычислительной техники
+comp_os:::Прочие ОС
+comp_os_admin:::ОС: администрирование, мониторинг, диагностика
+comp_os_android:::Android
+comp_os_linux:::Linux
+comp_os_macos:::MacOS
+comp_os_msdos:::MS-DOS, FreeDOS
+comp_os_os2:::OS/2
+comp_os_theory:::ОС: теоретические вопросы
+comp_os_unix:::Unix
+comp_os_windows:::Windows
+comp_osnet:::Сети
+comp_prog_ada:::Ada
+comp_prog_assembler:::Assembler
+comp_prog_basic:::Basic, Visual Basic, VB Script, VBA и т.п.
+comp_prog_c:::C, C++, C#
+comp_prog_dotnet:::.NET Framework
+comp_prog_forth:::Forth
+comp_prog_fortran:::Fortran
+comp_prog_golang:::Go (golang)
+comp_prog_java:::Java, Java Script
+comp_prog_lisp:::Lisp, Scheme
+comp_prog_mfc:::MFC
+comp_prog_oberon:::Modula-2, Modula-3, Oberon, Oberon-2, Component Pascal
+comp_prog_pascal:::Pascal, Delphi, Lazarus и т.п.
+comp_prog_perl:::Perl
+comp_prog_php:::PHP
+comp_prog_prolog:::Prolog
+comp_prog_python:::Python
+comp_prog_qt:::Qt
+comp_prog_ror:::Ruby
+comp_prog_rust:::Rust
+comp_prog_scratch:::Scratch, Snap!, Slash, Panther и т.п.
+comp_prog_winapi:::Windows API
+comp_programming:::Другие языки и системы программирования
+comp_security:::Компьютерная безопасность
+comp_soft:::Программы
+comp_soft_cad:::САПР
+comp_soft_dev:::Программирование: прочее
+comp_soft_dev_alg:::Алгоритмы и структуры данных
+comp_soft_dev_craking:::Крэкинг и реверсинжиниринг
+comp_soft_dev_debug:::Отладка, тестирование и оптимизация ПО
+comp_soft_dev_games:::Программирование игр
+comp_soft_dev_graphic:::Программирование графики
+comp_soft_dev_man:::Менеджмент ПО
+comp_soft_dev_oop:::Объектно-ориентированное программирование
+comp_soft_dev_parallel:::Параллельное и распределенное программирование
+comp_soft_dev_system:::Системное программирование
+comp_soft_office:::Офисные приложения
+comp_www:::Интернет
+comp_www_design:::Web-дизайн
+compilation:::Компиляции
+computers:::Околокомпьютерная литература
+crossover:::Кроссовер
+design:::Искусство и Дизайн
+det_action:::Боевик
+det_all:::Детективы и Триллеры
+det_classic:::Классический детектив
+det_cozy:::Дамский детективный роман
+det_crime:::Криминальный детектив
+det_espionage:::Шпионский детектив
+det_hard:::Крутой детектив
+det_history:::Исторический детектив
+det_irony:::Иронический детектив
+det_maniac:::Маньяки
+det_police:::Полицейский детектив
+det_political:::Политический детектив
+det_rus:::Российский детектив
+det_su:::Советский детектив
+detective:::Детектив
+diafilm:::Диафильм
+diaries:::Записки, дневники
+dissident:::Антисоветская литература
+dogs:::Собаки
+dragon_fantasy:::О драконах
+drama:::Драма
+drama_all:::Драматургия
+drama_antique:::Античная драма
+dramaturgy:::Драматургия
+dramaturgy_for_classic:::Зарубежная классическая драматургия
+dramaturgy_rus:::Русская современная драматургия
+dramaturgy_rus_classic:::Русская классическая драматургия
+dramaturgy_su:::Советская драматургия
+dystopian:::Антиутопия
+economics_ref:::Справочная деловая литература
+epic:::Былины
+epic_all:::Фольклор
+epic_poetry:::Эпическая поэзия
+epistolary_fiction:::Эпистолярная проза
+equ_history:::История техники
+erotic_fantasy:::Эротическое фэнтези
+essay:::Эссе, очерк, этюд, набросок
+ex_su_publication:::Современные издания стран бывшего СССР
+experimental_poetry:::Экспериментальная поэзия
+extravaganza:::Феерия
+fable:::Басни
+fairy_fantasy:::Сказочная фантастика 
+family:::Семейные отношения
+fan_translation:::Любительские переводы
+fanfiction:::Фанфик
+fantasy_all:::Фэнтези
+fantasy_dark:::Темное фэнтези
+fantasy_epic:::Эпическое фэнтези
+fantasy_fight:::Боевое фэнтези
+fantasy_heroic:::Героическое фэнтези
+fantasy_rus:::Российское фэнтези
+fantasy_wuxia:::Уся
+fashion_style:::Мода и стиль
+folk_songs:::Народные песни
+folk_tale:::Народные сказки
+folk_traditions:::Народные приметы, обряды, традиции
+folklore:::Фольклор: прочее
+folklore_rus:::Русский фольклор
+foreign_adventure:::Зарубежная приключенческая литература
+foreign_antique:::Литература V-XIII веков (эпоха Средневековья)
+foreign_children:::Зарубежная литература для детей
+foreign_contemporary:::Зарубежная современная проза
+foreign_detective:::Зарубежный детектив
+foreign_dramaturgy:::Зарубежная современная драматургия
+foreign_fantasy:::Зарубежное фэнтези
+foreign_language:::Иностранные языки
+foreign_love:::Зарубежная литература о любви
+foreign_prose:::Зарубежная классическая проза
+foreign_publication:::Современные зарубежные издания
+foreign_sf:::Зарубежная фантастика
+foreign_su_publication:::Зарубежные издания советского периода
+formp_all:::Формы произведений
+fragment:::Отрывок, ознакомительный фрагмент
+geo_guides:::Путеводители
+global_economy:::Внешняя торговля
+gothic_novel:::Готический роман
+great_story:::Повесть
+historical_fantasy:::Историческое фэнтези
+history_africa:::История Африки
+history_all:::История и археология
+history_america:::История Америки
+history_asia:::История Азии
+history_australia:::История Австралии и Океании
+history_europe:::История Европы
+history_russia:::История России и СССР
+history_world:::Мировая история
+hobbies_all:::Хобби и ремесла
+home:::Дом и семья: прочее
+home_all:::Домоводство (Дом и семья)
+home_aquarium:::Аквариумистика
+home_beauty:::Красота
+home_beekeeping:::Пчеловодство
+home_bookmaking:::Книгоделие
+home_building:::Индивидуальное строительство и ремонт
+home_child:::Дети. Книги для родителей
+home_collecting:::Коллекционирование
+home_cooking:::Кулинария
+home_crafts:::Хобби и ремесла: прочее
+home_diy:::Сделай сам
+home_entertain:::Игры и развлечения
+home_fishing:::Рыболовство и рыбоводство
+home_floriculture:::Цветоводство и комнатное садоводство
+home_furniture:::Изготовление и ремонт мебели
+home_garden:::Сад и огород
+home_handiwork:::Рукоделие
+home_health:::Здоровье
+home_housekeeping:::Домоводство
+home_hunt:::Охота и охотоведение
+home_inventory:::Инвентарь, инструменты
+home_livestock:::Животноводство и птицеводство
+home_marine:::Морское дело, парусный спорт
+home_metalwork:::Работа по металлу
+home_modelling:::Моделизм и диорамостроение
+home_mountain:::Альпинизм и скалолазание
+home_mushrooms:::Сбор и выращивание грибов
+home_pets:::Домашние животные
+home_sex:::Эротика, Секс
+home_speedreading:::Скорочтение
+home_sport:::Физкультура и спорт
+home_survival:::Выживание и личная безопасность
+home_tourism:::Туризм
+home_winemaking:::Виноделие, спиртные напитки
+home_woodwork:::Работа по дереву
+home_writing_art:::Писательское искусство
+hronoopera:::Хроноопера
+humor:::Юмор: прочее
+humor_all:::Юмор
+humor_anecdote:::Анекдоты
+humor_fantasy:::Юмористическое фэнтези
+humor_parody:::Пародии, шаржи, эпиграммы, карикатуры
+humor_prose:::Юмористическая проза
+humor_satire:::Сатира
+humor_tales:::Байки
+humor_verse:::Юмористические стихи
+in_prose:::В прозе
+in_reduction:::В сокращении
+in_retelling:::В пересказе, в лит. обработке
+in_verse:::в стихах
+industries:::Отраслевые издания
+interview:::Беседы и интервью
+invalid:::Для людей с ограниченными возможностями
+job_hunting:::Поиск работы, карьера
+letters:::Письма, переписки
+limerick:::Частушки, прибаутки, потешки
+literary_fairy_tale:::Литературные сказки
+literature_16:::Литература XIV-XVI веков (эпоха Возрождения)
+literature_18:::Литература XVII-XVIII веков (эпоха Просвещения)
+literature_19:::Литература ХIX века (эпоха Промышленной революции)
+literature_20:::Литература ХX века (эпоха Социальных революций)
+literature_21:::Литература ХXI века (эпоха Глобализации экономики)
+literature_4:::Литература IV века и ранее (эпоха Древнего мира)
+local_lore_study:::Краеведение
+love:::О любви
+love_all:::Любовные романы
+love_contemporary:::Современные любовные романы
+love_detective:::Остросюжетные любовные романы
+love_erotica:::Эротика
+love_fantasy:::Любовное фэнтези
+love_history:::Исторические любовные романы
+love_rus:::Русская литература о любви
+love_sf:::Любовная фантастика
+love_short:::Короткие любовные романы
+love_su:::Советская литература о любви
+lyrics:::Лирика
+magician_book:::Магическое фэнтези
+management:::Управление, подбор персонала
+marketing:::Маркетинг, PR, реклама
+military:::Военное дело
+military_all:::Военное дело
+military_arts:::Боевые искусства
+military_history:::Военная история
+military_memoirs:::Военные мемуары
+military_special:::Спецслужбы
+military_weapon:::Военная техника и вооружение
+modern_tale:::Современная сказка
+music:::Музыкальная литература: прочее
+music_all:::Музыкальное искусство
+music_conducting:::Дирижирование
+music_history:::История музыки
+music_instrumental:::Инструментальное искусство
+music_theory:::Теория музыки
+music_vocal:::Вокальное и хоровое искусство
+musicology:::Музыковедение и этномузыковедение
+mystery:::Мистерия
+naturalist_notes:::Заметки натуралиста
+network_literature:::Самиздат, сетевая литература
+nonf_all:::Документальная литература
+nonf_biography:::Биографии и Мемуары
+nonf_criticism:::Критика
+nonf_military:::Военная документалистика и аналитика
+nonf_publicism:::Публицистика
+nonfiction:::Документальная литература
+notes:::Нотная литература: прочее
+notes_accordion:::Для баяна и аккордеона
+notes_all:::Музыка: нотная литература
+notes_brass:::Для духовых инструментов
+notes_clavier:::Для клавира
+notes_ensemble:::Для инструментальных ансамблей
+notes_handbook:::Музыкальные справочники, пособия, самоучители, школы игры
+notes_harmonica:::Для гармоник
+notes_keyboard:::Для клавишных инструментов
+notes_orchestra:::Партитуры для оркестра
+notes_percussion:::Для ударных инструментов, перкуссии, идиофонов
+notes_religious:::Религиозная музыка и песнопения
+notes_songbook:::Песенники
+notes_string_bowed:::Для струнно-смычковых инструментов
+notes_string_plucked:::Для струнно-щипковых инструментов
+notes_vocal:::Вокальная, оперная и хоровая музыка
+novelization:::Новеллизации
+nsf:::Ненаучная фантастика
+old_foreign_publication:::Дореволюционные зарубежные издания
+old_rus_publication:::Дореволюционные российские издания
+org_behavior:::Корпоративная культура
+os_all:::Компьютеры: Операционные системы
+other:::Неотсортированное
+other_all:::Прочее
+outdated:::Устаревшие материалы
+painting:::Живопись, альбомы, иллюстрированные каталоги
+palindromes:::Палиндромы
+palmistry:::Хиромантия
+paper_work:::Делопроизводство
+periodic:::Газеты и журналы
+personal_finance:::Личные финансы
+poem:::Поэма
+poetry:::Поэзия
+poetry_all:::Поэзия
+poetry_classical:::Классическая поэзия
+poetry_east:::Поэзия Востока
+poetry_for_classical:::Классическая зарубежная поэзия
+poetry_for_modern:::Современная зарубежная поэзия
+poetry_military:::Стихи о войне
+poetry_modern:::Современная поэзия
+poetry_rus_classical:::Классическая русская поэзия
+poetry_rus_modern:::Современная русская поэзия
+poetry_su:::Советская поэзия
+popadanec:::Попаданцы
+popular_business:::О бизнесе популярно
+postcards:::Наборы открыток, календари
+presentation:::Презентация
+prog_lang_all:::Компьютеры: Языки и системы программирования
+programming_all:::Компьютеры: Разработка ПО
+prose:::Проза
+prose_abs:::Фантасмагория, абсурдистская проза
+prose_all:::Проза
+prose_classic:::Классическая проза
+prose_contemporary:::Современная проза
+prose_counter:::Контркультура
+prose_epic:::Эпопея
+prose_game:::Книга-игра
+prose_history:::Историческая проза
+prose_magic:::Магический реализм
+prose_military:::Военная проза
+prose_neformatny:::Экспериментальная, неформатная проза
+prose_rus_classic:::Русская классическая проза
+prose_sentimental:::Сентиментальная проза
+prose_su_classics:::Советская проза
+proverbs:::Пословицы, поговорки
+psy_childs:::Детская психология
+psy_sex_and_family:::Секс и семейная психология
+psy_theraphy:::Психотерапия и консультирование
+psycho_all:::Психология и психиатрия
+pub_all:::Литература по изданиям
+publishing:::Библиотечное и редакционно-издательское дело
+radio_tv:::Радио и телевидение
+rarity:::Раритетные издания
+real_estate:::Недвижимость
+ref_all:::Справочная литература
+ref_dict:::Словари
+ref_encyc:::Энциклопедии
+ref_guide:::Руководства
+ref_ref:::Справочники
+ref_self_tutor:::Самоучители
+reference:::Справочная литература: прочее
+rel_all:::Религия и духовность
+religion:::Религия и духовность: прочее
+religion_budda:::Буддизм
+religion_catholicism:::Католицизм
+religion_christianity:::Христианство
+religion_esoterics:::Эзотерика, мистицизм, оккультизм
+religion_hinduism:::Индуизм
+religion_islam:::Ислам
+religion_judaism:::Иудаизм
+religion_orthodoxy:::Православие
+religion_paganism:::Язычество
+religion_protestantism:::Протестантизм
+religion_rel:::Религия
+religion_self:::Самосовершенствование
+riddles:::Загадки
+roman:::Роман
+rus_publication:::Современные российские издания
+russian_contemporary:::Русская современная проза
+russian_fantasy:::Славянское фэнтези
+sagas:::Семейный роман/Семейная сага
+scenarios:::Сценарии
+sci_abstract:::Статьи и рефераты
+sci_aerodynamics:::Аэро-, газо- и гидродинамика
+sci_all:::Наука, Образование: прочее
+sci_archeology:::Археология
+sci_biochem:::Биохимия
+sci_biology:::Биология
+sci_biophys:::Биофизика
+sci_botany:::Ботаника
+sci_build:::Строительство и монтажные работы
+sci_business:::Деловая литература: прочее
+sci_chem:::Химия
+sci_cosmos:::Астрономия и Космос
+sci_crib:::Шпаргалки
+sci_culture:::Культурология
+sci_ecology:::Экология и защита природы
+sci_economy:::Экономика
+sci_electronics:::Электроника, микроэлектроника, схемотехника
+sci_energy:::Энергетика, электротехника
+sci_engineering:::Конструирование, изобретательство, рационализаторство
+sci_evolutionism:::Эволюционизм
+sci_ex_all:::Науки естественные
+sci_fleet:::Судостроение, флот
+sci_geo:::Геологические науки и горное дело
+sci_geography:::География и другие науки о Земле
+sci_history:::История: прочее
+sci_history_0:::История первобытного общества
+sci_history_15:::История Средних веков
+sci_history_18:::История Нового времени
+sci_history_20:::Новейшая история
+sci_history_21:::Современная история
+sci_history_4:::История Древнего мира
+sci_hu_all:::Науки общественные и гуманитарные
+sci_hypnosis:::Гипноз, НЛП, внушение и самовнушение
+sci_instrumentation:::Приборостроение
+sci_juris:::Юриспруденция
+sci_linguistic:::Языкознание
+sci_math:::Математика
+sci_medicine:::Медицина
+sci_medicine_alternative:::Альтернативная медицина
+sci_metal:::Металлургия
+sci_oriental:::Востоковедение
+sci_paleontology:::Палеонтология
+sci_pedagogy:::Педагогика
+sci_philology:::Литературоведение
+sci_philosophy:::Философия
+sci_phys:::Физика
+sci_politics:::Политика и дипломатия
+sci_popular:::Научно-популярная и научно-художественная литература
+sci_psychiatry:::Психиатрия и наркология
+sci_psychology:::Психология
+sci_radio:::Радиоэлектроника, радиотехника, связь
+sci_religion:::Религиоведение
+sci_social_studies:::Социология
+sci_state:::Государство и право
+sci_tech:::Технические науки
+sci_tech_assembling:::Сборка, неразъемное соединение
+sci_tech_chem:::Химическая и нефтехимическая промышленности
+sci_tech_drawing:::Начертательная геометрия, инженерная графика, черчение
+sci_tech_ergonomics:::Психология труда, инженерная психология и эргономика
+sci_tech_hydraulics:::Гидравлика, пневматика
+sci_tech_machine_parts:::Детали машин
+sci_tech_machinery:::Машиностроение и металлообработка
+sci_tech_materials:::Материаловедение, конструкционные и прочие материалы
+sci_tech_mech:::Механика
+sci_tech_metrology:::Метрология, стандартизация и сертификация
+sci_tech_nano:::Наноматериалы и нанотехнологии
+sci_tech_oil:::Нефтегазовая и угольная промышленности
+sci_tech_print:::Полиграфическое и упаковочное производство
+sci_tech_protection:::Безопасность жизнедеятельности и охрана труда
+sci_tech_reliability:::Диагностика, неразрушающий контроль и надежность
+sci_tech_robot:::Автоматизация, робототехника, мехатроника
+sci_tech_rockets:::Авиация, ракетная и космическая техника
+sci_tech_sopromat:::Строительная механика и сопромат
+sci_tech_standards:::Нормативно-техническая документация
+sci_tech_theormech:::Теория механизмов и машин
+sci_textbook:::Учебники и пособия: прочее
+sci_textbook_su:::Советские учебники и пособия
+sci_theories:::Паранаука, псевдонаука, альтернативные теории
+sci_thermodynamics:::Термодинамика, теплопередача, теплотехника
+sci_thesis:::Диссертации, дипломные, курсовые и прочие работы
+sci_transport:::Транспорт и спецтехника
+sci_veterinary:::Ветеринария
+sci_zoo:::Зоология
+science:::Научная литература
+science_history:::История науки
+screenplays:::Киносценарии
+sf:::Научная Фантастика
+sf_action:::Боевая фантастика
+sf_all:::Фантастика
+sf_cyberpunk:::Киберпанк
+sf_detective:::Детективная фантастика
+sf_epic:::Эпическая фантастика
+sf_etc:::Фантастика: прочее
+sf_fantasy:::Фэнтези: прочее
+sf_fantasy_city:::Городское фэнтези
+sf_fantasy_irony:::Ироническое фэнтези
+sf_heroic:::Героическая фантастика
+sf_history:::Альтернативная история
+sf_horror:::Ужасы
+sf_humor:::Юмористическая фантастика
+sf_irony:::Ироническая фантастика
+sf_litrpg:::ЛитРПГ
+sf_mystic:::Мистика
+sf_paleontological:::Палеонтологическая фантастика
+sf_postapocalyptic:::Постапокалипсис
+sf_realrpg:::РеалРПГ
+sf_rus:::Российская фантастика
+sf_social:::Социально-философская фантастика
+sf_space:::Космическая фантастика
+sf_space_opera:::Космоопера
+sf_stimpank:::Стимпанк
+sf_su:::Советская фантастика
+sf_technofantasy:::Технофэнтези
+short_story:::Рассказ
+small_business:::Малый бизнес
+song_poetry:::Песенная поэзия
+sound_engineering:::Звукорежиссура
+speech:::Речи, выступления, доклады
+stock:::Ценные бумаги, инвестиции
+story:::Новелла
+su_publication:::Советские издания
+tale_chivalry:::Рыцарский роман
+tbg_all:::Учебники и пособия
+tbg_computers:::Учебники и самоучители по компьютеру
+tbg_higher:::Учебники и пособия ВУЗов
+tbg_school:::Школьные учебники и пособия
+tbg_secondary:::Учебники и пособия для среднего и специального образования
+tech_all:::Техника
+theatre:::Театр
+thriller:::Триллер
+thriller_archaeological:::Археологический триллер
+thriller_legal:::Юридический триллер
+thriller_medical:::Медицинский триллер
+thriller_psychology:::Психологический триллер
+thriller_techno:::Техно триллер
+trade:::Торговля
+tragedy:::Трагедия
+travel_notes:::Записки путешественника
+unfinished:::Недописанное
+vampire_book:::О вампирах
+vaudeville:::Водевиль, буффонада
+vers_libre:::Верлибры
+visual_arts:::Изобразительное искусство, фотография
+visual_poetry:::Визуальная поэзия
+ya:::Для среднего школьного возраста (Подростковая литература) 12

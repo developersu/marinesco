@@ -10,13 +10,28 @@
 
 <body>
     <div class="page">
-        <div th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}"></div>
+        <div
+            th:replace="~{fragments/header :: ${#authorization.expression('isAuthenticated()')} ? 'header-auth' : 'header-anon'}">
+        </div>
         <div class="container base">
+            <div class="wrapper_centred" th:if="${message != null}">
+                <em><span th:text="${message}"></span></em>
+            </div>
+            <form method="POST" th:action="@{/settings/genres/upload}" enctype="multipart/form-data">
+                <div class="wrapper_centred">
+                    <span class="item0">Pick from file: </span>
+                    <input class="item1" name="file" type="file" accept="text/plain" />
+                </div>
+                <div class="wrapper_centred"><button class="sign" type="submit">Apply</button></div>
+            </form>
+            <hr>
             <form method="POST" th:action="@{/settings/genres}" th:object="${genresHolder}">
                 <div class="wrapper_centred" th:each="genre, itemStat : ${genresHolder.genres}">
-                    <label for="displayname" th:text="${genre.genreId}" class="item0"></label>
-                    <input type="hidden" th:value="${genre.genreId}" th:field="*{genres[__${itemStat.index}__].genreId}" />
-                    <input class="item1" type="text" th:field="*{genres[__${itemStat.index}__].humanReadableDescription}"
+                    <span th:text="${genre.genreId}" class="item0"></span>
+                    <input type="hidden" th:value="${genre.genreId}"
+                        th:field="*{genres[__${itemStat.index}__].genreId}" />
+                    <input class="item1" type="text"
+                        th:field="*{genres[__${itemStat.index}__].humanReadableDescription}"
                         th:value="${genre.humanReadableDescription}" size="25%" />
                 </div>
                 <div class="wrapper_centred"><button class="sign" type="submit">Save Changes</button></div>
