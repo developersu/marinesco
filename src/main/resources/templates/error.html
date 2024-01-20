@@ -4,19 +4,23 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-	<link rel="alternate icon" href="/favicon.png" type="image/png">
+    <link rel="alternate icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" th:href="@{/styles/styles.css}" />
     <title th:text="${code}">title</title>
 </head>
 
 <body>
-    <div class='error'>
-        <a href="/">
-            <img height="65px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
-        </a>
-        <p>
-            ОШИБКА <span class='bli' th:text="${code}"></span>
-        </p>
+    <div class="wrapper error_wrapper">
+        <div class="error_inner_wrapper">
+            <div class="error_element1">
+                <a href="/">
+                    <img height="60px" th:src="@{/images/s_logo.svg}" alt="Marinesco">
+                </a>
+            </div>
+            <div class="error_element2">
+                <div class="bli" th:text="${code}"></div>
+            </div>
+        </div>
     </div>
 </body>
 
