@@ -40,7 +40,7 @@ public class DownloadController {
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
                     ContentDisposition.attachment()
-                            .filename(file + ".fb2", StandardCharsets.UTF_8) // TODO: fix
+                            .filename(file, StandardCharsets.UTF_8) // TODO: fix
                             .build()
                             .toString());
 
