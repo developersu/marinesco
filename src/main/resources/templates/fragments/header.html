@@ -63,7 +63,7 @@
             <li class="li_header_block">
                 <form action="/search" method="get">
                   <div class="wrapper">
-                    <input class="search_line" type="text" name="search">
+                    <input class="search_line" type="text" name="search" th:value="${searchPattern}">
                   </div>
                   <div class="wrapper" style="justify-content: space-evenly; align-items: baseline; ">
                     <div class="search_checkbox">

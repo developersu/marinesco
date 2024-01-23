@@ -37,6 +37,8 @@ public class SearchController {
         if (search.trim().equals(""))
             return "search";
         
+        model.addAttribute("searchPattern", search);
+
         if (search.length() < 4){
             model.addAttribute("error", "Should be at least 4 chars");
             return "search";

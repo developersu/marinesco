@@ -38,7 +38,7 @@
             </div>
             <div th:if="${series != null}">
                 <h3>Series</h3>
-                <div th:each="book : ${books}">
+                <div th:each="book : ${series}">
                     <a th:href="${'/book/' + book.id}">
                         <span class="book_title" th:text="${book.title}"></span>
                     </a>
