@@ -53,6 +53,9 @@ public class SecurityConfig {
                         .requestMatchers(mvc.pattern("/register")).anonymous()
                         .requestMatchers(mvc.pattern("/login")).anonymous()
                         .requestMatchers(mvc.pattern("/error")).permitAll()
+
+                        .requestMatchers(mvc.pattern("/api/**")).permitAll() // TODO: FIX
+                        
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers(mvc.pattern("/")).authenticated()
                         .requestMatchers(mvc.pattern("/profile/**")).authenticated()//.hasAnyRole("ADMIN", "USER")

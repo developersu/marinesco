@@ -6,7 +6,7 @@ spring:
         generate-unique-name: false
         name: marinesco
 #        url: jdbc:h2:mem:marinesco
-#        url: jdbc:h2:file:/tmp/h22
+        url: jdbc:h2:file:/tmp/h22
         username: sa
         password:
     jpa:
@@ -28,6 +28,8 @@ logging:
     level:
         org:
             springframework: INFO
+#    file:
+#        path: "/tmp/log"
 marinesco:
     library:
         filesLocation: "./lib"

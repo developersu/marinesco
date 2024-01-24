@@ -2,6 +2,8 @@ package ru.redrise.marinesco.library;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -15,8 +17,9 @@ import lombok.NoArgsConstructor;
 public class Author {
     @Id
     private Long id;
-    private String authorName;
+    private String import lombok.extern.slf4j.Slf4j;import lombok.extern.slf4j.Slf4j;;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
 
