@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Author {
     @Id
     private Long id;
-    private String import lombok.extern.slf4j.Slf4j;import lombok.extern.slf4j.Slf4j;;
+    private String authorName;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "authors")
