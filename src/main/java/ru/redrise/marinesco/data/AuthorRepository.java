@@ -2,6 +2,7 @@ package ru.redrise.marinesco.data;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ import java.util.List;
 public interface AuthorRepository extends JpaRepository<Author, Long>{  
     Optional<Author> findByAuthorName(String authorName);
     List<Author> findByAuthorNameContainingIgnoreCase(String authorName);
+    List<Author> findByAuthorNameContainingIgnoreCase(String authorName, PageRequest pageRequest);
 }

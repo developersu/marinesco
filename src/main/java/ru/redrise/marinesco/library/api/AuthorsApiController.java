@@ -3,6 +3,7 @@ package ru.redrise.marinesco.library.api;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +29,21 @@ public class AuthorsApiController {
             page, 10, Sort.by(sortBy).descending());
         
         return authorRepository.findAll(pageRequest).getContent();
+    } 
+    
+    @GetMapping("/by/name/{name}")
+    public Iterable<Author> getAuthorId(
+        @PathVariable("name") String authorName,
+        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){        
+        
+        PageRequest pageRequest = PageRequest.of(page, 10);
+
+        return authorRepository.findByAuthorNameContainingIgnoreCase(authorName, pageRequest);
+    } 
+
+    @GetMapping("/by/id/{id}")
+    public Author getAuthorId(@PathVariable("id") Long authorId){        
+    
+        return authorRepository.findById(authorId).get();
     } 
 }

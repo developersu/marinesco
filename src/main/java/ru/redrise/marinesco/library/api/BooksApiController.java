@@ -1,8 +1,11 @@
 package ru.redrise.marinesco.library.api;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,12 +30,38 @@ public class BooksApiController {
     }
     
     @GetMapping(params = "page")
-    public Iterable<Book> getBooks(@RequestParam(value = "page", required = true) Integer page,
+    public Iterable<Book> getBooks(
+        @RequestParam(value = "page", required = true) Integer page,
         @RequestParam(value = "sort", required = false, defaultValue = "title") String sortBy){
+
         PageRequest pageRequest = PageRequest.of(
             page, 10, Sort.by(sortBy).descending());
         
         return bookRepository.findAll(pageRequest).getContent();
     } 
 
+    @GetMapping("/by/title/{title}")
+    public Iterable<Book> getBooksByName(
+        @PathVariable("title") String title,
+        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+
+        PageRequest pageRequest = PageRequest.of(page, 10);
+
+        return bookRepository.findByTitleContainingIgnoreCase(title, pageRequest);
+    } 
+    
+    @GetMapping("/by/series/{series}")
+    public Iterable<Book> getBooksBySeries(
+        @PathVariable("series") String series,
+        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+
+        PageRequest pageRequest = PageRequest.of(page, 10);
+
+        return bookRepository.findBySeriesContainingIgnoreCase(series, pageRequest);
+    } 
+      
+    @GetMapping("/by/id/{id}")
+    public Book getBooksById(@PathVariable("id") Integer id){
+        return bookRepository.findById(id).get();
+    } 
 }

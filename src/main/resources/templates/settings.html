@@ -14,27 +14,27 @@
         <div class="container base">
             <span
                 th:text="${'New users registration is now ' + (allowRegistration ? 'enabled. ' : 'disabled. ' )}"></span>
-            <a th:href="${'/settings/allow_registration/' + !allowRegistration }"
+            <a id="registration" th:href="${'/settings/allow_registration/' + !allowRegistration }"
                 th:text="${'Click here to ' + (allowRegistration ? 'disable' : 'enable' )}"></a>
                 <br />
                 <br />
-                <a href="/settings/manage_users">Manage users</a>
+                <a id="manage_users" href="/settings/manage_users">Manage users</a>
                 <br />
                 <br />
                 <span class="validationError" th:if="${rescanError} != null" th:text="${rescanError}"></span>
                 <span class="validationPass" th:if="${rescanOk} != null" th:text="${rescanOk}"></span>
                 <br />
-                <a href="/settings/rescan" >Click to rescan library</a>
+                <a id="rescan_library" href="/settings/rescan" >Click to rescan library</a>
                 <br />
                 <br />
                 <span class="validationPass" th:if="${repack} != null" th:text="${repack}"></span>
                 <span class="validationPass" th:if="${repack_lastrun} != null" th:text="${repack_lastrun}"></span>
                 <br />
-                <a href="/settings/repack" >Click to repack library zip archives</a>
+                <a id="repack_library" href="/settings/repack" >Click to repack library zip archives</a>
                 <br />
                 <span class="validationError" th:if="${lastScanErrors} != ''" th:text="${lastScanErrors}"></span>
             </p>
-            <a href="/settings/genres">Edit genre descriptions</a>
+            <a id="edit_genres" href="/settings/genres">Edit genre descriptions</a>
         </div>
     </div>
     <div th:replace="~{fragments/footer :: 'footer'}"></div>
