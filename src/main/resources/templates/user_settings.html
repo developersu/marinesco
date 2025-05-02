@@ -22,10 +22,10 @@
                 <input type="text" name="displayname" id="displayname" th:value="${userSettingsForm.displayname}"
                     size="50%" /><br />
 
-                <span class="validationError" th:if="${password_incorrect} != null"
-                    th:text="${password_incorrect}">false</span>
+                <span class="validationError" th:if="${#fields.hasErrors('newPassword')}"
+                      th:errors="*{newPassword}">Error</span>
                 <br />
-                <label for="password">New password: </label>
+                <label for="newPassword">New password: </label>
                 <br />
                 <input type="password" name="newPassword" id="newPassword" size="50%" /><br />
 

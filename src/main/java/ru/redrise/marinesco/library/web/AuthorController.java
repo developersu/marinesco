@@ -1,6 +1,7 @@
 package ru.redrise.marinesco.library.web;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import ru.redrise.marinesco.library.Book;
 @Controller
 @RequestMapping("/author")
 public class AuthorController {
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     public AuthorController(AuthorRepository authorRepository){
         this.authorRepository = authorRepository;
@@ -33,10 +34,10 @@ public class AuthorController {
 
         List<Book> books = author.getBooks();
 
-        Collections.sort(books, (a, b) -> a.getSeries().compareTo(b.getSeries()));
+        books.sort(Comparator.comparing(Book::getSeries));
 
-        model.addAttribute("author", author);
-        model.addAttribute("books", books);
+        model.addAttribute("author", author)
+             .addAttribute("books", books);
 
         return "author";
     }

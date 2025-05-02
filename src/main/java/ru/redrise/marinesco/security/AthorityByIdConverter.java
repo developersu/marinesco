@@ -8,7 +8,7 @@ import ru.redrise.marinesco.data.RolesRepository;
 @Component
 public class AthorityByIdConverter implements Converter<Long, UserRole>{
 
-    private RolesRepository rolesRepo;
+    private final RolesRepository rolesRepo;
 
     public AthorityByIdConverter(RolesRepository rolesRepo){
         this.rolesRepo = rolesRepo;

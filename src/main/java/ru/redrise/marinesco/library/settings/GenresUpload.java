@@ -14,16 +14,15 @@ import ru.redrise.marinesco.library.Genre;
 @Slf4j
 public class GenresUpload {
 
-    public static String upload(Resource resouce, long fileSize, GenreRepository repository) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resouce.getInputStream()))){
+    public static String upload(Resource resource, long fileSize, GenreRepository repository) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))){
             if (fileSize == 0)
                 throw new Exception("empty file");
-            String line;
-            
-            List<Genre> genres = new ArrayList<>();
 
+            String line;
+            List<Genre> genres = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
-                String arr[] = line.split(":::");
+                String[] arr = line.split(":::");
                 
                 if (arr.length != 2)
                     throw new Exception("Malformed file");
@@ -33,10 +32,10 @@ public class GenresUpload {
 
             repository.saveAll(genres);
         } catch (Exception e) {
-            log.debug("{}", e);
+            log.debug(e.toString());
             return "Upload failed: " + e.getMessage();
         }
 
-        return "Successfully uploaded: " + resouce.getFilename();
+        return "Successfully uploaded: " + resource.getFilename();
     }
 }

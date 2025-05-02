@@ -14,7 +14,7 @@ import jakarta.validation.Payload;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LoginOccupiedConstraint {
-    String message() default "Login already taken. Please use anohter one.";
+    String message() default "Login already taken. Please use another one";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

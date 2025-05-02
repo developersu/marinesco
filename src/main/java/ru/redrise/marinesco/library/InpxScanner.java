@@ -3,12 +3,7 @@ package ru.redrise.marinesco.library;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -29,13 +24,13 @@ import ru.redrise.marinesco.settings.ApplicationSettings;
 public class InpxScanner {
     private static volatile String lastRunErrors = "";
 
-    private ThreadPoolTaskExecutor executor;
-    private LibraryMetadataRepository libraryMetadataRepository;
-    private AuthorRepository authorRepository;
-    private GenreRepository genreRepository;
-    private BookRepository bookRepository;
+    private final ThreadPoolTaskExecutor executor;
+    private final AuthorRepository authorRepository;
+    private final GenreRepository genreRepository;
+    private final BookRepository bookRepository;
+    private final LibraryMetadataRepository libraryMetadataRepository;
 
-    private String filesLocation;
+    private final String filesLocation;
 
     public InpxScanner(ThreadPoolTaskExecutor executor,
             ApplicationSettings applicationSettings,
@@ -87,7 +82,7 @@ public class InpxScanner {
 
     private File getInpxFile() throws Exception {
         final FileSystemResource libraryLocation = new FileSystemResource(filesLocation);
-        return Stream.of(libraryLocation.getFile().listFiles())
+        return Arrays.stream(libraryLocation.getFile().listFiles())
                 .filter(file -> file.getName().endsWith(".inpx"))
                 .findFirst()
                 .get();

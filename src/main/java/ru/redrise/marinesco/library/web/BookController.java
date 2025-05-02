@@ -12,7 +12,7 @@ import ru.redrise.marinesco.library.Book;
 @Controller
 @RequestMapping("/book")
 public class BookController {
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public BookController(BookRepository bookRepository){
         this.bookRepository = bookRepository;
@@ -25,6 +25,7 @@ public class BookController {
             model.addAttribute("Error", "Not found");
             return "book";
         }
+
         model.addAttribute("book", book);
         return "book";
     }

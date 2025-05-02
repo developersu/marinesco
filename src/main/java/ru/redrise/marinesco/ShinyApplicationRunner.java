@@ -18,9 +18,9 @@ import ru.redrise.marinesco.settings.ApplicationSettings;
 @Slf4j
 @Configuration
 public class ShinyApplicationRunner {
-    private UserRepository users;
-    private RolesRepository roles;
-    private ApplicationSettings settings;
+    private final UserRepository users;
+    private final RolesRepository roles;
+    private final ApplicationSettings settings;
     
     public ShinyApplicationRunner(UserRepository users, RolesRepository roles, ApplicationSettings settings) {
         this.users = users;
@@ -57,7 +57,7 @@ public class ShinyApplicationRunner {
 
         List<UserRole> adminRoleOnlyAthority = roles.findByType(UserRole.Type.ADMIN);
 
-        if (login == null || login.size() == 0 || password == null || password.size() == 0) {
+        if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
             log.warn("No administrator credentials provided, using defaults:\n * Login: root\n * Password: root\n Expected: --admin_login LOGIN --admin_password PASSWORD "); // TODO: Move into properties i18n
             var adminUser = new User("root", encoder.encode("root"), "SuperAdmin", adminRoleOnlyAthority);
             users.save(adminUser);

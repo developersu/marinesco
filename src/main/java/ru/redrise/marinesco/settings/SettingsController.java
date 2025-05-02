@@ -18,8 +18,8 @@ import ru.redrise.marinesco.library.RepackZip;
 public class SettingsController {
     private ApplicationSettings applicationSettings;
 
-    private InpxScanner inpxScanner;
-    private RepackZip repackZip;
+    private final InpxScanner inpxScanner;
+    private final RepackZip repackZip;
 
     public SettingsController(ApplicationSettings applicationSettings,
             InpxScanner inpxScanner,

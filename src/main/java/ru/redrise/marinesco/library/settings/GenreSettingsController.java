@@ -47,17 +47,14 @@ public class GenreSettingsController {
         
         genreRepository.findAll()
             .iterator()
-            .forEachRemaining(element -> genres.add(element));
+            .forEachRemaining(genres::add);
         
         return new GenresHolder(genres);
     }
 
     @PostMapping
     public String getGenresUpdated(@ModelAttribute GenresHolder genreHolder) {
-
-        for (Genre genre : genreHolder.getGenres())
-            genreRepository.save(genre);
-
+        genreHolder.getGenres().forEach(genreRepository::save);
         return "genres_settings";
     }
 

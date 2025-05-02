@@ -13,9 +13,6 @@ public class LoginOccupiedValidator implements ConstraintValidator<LoginOccupied
     private UserRepository userRepo;
 
     @Override
-    public void initialize(LoginOccupiedConstraint constraintAnnotation) {}
-
-    @Override
     public boolean isValid(String login, ConstraintValidatorContext context) {
         return userRepo.findByUsername(login) == null;
     }

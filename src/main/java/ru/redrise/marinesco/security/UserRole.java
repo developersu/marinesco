@@ -29,14 +29,10 @@ public class UserRole implements GrantedAuthority{
         if (type == null)
             throw new UnsupportedOperationException("Unimplemented method 'getAuthority'");
 
-        switch (type) {
-            case USER:
-                return "ROLE_USER";
-            case ADMIN:
-                return "ROLE_ADMIN";
-            default:
-                throw new UnsupportedOperationException("Unimplemented method 'getAuthority'");
-        }
+        return switch (type) {
+            case USER -> "ROLE_USER";
+            case ADMIN -> "ROLE_ADMIN";
+        };
     }
 
     public enum Type{

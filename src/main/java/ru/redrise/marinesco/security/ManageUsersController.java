@@ -40,7 +40,7 @@ public class ManageUsersController {
     }
 
     @ModelAttribute(name = "userGenerified")
-    public UserGenerified taco() {
+    public UserGenerified createUserGenerified() {
         return new UserGenerified();
     }
 
@@ -92,7 +92,7 @@ public class ManageUsersController {
         if (user == null)
             return "redirect:/settings/manage_users";
 
-        user.setAuthorities(userGenerified.getAthorities());
+        user.setAuthorities(userGenerified.getAuthorities());
         user.setDisplayname(userGenerified.getDisplayName());
         String password = userGenerified.getPassword().trim();
         if (! password.trim().isEmpty())
@@ -114,7 +114,7 @@ public class ManageUsersController {
         }
 
         User user = userRepository.save(form.toUser(passwordEncoder));
-        log.info("Added user {} {} {}", user.getId(), user.getUsername(), user.getDisplayname(),
+        log.info("Added user {} {} {} {}", user.getId(), user.getUsername(), user.getDisplayname(),
                 user.getAuthorities().get(0));
         // Reloads page therefore new records appears
         return "redirect:/settings/manage_users";

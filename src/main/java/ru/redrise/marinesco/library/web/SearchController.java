@@ -19,8 +19,8 @@ import ru.redrise.marinesco.library.Book;
 @RequestMapping("/search")
 public class SearchController {
     
-    private BookRepository inpEntryRepository;
-    private AuthorRepository authorRepository;
+    private final BookRepository inpEntryRepository;
+    private final AuthorRepository authorRepository;
 
     public SearchController(BookRepository bookRepository, AuthorRepository authorRepository){
         this.inpEntryRepository = bookRepository;
@@ -34,7 +34,7 @@ public class SearchController {
         @RequestParam(value = "author", required = false) Boolean author,
         Model model) {
 
-        if (search.trim().equals(""))
+        if (search.trim().isEmpty())
             return "search";
         
         model.addAttribute("searchPattern", search);
@@ -46,21 +46,21 @@ public class SearchController {
 
         if (title != null){
             List<Book> books = inpEntryRepository.findByTitleContainingIgnoreCase(search);
-            if (books.size() != 0)
+            if (!books.isEmpty())
                 model.addAttribute("books", books);
             model.addAttribute("isTitle", true);
         }
         
         if (series != null){
             List<Book> bookSeries = inpEntryRepository.findBySeriesContainingIgnoreCase(search);
-            if (bookSeries.size() != 0)
+            if (!bookSeries.isEmpty())
                 model.addAttribute("series", bookSeries);
             model.addAttribute("isSeries", true);
         }
         
         if (author != null){
             List<Author> authors = authorRepository.findByAuthorNameContainingIgnoreCase(search);
-            if (authors.size() != 0)
+            if (!authors.isEmpty())
                 model.addAttribute("authors", authors);
             model.addAttribute("isAuthor", true);
         }

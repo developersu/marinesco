@@ -17,17 +17,17 @@ public class UserGenerified {
 
     private String name;
     private String displayName;
-    private List<UserRole> athorities;
-    private List<UserRole> athoritiesLost;
+    private List<UserRole> authorities;
+    private List<UserRole> authoritiesLost;
     private String password;
 
     public UserGenerified(User user, List<UserRole> allRolesList){
         this.id = user.getId();
         this.name = user.getUsername();
         this.displayName = user.getDisplayname();
-        this.athorities = user.getAuthorities();
-        this.athoritiesLost = allRolesList.stream()
-                    .filter(element -> !athorities.contains(element))
+        this.authorities = user.getAuthorities();
+        this.authoritiesLost = allRolesList.stream()
+                    .filter(element -> !authorities.contains(element))
                     .collect(Collectors.toList());
     }
 }

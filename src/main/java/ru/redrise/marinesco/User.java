@@ -74,8 +74,8 @@ public class User implements UserDetails{
     }
 
     public boolean isAdmin(){
-        for (UserRole athority : authorities){
-            if (athority.getAuthority().equals("ROLE_ADMIN"))
+        for (UserRole authority : authorities){
+            if (authority.getAuthority().equals("ROLE_ADMIN"))
                 return true;
         }
         return false;

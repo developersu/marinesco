@@ -21,12 +21,12 @@ import ru.redrise.marinesco.settings.ApplicationSettings;
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
-    private UserRepository userRepo;
-    private RolesRepository rolesRepo;
-    private PasswordEncoder passwordEncoder;
-    private HttpServletRequest request;
+    private final UserRepository userRepo;
+    private final RolesRepository rolesRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final HttpServletRequest request;
 
-    private ApplicationSettings applicationSettings;
+    private final ApplicationSettings applicationSettings;
 
     public RegistrationController(UserRepository userRepo,
             RolesRepository rolesRepo,
@@ -54,10 +54,10 @@ public class RegistrationController {
 
     @PostMapping
     public String postMethodName(@Valid RegistrationForm form, Errors errors, Model model) {
-        if (!applicationSettings.isRegistrationAllowed())
+        if (! applicationSettings.isRegistrationAllowed())
             return "redirect:/";
         if (form.isPasswordsNotEqual()) {
-            model.addAttribute("passwordsMismatch", "Passwords must be the same.");
+            model.addAttribute("passwordsMismatch", "Passwords must be the same");
             return "registration";
         }
         if (userRepo.findByUsername(form.getUsername()) != null){

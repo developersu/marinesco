@@ -9,7 +9,7 @@ import ru.redrise.marinesco.security.UserRole;
 @Component
 public class RoleByIdConverter implements Converter<Long, UserRole>{
 
-    private RolesRepository rolesRepository;
+    private final RolesRepository rolesRepository;
 
     public RoleByIdConverter(RolesRepository rolesRepository){
         this.rolesRepository = rolesRepository;

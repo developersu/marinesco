@@ -60,19 +60,12 @@ public class UserSettingsController {
             Model model){
         if (errors.hasErrors())     
             return "user_settings";
-        if (! user.getDisplayname().equals(userSettingsForm.getDisplayname()))
-            user.setDisplayname(userSettingsForm.getDisplayname());
-        if (userSettingsForm.isNewPasswordSet()){
-            if (userSettingsForm.isNewPasswordValid()){
-                user.setPassword(passwordEncoder.encode(userSettingsForm.getNewPassword()));
-            }
-            else{
-                model.addAttribute("password_incorrect", "Password must be at least 8 characters long. Should not exceed 32 characters.");
-                return "user_settings";
-            }
-        }
 
-        log.info("{} {}", userSettingsForm.getDisplayname(), userSettingsForm.getNewPassword());
+        user.setDisplayname(userSettingsForm.getDisplayname());
+
+        if (userSettingsForm.isNewPasswordSet())
+            user.setPassword(passwordEncoder.encode(userSettingsForm.getNewPassword()));
+
         userRepo.save(user);
         
         return "redirect:/profile/settings";
