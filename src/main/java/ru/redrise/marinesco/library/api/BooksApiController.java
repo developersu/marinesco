@@ -17,7 +17,7 @@ import ru.redrise.marinesco.library.Book;
 @RequestMapping(path = "/api/book", 
                 produces = "application/json")
 public class BooksApiController {
-    private BookRepository bookRepository ;
+    private final BookRepository bookRepository ;
 
     public BooksApiController(BookRepository bookRepository){
         this.bookRepository = bookRepository;
@@ -30,33 +30,23 @@ public class BooksApiController {
     }
     
     @GetMapping(params = "page")
-    public Iterable<Book> getBooks(
-        @RequestParam(value = "page", required = true) Integer page,
-        @RequestParam(value = "sort", required = false, defaultValue = "title") String sortBy){
-
-        PageRequest pageRequest = PageRequest.of(
-            page, 10, Sort.by(sortBy).descending());
-        
+    public Iterable<Book> getBooks(@RequestParam(value = "page", required = true) Integer page,
+                                   @RequestParam(value = "sort", required = false, defaultValue = "title") String sortBy){
+        var pageRequest = PageRequest.of(page, 10, Sort.by(sortBy).descending());
         return bookRepository.findAll(pageRequest).getContent();
     } 
 
     @GetMapping("/by/title/{title}")
-    public Iterable<Book> getBooksByName(
-        @PathVariable("title") String title,
-        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
-
-        PageRequest pageRequest = PageRequest.of(page, 10);
-
+    public Iterable<Book> getBooksByName(@PathVariable("title") String title,
+                                         @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+        var pageRequest = PageRequest.of(page, 10);
         return bookRepository.findByTitleContainingIgnoreCase(title, pageRequest);
     } 
     
     @GetMapping("/by/series/{series}")
-    public Iterable<Book> getBooksBySeries(
-        @PathVariable("series") String series,
-        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
-
-        PageRequest pageRequest = PageRequest.of(page, 10);
-
+    public Iterable<Book> getBooksBySeries(@PathVariable("series") String series,
+                                           @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+        var pageRequest = PageRequest.of(page, 10);
         return bookRepository.findBySeriesContainingIgnoreCase(series, pageRequest);
     } 
       

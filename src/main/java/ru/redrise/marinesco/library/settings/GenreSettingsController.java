@@ -1,13 +1,10 @@
 package ru.redrise.marinesco.library.settings;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +18,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.redrise.marinesco.data.GenreRepository;
 import ru.redrise.marinesco.library.Genre;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Slf4j
@@ -30,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @PreAuthorize("hasRole('ADMIN')")
 public class GenreSettingsController {
 
-    private GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
 
     public GenreSettingsController(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
@@ -45,9 +41,8 @@ public class GenreSettingsController {
     public GenresHolder setRegistrationSetting() {
         List<Genre> genres = new ArrayList<>();
         
-        genreRepository.findAll()
-            .iterator()
-            .forEachRemaining(genres::add);
+        genreRepository.findAll().iterator()
+                .forEachRemaining(genres::add);
         
         return new GenresHolder(genres);
     }
@@ -65,14 +60,10 @@ public class GenreSettingsController {
     }
 
     @PostMapping("/upload")
-    public String postMethodName(@RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
-        
-        final String message = GenresUpload.upload(file.getResource(), file.getSize(), genreRepository);
-            
+    public String postUpload(@RequestParam("file") MultipartFile file,
+                             RedirectAttributes redirectAttributes) {
+        var message = GenresUpload.upload(file, genreRepository);
         redirectAttributes.addFlashAttribute("message", message);
-
         return "redirect:/settings/genres";
     }
-    
 }

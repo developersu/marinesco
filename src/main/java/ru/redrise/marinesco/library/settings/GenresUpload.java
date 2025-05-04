@@ -3,24 +3,20 @@ package ru.redrise.marinesco.library.settings;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.core.io.Resource;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 import ru.redrise.marinesco.data.GenreRepository;
 import ru.redrise.marinesco.library.Genre;
 
 @Slf4j
 public class GenresUpload {
 
-    public static String upload(Resource resource, long fileSize, GenreRepository repository) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))){
-            if (fileSize == 0)
-                throw new Exception("empty file");
+    public static String upload(MultipartFile file, GenreRepository repository) {
+        try (var reader = new BufferedReader(new InputStreamReader(file.getInputStream()))){
 
             String line;
-            List<Genre> genres = new ArrayList<>();
+            var genres = new ArrayList<Genre>();
             while ((line = reader.readLine()) != null) {
                 String[] arr = line.split(":::");
                 
@@ -36,6 +32,6 @@ public class GenresUpload {
             return "Upload failed: " + e.getMessage();
         }
 
-        return "Successfully uploaded: " + resource.getFilename();
+        return "Successfully uploaded: " + file.getResource().getFilename();
     }
 }

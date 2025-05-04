@@ -15,35 +15,28 @@ import ru.redrise.marinesco.library.Author;
 @RequestMapping(path = "/api/author", 
                 produces = "application/json")
 public class AuthorsApiController {
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     public AuthorsApiController(AuthorRepository authorRepository){
         this.authorRepository = authorRepository;
     }
 
     @GetMapping
-    public Iterable<Author> getAuthors(
-        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-        @RequestParam(value = "sort", required = false, defaultValue = "authorName") String sortBy){
-        PageRequest pageRequest = PageRequest.of(
-            page, 10, Sort.by(sortBy).descending());
-        
+    public Iterable<Author> getAuthors(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                       @RequestParam(value = "sort", required = false, defaultValue = "authorName") String sortBy) {
+        var pageRequest = PageRequest.of(page, 10, Sort.by(sortBy).descending());
         return authorRepository.findAll(pageRequest).getContent();
     } 
     
     @GetMapping("/by/name/{name}")
-    public Iterable<Author> getAuthorId(
-        @PathVariable("name") String authorName,
-        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){        
-        
-        PageRequest pageRequest = PageRequest.of(page, 10);
-
+    public Iterable<Author> getAuthorId(@PathVariable("name") String authorName,
+                                        @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+        var pageRequest = PageRequest.of(page, 10);
         return authorRepository.findByAuthorNameContainingIgnoreCase(authorName, pageRequest);
     } 
 
     @GetMapping("/by/id/{id}")
-    public Author getAuthorId(@PathVariable("id") Long authorId){        
-    
+    public Author getAuthorId(@PathVariable("id") Long authorId){
         return authorRepository.findById(authorId).get();
-    } 
+    }
 }

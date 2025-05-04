@@ -1,8 +1,6 @@
 package ru.redrise.marinesco.library.web;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.redrise.marinesco.data.AuthorRepository;
-import ru.redrise.marinesco.library.Author;
 import ru.redrise.marinesco.library.Book;
 
 @Controller
@@ -25,15 +22,14 @@ public class AuthorController {
 
     @GetMapping("/{authorId}")
     public String getPage(@PathVariable("authorId") Long authorId, Model model) {
-        final Author author = authorRepository.findById(authorId).orElse(null);
+        var author = authorRepository.findById(authorId).orElse(null);
 
         if (author == null){
             model.addAttribute("Error", "Not found");
             return "author";
         }
 
-        List<Book> books = author.getBooks();
-
+        var books = author.getBooks();
         books.sort(Comparator.comparing(Book::getSeries));
 
         model.addAttribute("author", author)

@@ -44,7 +44,7 @@
             </div>
             <hr>
             <b>Add user</b>
-            <form method="POST" th:action="@{/settings/manage_users}" th:object="${administatorAddUserForm}">
+            <form method="POST" th:action="@{/settings/manage_users}" th:object="${administratorAddUserForm}">
                 <span class="validationError" th:if="${loginOccupied} != null" th:text="${loginOccupied}">pew</span>
                 <span class="validationError" th:if="${#fields.hasErrors('username')}"
                     th:errors="*{username}">Error</span>

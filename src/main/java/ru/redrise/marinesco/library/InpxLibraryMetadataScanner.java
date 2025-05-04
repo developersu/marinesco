@@ -12,9 +12,9 @@ public class InpxLibraryMetadataScanner {
     private InpxLibraryMetadataScanner() { }
 
     public static LibraryMetadata saveFromFile(File inpxFile, LibraryMetadataRepository repository) throws Exception {
-        LibraryMetadata libraryMetadata = new LibraryMetadata();
+        var libraryMetadata = new LibraryMetadata();
 
-        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
+        try (var zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
             ZipEntry zipEntry;
             
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
@@ -37,8 +37,8 @@ public class InpxLibraryMetadataScanner {
     }
 
     private static String readPlainText(ZipInputStream zipInputStream) throws Exception {
-        byte[] content = new byte[1024];
-        StringBuilder stringBuilder = new StringBuilder();
+        var content = new byte[1024];
+        var stringBuilder = new StringBuilder();
         while (zipInputStream.read(content) > 0)
             stringBuilder.append(new String(content, StandardCharsets.UTF_8));
 

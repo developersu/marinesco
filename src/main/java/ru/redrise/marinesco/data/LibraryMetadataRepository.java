@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 import ru.redrise.marinesco.library.LibraryMetadata;
 
 @Repository
-public interface LibraryMetadataRepository extends CrudRepository<LibraryMetadata, Long>{   
-    
+public interface LibraryMetadataRepository extends CrudRepository<LibraryMetadata, Long>{
 }

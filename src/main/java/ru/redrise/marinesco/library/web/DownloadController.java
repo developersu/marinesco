@@ -31,23 +31,24 @@ public class DownloadController {
 
     @GetMapping(value = "/")
     public void getMethodName(@RequestParam String container,
-            @RequestParam String file,
-            HttpServletResponse response) throws Exception {
-        try {
-            File bookFile = new File(filesLocation + File.separator + container + File.separator + file);
-            if (! bookFile.exists())
-                throw new Exception("No file found :[");
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                    ContentDisposition.attachment()
-                            .filename(file, StandardCharsets.UTF_8) // TODO: fix
-                            .build()
-                            .toString());
+                              @RequestParam String file,
+                              HttpServletResponse response) throws Exception {
 
-            try (ServletOutputStream outStream = response.getOutputStream();
-                FileInputStream inputStream = new FileInputStream(bookFile)) {
-                IOUtils.copy(inputStream, outStream);
-            }
+        var bookFile = new File(filesLocation + File.separator + container + File.separator + file);
+
+        if (! bookFile.exists())
+            throw new Exception("No file found :[");
+
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                ContentDisposition.attachment()
+                        .filename(file, StandardCharsets.UTF_8) // TODO: fix
+                        .build()
+                        .toString());
+
+        try (var outStream = response.getOutputStream();
+            var inputStream = new FileInputStream(bookFile)) {
+            IOUtils.copy(inputStream, outStream);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found [" + e.getMessage() + "]");
         }

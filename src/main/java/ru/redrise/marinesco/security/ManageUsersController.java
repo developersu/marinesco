@@ -47,7 +47,7 @@ public class ManageUsersController {
     @ModelAttribute
     public void addTitle(Model model) {
         model.addAttribute("header_text", "Manage users");
-        model.addAttribute("administatorAddUserForm", new AdministatorAddUserForm());
+        model.addAttribute("administratorAddUserForm", new AdministratorAddUserForm());
     }
 
     @ModelAttribute
@@ -103,7 +103,7 @@ public class ManageUsersController {
     }
 
     @PostMapping
-    public String processNewUser(@Valid AdministatorAddUserForm form, Errors errors, Model model) {
+    public String processNewUser(@Valid AdministratorAddUserForm form, Errors errors, Model model) {
         if (userRepository.findByUsername(form.getUsername()) != null) {
             model.addAttribute("loginOccupied", "Login already in use. Please choose another one");
             return "manage_users";

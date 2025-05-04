@@ -12,7 +12,7 @@ import ru.redrise.marinesco.User;
 
 //TODO: refactor along with RegistrationForm.java
 @Data
-public class AdministatorAddUserForm {
+public class AdministratorAddUserForm {
 
     @NotNull
     @Size(min=3, max=32, message="Username must be at least 3 characters long. Should not exceed 32 characters.")

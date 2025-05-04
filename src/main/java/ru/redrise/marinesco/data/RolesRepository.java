@@ -11,5 +11,5 @@ import ru.redrise.marinesco.security.UserRole.Type;
 
 @Repository
 public interface RolesRepository extends CrudRepository<UserRole, Long>{   
-    public List<UserRole> findByType(Type type);
+    List<UserRole> findByType(Type type);
 }

@@ -8,7 +8,7 @@ import ru.redrise.marinesco.data.AuthorRepository;
 @Component
 public class AthorByIdConverter implements Converter<Long, Author>{
 
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     public AthorByIdConverter(AuthorRepository authorRepository){
         this.authorRepository = authorRepository;

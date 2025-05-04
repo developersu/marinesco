@@ -37,7 +37,7 @@ public class LibraryMetadata {
     }
 
     public void setCollectionInfo(String content) throws Exception {
-        String[] lines = content.split("\n");
+        var lines = content.split("\n");
         if (lines.length < 4)
             throw new Exception("Invalid 'collection.info' file. It contains only "+lines.length+" lines!");
         libraryName = lines[0].trim();

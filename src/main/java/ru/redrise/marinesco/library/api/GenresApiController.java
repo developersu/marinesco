@@ -24,18 +24,16 @@ import ru.redrise.marinesco.library.Genre;
 @RestController
 @RequestMapping(path = "/api/genres", produces = "application/json")
 public class GenresApiController {
-    private GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
 
     public GenresApiController(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
 
     @GetMapping
-    public Iterable<Genre> getGenres(
-            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "sort", required = false, defaultValue = "genreId") String sortBy) {
-        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(sortBy).descending());
-
+    public Iterable<Genre> getGenres(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                     @RequestParam(value = "sort", required = false, defaultValue = "genreId") String sortBy) {
+        var pageRequest = PageRequest.of(page, 10, Sort.by(sortBy).descending());
         return genreRepository.findAll(pageRequest).getContent();
     }
     
@@ -53,8 +51,8 @@ public class GenresApiController {
 
     @PutMapping(path = "/{genreId}", consumes = "application/json")
     public Genre putGenre(@PathVariable("genreId") String genreId,
-        @RequestBody Genre genre){
-            genre.setGenreId(genreId);
+                          @RequestBody Genre genre){
+        genre.setGenreId(genreId);
         return genreRepository.save(genre);
     }
 

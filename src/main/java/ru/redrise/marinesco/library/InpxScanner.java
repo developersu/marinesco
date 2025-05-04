@@ -25,19 +25,18 @@ public class InpxScanner {
     private static volatile String lastRunErrors = "";
 
     private final ThreadPoolTaskExecutor executor;
+    private final String filesLocation;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
     private final BookRepository bookRepository;
     private final LibraryMetadataRepository libraryMetadataRepository;
 
-    private final String filesLocation;
-
     public InpxScanner(ThreadPoolTaskExecutor executor,
-            ApplicationSettings applicationSettings,
-            AuthorRepository authorRepository,
-            GenreRepository genreRepository,
-            BookRepository bookRepository,
-            LibraryMetadataRepository libraryMetadataRepository) {
+                       ApplicationSettings applicationSettings,
+                       AuthorRepository authorRepository,
+                       GenreRepository genreRepository,
+                       BookRepository bookRepository,
+                       LibraryMetadataRepository libraryMetadataRepository) {
         this.executor = executor;
         this.filesLocation = applicationSettings.getFilesLocation();
         this.authorRepository = authorRepository;
@@ -81,7 +80,7 @@ public class InpxScanner {
     }
 
     private File getInpxFile() throws Exception {
-        final FileSystemResource libraryLocation = new FileSystemResource(filesLocation);
+        var libraryLocation = new FileSystemResource(filesLocation);
         return Arrays.stream(libraryLocation.getFile().listFiles())
                 .filter(file -> file.getName().endsWith(".inpx"))
                 .findFirst()
@@ -89,8 +88,8 @@ public class InpxScanner {
     }
 
     private HashMap<String, byte[]> collectInp(File inpxFile) throws Exception {
-        final HashMap<String, byte[]> inpEntries = new HashMap<>();
-        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
+        var inpEntries = new HashMap<String, byte[]>();
+        try (var zipInputStream = new ZipInputStream(new FileInputStream(inpxFile))) {
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                 if (isInp(zipEntry)) {
@@ -108,7 +107,7 @@ public class InpxScanner {
     }
 
     private byte[] inpToByteArray(ZipInputStream stream, long fileSize) throws Exception {
-        ByteBuffer inpByteBuffer = ByteBuffer.allocate((int) fileSize);
+        var inpByteBuffer = ByteBuffer.allocate((int) fileSize);
         int blockSize = 0x200;
         if (fileSize < 0x200)
             blockSize = (int) fileSize;
@@ -147,8 +146,8 @@ public class InpxScanner {
         private byte[] content;
 
         private InpxWorker(Map.Entry<String, byte[]> entry,
-                Long libraryId,
-                String libraryVersion) {
+                           Long libraryId,
+                           String libraryVersion) {
             this.libraryId = libraryId;
             this.libraryVersion = libraryVersion;
             this.name = entry.getKey();
@@ -185,7 +184,7 @@ public class InpxScanner {
                 }
                 saveAll(books, authors, genres);
             } catch (Exception e) {
-                log.error("{}", e);
+                log.error(e.toString());
                 lastRunErrors = lastRunErrors + " " + e.getMessage();
             }
         }

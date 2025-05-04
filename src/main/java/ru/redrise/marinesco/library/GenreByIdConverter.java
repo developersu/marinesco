@@ -8,7 +8,7 @@ import ru.redrise.marinesco.data.GenreRepository;
 @Component
 public class GenreByIdConverter implements Converter<String, Genre>{
 
-    private GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
 
     public GenreByIdConverter(GenreRepository genreRepository){
         this.genreRepository = genreRepository;

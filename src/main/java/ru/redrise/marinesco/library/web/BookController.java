@@ -20,7 +20,8 @@ public class BookController {
 
     @GetMapping("/{bookId}")
     public String getPage(@PathVariable("bookId") Integer bookId, Model model) {
-        Book book = bookRepository.findById(bookId).orElse(null);
+        var book = bookRepository.findById(bookId).orElse(null);
+
         if (book == null){
             model.addAttribute("Error", "Not found");
             return "book";
