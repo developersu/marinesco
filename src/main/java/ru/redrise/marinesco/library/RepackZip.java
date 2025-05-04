@@ -44,23 +44,17 @@ public class RepackZip {
          * if (lastTimeExec != null)
             return true;
          */
-        Thread repackThread = new Thread(() -> {
-            List<File> files = Stream.of(folderContainer.listFiles())
-                    .filter(file -> file.getName().toLowerCase().endsWith(".zip"))
-                    .toList();
-
-            for (File file : files)
-                executor.execute(new InnerRepackZip(file));
-        });
-
-        repackThread.start();
+        new Thread(() -> Stream.of(folderContainer.listFiles())
+                .filter(file -> file.getName().toLowerCase().endsWith(".zip"))
+                .forEach(file -> executor.execute(new InnerRepackZip(file)))
+        ).start();
 
         return true;
     }
 
     private class InnerRepackZip implements Runnable {
         private String dirLocation;
-        private File container;
+        private final File container;
 
         private InnerRepackZip(File container) {
             this.container = container;
@@ -68,7 +62,7 @@ public class RepackZip {
 
         @Override
         public void run() {
-            try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(container))) {
+            try (var zipInputStream = new ZipInputStream(new FileInputStream(container))) {
                 dirLocation = container.getParentFile().getAbsolutePath() +
                         File.separator +
                         container.getName().replaceAll("(\\.zip)|(\\.ZIP)", "");
@@ -100,13 +94,11 @@ public class RepackZip {
                 return;
             }
 
-            try (ZipOutputStream outputStream = new ZipOutputStream(
-                    new FileOutputStream(newZipFile))) {
-                ZipEntry entryToCompress = new ZipEntry(entry.getName());
+            try (var outputStream = new ZipOutputStream(new FileOutputStream(newZipFile))) {
+                var entryToCompress = new ZipEntry(entry.getName());
                 outputStream.putNextEntry(entryToCompress);
 
                 long fileSize = entry.getSize();
-
                 int blockSize = 2048;
 
                 if (fileSize < 2048)
